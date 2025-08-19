@@ -14,6 +14,6 @@ btn.addEventListener('click', async () => {
       tbody.appendChild(tr);
     });
   } catch (e) {
-    console.error('Error al cargar los usuarios', e);
+    console.error('Error al cargar los usuarios', e);//prueba de comentariosss
   }
 });
