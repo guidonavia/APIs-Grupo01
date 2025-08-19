@@ -1,0 +1,23 @@
+body {
+    background-color: white;
+    color: black;
+    transition: 0.3s, color 0.3s;
+}
+.oscuro {
+    background-color: #121212;
+    color: white;
+}
+
+#btn-modo-oscuro {
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    font-size: 1.5em;
+    padding: 0;
+    transition: color 0.3s;
+}
+
+#btn-modo-oscuro:hover {
+    color: gray;
+}
