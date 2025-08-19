@@ -1,0 +1,166 @@
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined');
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 15px 20px;
+  font-size: 14px;
+}
+
+header a {
+  margin-left: 15px;
+  color: #333;
+  text-decoration: none;
+}
+
+main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+}
+
+main img {
+  width: 272px;
+  height: 92px;
+  margin-bottom: 30px;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  border: 1px solid #dfe1e5;
+  border-radius: 24px;
+  padding: 10px 15px;
+  width: 100%;
+  max-width: 580px;
+  box-shadow: none;
+  background-color: white;
+  gap: 10px;
+}
+
+.search-box input {
+  flex: 1;
+  border: none;
+  font-size: 16px;
+  outline: none;
+}
+
+.material-symbols-outlined.icon {
+  font-size: 24px;
+  color: #5f6368;
+  cursor: pointer;
+}
+
+.buttons {
+  margin-top: 30px;
+}
+
+.buttons input {
+  margin: 6px;
+  padding: 10px 20px;
+  font-size: 14px;
+  background-color: #f8f9fa;
+  border: 1px solid #f8f9fa;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.buttons input:hover {
+  background-color: #f1f3f4;
+}
+
+footer {
+  background: #f2f2f2;
+  padding: 15px;
+  text-align: center;
+  font-size: 14px;
+}
+
+footer a {
+  color: #5f6368;
+  text-decoration: none;
+  margin: 0 10px;
+}
+
+.dark-mode-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-left: 15px;
+  padding: 4px;
+  border-radius: 50%;
+  transition: 0.2s;
+  display: flex;
+  align-items: center;
+}
+
+.dark-mode-btn:hover {
+  background: #e0e0e0;
+}
+
+body.dark-mode {
+  background: #202124;
+  color: #e8eaed;
+}
+
+body.dark-mode header a,
+body.dark-mode footer a {
+  color: #e8eaed;
+}
+
+body.dark-mode .search-box {
+  background: #303134;
+  border-color: #5f6368;
+}
+
+body.dark-mode .search-box input {
+  color: #e8eaed;
+  background: transparent;
+}
+
+body.dark-mode .search-box input::placeholder {
+  color: #b0b3b8;
+  opacity: 1;
+}
+
+body.dark-mode .material-symbols-outlined.icon {
+  color: #e8eaed;
+}
+
+body.dark-mode .buttons input {
+  background: #303134;
+  border-color: #5f6368;
+  color: #e8eaed;
+}
+
+body.dark-mode .buttons input:hover {
+  background: #44464a;
+}
+
+body.dark-mode footer {
+  background: #171717;
+}
+
+body.dark-mode .dark-mode-btn:hover {
+  background: #44464a;
+}
+
+@media (max-width: 600px) {
+  .search-box {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
