@@ -12,12 +12,10 @@ function onButtonClick(){
 }
 
 root.render(
-  <React.StrictMode>
-    <Card
-      title={'Titulo de la pagina'} 
-      description={'Esta pagina esta hecha con React'}
-      onButtonClick={() => onButtonClick()}
-      children ={<p>Texto como children</p>}
-      />
-  </React.StrictMode>
+  <Card
+    title={'Titulo de la pagina'} 
+    description={'Esta pagina esta hecha con React'}
+    onButtonClick={() => onButtonClick()}
+    children ={<p>Texto como children</p>}
+    />
 )
