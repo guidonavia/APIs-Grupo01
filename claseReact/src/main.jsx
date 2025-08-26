@@ -6,8 +6,9 @@ import Card from './Card.jsx'
 const root = createRoot(document.getElementById('root'))
 
 function onButtonClick(){
-  //Card.style.backgroundColor = 'red';
-  body.backgroundColor = 'red';
+  const card = document.querySelector('body');
+  card.style.backgroundColor = 'grey';
+  alert('Hiciste click!');
 }
 
 root.render(
@@ -15,7 +16,7 @@ root.render(
     <Card
       title={'Titulo de la pagina'} 
       description={'Esta pagina esta hecha con React'}
-      onButtonClick={() => onButtonClick}
+      onButtonClick={() => onButtonClick()}
       children ={<p>Texto como children</p>}
       />
   </React.StrictMode>
