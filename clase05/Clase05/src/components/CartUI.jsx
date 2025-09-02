@@ -1,6 +1,6 @@
 // src/CartUI.jsx
 import { useContext } from "react";
-import { CartContext } from "./Context/CartContext";
+import { CartContext } from "../../context/CartContext";
 
 export default function CartUI() {
   const { cart, addToCart, removeFromCart, clearCart, total } = useContext(CartContext);
