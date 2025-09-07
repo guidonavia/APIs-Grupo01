@@ -160,7 +160,7 @@ ProductInfo.propTypes = {
 }
 
 ProductInfo.defaultProps = {
-  companyName: "N/A",
+  companyName: "Ecommerce superstore",
   productName: "N/A",
   productDescription: "No description available.",
   productPrice: 0,
