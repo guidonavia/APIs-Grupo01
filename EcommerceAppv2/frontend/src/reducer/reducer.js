@@ -39,11 +39,13 @@ const reducer = (state, action) => {
     case "UPDATE_CART":
       return { ...state }
     case "REMOVE_ITEM":
-      // const { id: itemId } = action.payload
-      // const newCart = state.cart.filter((product) => {
-      //   return product.productId !== itemId
-      // })
-      return { ...state, cart: [] }
+      const { id: itemId } = action.payload
+      const newCart = state.cart.filter((product) => product.productId !== itemId)
+      return { 
+        ...state, 
+        cart: newCart,
+        totalCartSize: newCart.reduce((total, item) => total + item.amount, 0)
+      }
     case "GET_TOTAL_CART":
       const totalCartCount = state.cart.reduce((total, currentItem) => {
         return total + currentItem.amount
@@ -51,6 +53,29 @@ const reducer = (state, action) => {
       return { ...state, totalCartSize: totalCartCount }
     case "READ_SCREENWIDTH":
       return { ...state, screenWidth: action.payload }
+    case "PROCESS_CHECKOUT":
+      const updatedStock = state.cart.reduce((acc, item) => {
+        acc[item.productId] = (acc[item.productId] || 0) - item.amount
+        return acc
+      }, {})
+      return {
+        ...state,
+        stock: { ...state.stock, ...updatedStock },
+        cart: [],
+        totalCartSize: 0
+      }
+    case CHECK_STOCK:
+      const stockAvailable = action.payload.every(item => {
+        return state.stock[item.productId] >= item.amount
+      })
+      return { ...state, stockAvailable }
+
+    case UPDATE_STOCK:
+      const newStock = { ...state.stock }
+      action.payload.forEach(item => {
+        newStock[item.productId] -= item.amount
+      })
+      return { ...state, stock: newStock }
     default:
       return state
   }
