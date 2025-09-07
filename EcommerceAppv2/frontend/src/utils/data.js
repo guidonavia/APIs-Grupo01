@@ -1,4 +1,4 @@
-import { productImages } from "../assets/imagedata"
+import { productImages } from "../assets/imagedata" 
 
 export const data = {
   productId: 1,
@@ -12,3 +12,31 @@ export const data = {
   amount: 0,
   images: productImages,
 }
+
+export const products = [
+  { ...data, category: "Shoes" },
+  {
+    productId: 2,
+    companyName: "Sneaker Company",
+    productName: "Summer Street Sneakers",
+    productDescription: "Lightweight sneakers perfect for hot days and casual streetwear.",
+    productPrice: 180,
+    isOnSale: false,
+    salePercent: 0,
+    amount: 0,
+    images: productImages,
+    category: "Shoes",
+  },
+  {
+    productId: 3,
+    companyName: "Backpack Co.",
+    productName: "Everyday Backpack",
+    productDescription: "Durable backpack with multiple compartments, ideal for everyday use.",
+    productPrice: 90,
+    isOnSale: true,
+    salePercent: 0.3,
+    amount: 0,
+    images: productImages,
+    category: "Accessories",
+  },
+]
