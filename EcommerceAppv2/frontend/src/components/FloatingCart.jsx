@@ -1,9 +1,12 @@
+import { useNavigate } from "react-router-dom"
 import styled from "styled-components"
 import SingleCartItem from "./SingleCartItem"
 import Button from "../components/Button"
 import { useGlobalContext } from "../context/context"
+
 const FloatingCart = ({ className }) => {
   const { state } = useGlobalContext()
+  const navigate = useNavigate()
   return (
     <FloatingCartWrapper className={className}>
       <header>
@@ -18,7 +21,11 @@ const FloatingCart = ({ className }) => {
         ) : (
           <p className="empty">Carrito Vacio</p>
         )}
-        {state.cart.length > 0 && <Button>Checkout</Button>}
+        {state.cart.length > 0 && (
+          <Button func={() => navigate("/checkout")}>
+            Checkout
+          </Button>
+        )}
       </ul>
     </FloatingCartWrapper>
   )

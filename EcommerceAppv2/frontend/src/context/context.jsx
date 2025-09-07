@@ -15,6 +15,8 @@ import {
   ADD_TO_CART,
   UPDATE_CART,
   GET_TOTAL_CART,
+  UPDATE_STOCK,
+  CHECK_STOCK,
 } from "../reducer/actions"
 
 const AppContext = createContext()
@@ -81,6 +83,21 @@ const AppProvider = ({ children }) => {
     dispatch({ type: READ_SCREENWIDTH, payload: window.innerWidth })
   }
 
+    const checkStock = (cartItems) => {
+    return dispatch({ 
+      type: CHECK_STOCK, 
+      payload: cartItems 
+    })
+  }
+
+  const updateStock = (cartItems) => {
+    dispatch({ 
+      type: UPDATE_STOCK, 
+      payload: cartItems 
+    })
+  }
+
+
   useEffect(() => {
     getTotalCartAmount()
   }, [state.amount, state.cart])
@@ -114,6 +131,8 @@ const AppProvider = ({ children }) => {
         updateCart,
         removeItem,
         getTotalCartAmount,
+        checkStock,
+        updateStock,
       }}
     >
       {children}
