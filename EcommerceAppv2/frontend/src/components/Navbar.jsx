@@ -1,14 +1,14 @@
 import styled from "styled-components"
-import  Logo  from "../icons/Logo"
+import  Logo  from "../assets/logo.png"
 import Cart from "../icons/Cart"
-import { avatar } from "../assets/imagedata"
+import avatar  from "../assets/image-avatar.png"
 import { useState } from "react"
 
 const Navbar = ({ user, onSignInClick }) => {
   return (
     <NavWrapper>
       <div className="logo">
-        <Logo />
+        <img src={Logo} alt="logo" style={{ height: "5rem" }} />
       </div>
       <div className="search">
         <input type="text" placeholder="Buscar Productos..." />
@@ -35,32 +35,44 @@ const NavWrapper = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
+  padding: 1.5rem 2rem;
   border-bottom: 1px solid #ddd;
 
   .search input {
-    padding: 0.5rem 1rem;
+    padding: 0.9rem 1rem;
     font-size: 1rem;
-    width: 300px;
+    width: 800px;
   }
 
-  .user-action button {
-    padding: 0.5rem 1rem;
+  .user-action button:not(.cart-btn) {
+    padding: 0.7rem 1rem;
     background-color: #ff7a00;
     color: white;
     border: none;
     cursor: pointer;
   }
-
-  .avatar {
-    width: 2.5rem;
-    height: 2.5rem;
-    border-radius: 50%;
+  
+  .user-action {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
   }
 
+  .avatar {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+  }
+  
+  .cart-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
   .cart-btn svg {
-  width: 2rem;
+  width: 2.5rem;
   height: 2rem;
-  fill: currentColor; /* so it inherits text color */
 }
 `
