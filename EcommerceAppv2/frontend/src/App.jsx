@@ -1,16 +1,40 @@
-import { Main, Navigator, Sidebar } from "./layout/index"
-import { useGlobalContext } from "./context/context"
+import React, { useState } from "react"
+import {BrowserRouter as Router, Route, Routes} from "react-router-dom"
+import Navbar from "./components/Navbar"
+import SignInModal from "./components/SignInModal"
+import HomePage from "./layout/HomePage"
+import ProductPage from "./layout/ProductPage"
 
 function App() {
-  const { state } = useGlobalContext()
+  const [user, setUser] = useState(null)
+  const [showSignIn, setShowSignIn] = useState(false)
+
+  const handleSignIn = () => {
+    // Mock login
+    setUser({ name: "John Doe" })
+    setShowSignIn(false)
+  }
 
   return (
-    <div className="App">
-      <Navigator />
-      <Sidebar isShowing={state.showSidebar} />
-      <Main />
-    </div>
-  )
+    <>
+      <Navbar user={user} onSignInClick={() => setShowSignIn(true)} />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/product/:id" element={<ProductPage />} />
+      </Routes>
+
+      <SignInModal
+        isOpen={showSignIn}
+        onClose={() => setShowSignIn(false)}
+        onSubmit={handleSignIn}
+      />
+    </>
+  );
 }
 
 export default App
+
+
+
+
+

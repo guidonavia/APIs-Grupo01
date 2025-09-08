@@ -1,0 +1,144 @@
+{
+    "products":[
+  {
+    "id": "prd_001",
+    "nombre": "Acer Aspire 5 (15.6”)",
+    "categoria": "laptop",
+    "descripcion": "Lightweight everyday laptop for students and casual users.",
+    "specs": "Intel Core i5 (13th Gen), 8GB RAM, 512GB SSD, 15.6” Full HD",
+    "precio": 599,
+    "moneda": "USD",
+    "stock": 120,
+    "imagenes": [
+      "https://http2.mlstatic.com/D_NQ_NP_661000-MLA73197637909_122023-O.png"
+    ],
+    "estado": "disponible"
+  },
+  {
+    "id": "prd_002",
+    "nombre": "HP All-in-One 24”",
+    "categoria": "desktop",
+    "descripcion": "All-in-one desktop for home use, ideal for students.",
+    "specs": "AMD Ryzen 5, 8GB RAM, 256GB SSD, 24” Full HD Display",
+    "precio": 444,
+    "moneda": "USD",
+    "stock": 75,
+    "imagenes": [
+      "https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c05997443.png"
+    ],
+    "estado": "disponible"
+  },
+  {
+    "id": "prd_003",
+    "nombre": "Dell XPS 13 Plus",
+    "categoria": "laptop",
+    "descripcion": "Ultra-portable premium laptop for professionals.",
+    "specs": "Intel Core i7, 16GB RAM, 512GB SSD, 13.4” InfinityEdge Display",
+    "precio": 1299,
+    "moneda": "USD",
+    "stock": 40,
+    "imagenes": [
+      "https://m.media-amazon.com/images/I/710EGJBdIML._AC_SL1500_.jpg"
+    ],
+    "estado": "disponible"
+  },
+  {
+    "id": "prd_004",
+    "nombre": "Apple iMac 24” (M3)",
+    "categoria": "desktop",
+    "descripcion": "Powerful all-in-one desktop with Retina 4.5K display.",
+    "specs": "Apple M3 chip, 8GB RAM, 256GB SSD, macOS Sonoma",
+    "precio": 1399,
+    "moneda": "USD",
+    "stock": 35,
+    "imagenes": [
+      "https://http2.mlstatic.com/D_NQ_NP_935651-MLA82746995334_032025-O.png"
+    ],
+    "estado": "disponible"
+  },
+  {
+    "id": "prd_005",
+    "nombre": "ASUS Vivobook Pro 16X OLED",
+    "categoria": "laptop",
+    "descripcion": "High-performance laptop with stunning OLED display for creators.",
+    "specs": "AMD Ryzen 9, NVIDIA RTX 4060, 32GB RAM, 1TB SSD",
+    "precio": 1699,
+    "moneda": "USD",
+    "stock": 20,
+    "imagenes": [
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJBqI5k3IRZ0B1agj85v-7ftJp1S5RTjWjEQ&s.png"
+    ],
+    "estado": "disponible"
+  },
+  {
+    "id": "prd_006",
+    "nombre": "MacBook Pro 16” (M3 Pro)",
+    "categoria": "laptop",
+    "descripcion": "Top-tier MacBook for video editing, music, and professional use.",
+    "specs": "Apple M3 Pro chip, 18GB RAM, 512GB SSD, macOS Sonoma",
+    "precio": 2399,
+    "moneda": "USD",
+    "stock": 25,
+    "imagenes": [
+      "https://http2.mlstatic.com/D_951823-MLB48678687862_122021-C.jpg"
+    ],
+    "estado": "disponible"
+  },
+  {
+    "id": "prd_007",
+    "nombre": "Lenovo Legion Pro 7i",
+    "categoria": "laptop",
+    "descripcion": "Powerful gaming laptop with high refresh rate display.",
+    "specs": "Intel Core i9-14900HX, RTX 4080, 32GB RAM, 1TB SSD",
+    "precio": 2499,
+    "moneda": "USD",
+    "stock": 15,
+    "imagenes": [
+      "https://p1-ofp.static.pub//fes/cms/2024/09/12/q6fb2891avf5ok5et6ppuhuuilu0cq939626.png"
+    ],
+    "estado": "disponible"
+  },
+  {
+    "id": "prd_008",
+    "nombre": "Alienware Aurora R16",
+    "categoria": "desktop",
+    "descripcion": "High-end gaming desktop with full customizability.",
+    "specs": "Intel Core i9, NVIDIA RTX 4090, 32GB RAM, 2TB SSD",
+    "precio": 3499,
+    "moneda": "USD",
+    "stock": 10,
+    "imagenes": [
+      "https://m.media-amazon.com/images/I/61sONpe0H9L._AC_SL1500_.jpg"
+    ],
+    "estado": "disponible"
+  },
+  {
+    "id": "prd_009",
+    "nombre": "HP Chromebook 14a",
+    "categoria": "laptop",
+    "descripcion": "Simple and secure laptop, ideal for beginners and seniors.",
+    "specs": "Intel Celeron, 4GB RAM, 64GB eMMC, ChromeOS",
+    "precio": 249,
+    "moneda": "USD",
+    "stock": 200,
+    "imagenes": [
+      "https://acdn-us.mitiendanube.com/stores/001/907/418/products/9p1t8uaraba-32c9e408d4aaad0d4117405945736100-1024-1024.jpg"
+    ],
+    "estado": "disponible"
+  },
+  {
+    "id": "prd_010",
+    "nombre": "Acer Aspire C27 All-in-One",
+    "categoria": "desktop",
+    "descripcion": "User-friendly desktop with a large screen and compact design.",
+    "specs": "Intel i5, 8GB RAM, 512GB SSD, 27” Full HD",
+    "precio": 499,
+    "moneda": "USD",
+    "stock": 50,
+    "imagenes": [
+      "https://www.europc.co.uk/87855-large_default/acer-aspire-c27-1655-all-in-one-pc-silver-intel-core-i7-1165g7-16gb-ram-1tb-ssd-27-1920x1080-fhd-2gb-nvidia-geforce-mx3330-acer-1-yr-uk-wty-162355.jpg"
+    ],
+    "estado": "disponible"
+  }
+]
+}
