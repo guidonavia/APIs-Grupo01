@@ -9,6 +9,8 @@ const navLinks = ["collections", "men", "women", "about", "contact"]
 const Navigator = () => {
   const { showSidebar, showCart, hideCart, state } = useGlobalContext()
 
+  // test papi
+
   return (
     <NavigatorWrapper>
       <nav>
