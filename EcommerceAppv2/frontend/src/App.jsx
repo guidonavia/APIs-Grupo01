@@ -1,15 +1,16 @@
 import { useAuth } from './context/AuthContext';
 import Login from './components/Login';
-import Main from './layout/Main';
+import Home from './layout/Home';
 
 function App() {
   const { user } = useAuth();
 
   return (
     <div className="App">
-      {!user ? <Login /> : <Main />}
+      {!user ? <Login /> : <Home />}
     </div>
   );
 }
 
 export default App;
+
