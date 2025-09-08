@@ -6,7 +6,7 @@ const AvatarMenu = ({ isOpen, closeMenu }) => {
   const navigate = useNavigate()
 
   const handleSellClick = () => {
-    closeMenu() // Cierra el menú antes de navegar
+    closeMenu() 
     navigate("/sell")
   }
 
