@@ -1,23 +1,15 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
-import { Main, Navigator, Sidebar } from "./layout/index"
-import { useGlobalContext } from "./context/context"
-import CheckoutPage from "./components/CheckoutPage"
+import { useAuth } from './context/AuthContext';
+import Login from './components/Login';
+import Layout from './layout';
 
 function App() {
-  const { state } = useGlobalContext()
+  const { user } = useAuth();
 
   return (
-    <Router>
-      <div className="App">
-        <Navigator />
-        <Sidebar isShowing={state.showSidebar} />
-        <Routes>
-          <Route path="/" element={<Main />} />
-          <Route path="/checkout" element={<CheckoutPage />} />
-        </Routes>
-      </div>
-    </Router>
-  )
+    <div className="App">
+      {!user ? <Login /> : <Layout />}
+    </div>
+  );
 }
 
-export default App
+export default App;

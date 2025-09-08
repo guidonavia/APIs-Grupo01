@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "server": "json-server --watch ../db-users.json --port 3001",
+    "start": "concurrently \"npm run dev\" \"npm run server\""
   },
   "dependencies": {
     "@splidejs/react-splide": "^0.7.12",
