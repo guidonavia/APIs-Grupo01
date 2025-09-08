@@ -1,13 +1,13 @@
 import { useAuth } from './context/AuthContext';
 import Login from './components/Login';
-import Layout from './layout';
+import Main from './layout/Main';
 
 function App() {
   const { user } = useAuth();
 
   return (
     <div className="App">
-      {!user ? <Login /> : <Layout />}
+      {!user ? <Login /> : <Main />}
     </div>
   );
 }
