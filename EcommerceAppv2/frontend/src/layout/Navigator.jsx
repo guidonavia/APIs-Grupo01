@@ -3,15 +3,17 @@ import { Logo, Menu, Cart } from "../icons/index"
 import { avatar } from "../assets/imagedata"
 import FloatingCart from "../components/FloatingCart"
 import { useGlobalContext } from "../context/context"
+import { useAuth } from '../context/AuthContext';
 
 const navLinks = ["collections", "men", "women", "about", "contact"]
 
 const Navigator = () => {
   const { showSidebar, showCart, hideCart, state } = useGlobalContext()
+  const { logout, user } = useAuth();
 
   return (
     <NavigatorWrapper>
-      <nav>
+      <nav className="nav-container">
         <div className="nav-left">
           <button onClick={showSidebar} className="menu-btn">
             <Menu />
@@ -49,6 +51,14 @@ const Navigator = () => {
           <FloatingCart className={`${state.showingCart ? "active" : ""}`} />
         </div>
       </nav>
+      {user && (
+        <button 
+          onClick={logout}
+          className="logout-button"
+        >
+          Cerrar Sesión
+        </button>
+      )}
     </NavigatorWrapper>
   )
 }
