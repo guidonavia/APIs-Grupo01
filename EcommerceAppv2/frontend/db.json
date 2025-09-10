@@ -1,0 +1,12 @@
+{
+  "productos": [
+    {
+      "id": 1,
+      "nombre": "prueba",
+      "descripcion": "prueba",
+      "categoria": "calzado",
+      "stock": "1",
+      "imagen": "blob:http://localhost:5173/1063c94f-8920-417e-bb7f-66e76cc85710"
+    }
+  ]
+}

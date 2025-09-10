@@ -1,31 +1,102 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
-const productosEjemplo = [
-  {
-    id: 1,
-    nombre: "Zapatillas deportivas",
-    categoria: "Calzado",
-    stock: 10,
-    imagen: "/src/assets/image-product-1-thumbnail.jpg",
-  },
-  {
-    id: 2,
-    nombre: "Remera básica",
-    categoria: "Ropa",
-    stock: 25,
-    imagen: "/src/assets/image-product-2-thumbnail.jpg",
-  },
-  {
-    id: 3,
-    nombre: "Gorra urbana",
-    categoria: "Accesorios",
-    stock: 7,
-    imagen: "/src/assets/image-product-3-thumbnail.jpg",
-  },
-];
-
 const SellPage = () => {
+  const [productos, setProductos] = useState([]); // Lista de productos
+  const [productoAEliminar, setProductoAEliminar] = useState(null); // Producto seleccionado para eliminar
+  const [mostrarPopup, setMostrarPopup] = useState(false); // Controla la visibilidad del pop-up
+  const [mensajeEliminacion, setMensajeEliminacion] = useState(""); // Mensaje de confirmación
+
+  const [nuevoProducto, setNuevoProducto] = useState({
+    nombre: "",
+    descripcion: "",
+    categoria: "",
+    stock: "",
+    imagen: null,
+  });
+
+  // Cargar productos desde json-server al montar el componente
+  useEffect(() => {
+    fetch("http://localhost:5001/productos")
+      .then((response) => response.json())
+      .then((data) => setProductos(data))
+      .catch((error) => console.error("Error al cargar los productos:", error));
+  }, []);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNuevoProducto({ ...nuevoProducto, [name]: value });
+  };
+
+  const handleFileChange = (e) => {
+    setNuevoProducto({ ...nuevoProducto, imagen: URL.createObjectURL(e.target.files[0]) });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!nuevoProducto.nombre || !nuevoProducto.categoria || !nuevoProducto.stock) {
+      alert("Por favor, completa todos los campos obligatorios.");
+      return;
+    }
+
+    const productoConId = {
+      ...nuevoProducto,
+      id: productos.length + 1,
+    };
+
+    // Agregar el producto a json-server
+    fetch("http://localhost:5001/productos", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(productoConId),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setProductos([...productos, data]); // Actualiza la lista de productos
+        setNuevoProducto({
+          nombre: "",
+          descripcion: "",
+          categoria: "",
+          stock: "",
+          imagen: null,
+        }); // Limpia el formulario
+      })
+      .catch((error) => console.error("Error al agregar el producto:", error));
+  };
+
+  const handleEliminarClick = (producto) => {
+    setProductoAEliminar(producto); // Establece el producto a eliminar
+    setMostrarPopup(true); // Muestra el pop-up
+    setMensajeEliminacion(""); // Limpia el mensaje previo
+  };
+
+  const confirmarEliminar = () => {
+    // Eliminar el producto de json-server
+    fetch(`http://localhost:5001/productos/${productoAEliminar.id}`, {
+      method: "DELETE",
+    })
+      .then(() => {
+        setProductos(productos.filter((p) => p.id !== productoAEliminar.id)); // Actualiza la lista de productos
+        setProductoAEliminar(null); // Limpia el producto seleccionado
+        setMensajeEliminacion("¡Producto eliminado!"); // Muestra el mensaje de eliminación
+
+        // Oculta el pop-up después de 1 segundo
+        setTimeout(() => {
+          setMostrarPopup(false);
+          setMensajeEliminacion(""); // Limpia el mensaje
+        }, 1000);
+      })
+      .catch((error) => console.error("Error al eliminar el producto:", error));
+  };
+
+  const cancelarEliminar = () => {
+    setProductoAEliminar(null); // Limpia el producto seleccionado
+    setMostrarPopup(false); // Oculta el pop-up
+    setMensajeEliminacion(""); // Limpia el mensaje
+  };
+
   return (
     <SellPageWrapper>
       <h1>Vender productos</h1>
@@ -33,18 +104,33 @@ const SellPage = () => {
         <LeftColumn>
           <Section>
             <h2>Publicar nuevo producto</h2>
-            <Form>
+            <Form onSubmit={handleSubmit}>
               <Label>
                 Nombre del producto
-                <Input type="text" placeholder="Ej: Zapatillas deportivas" />
+                <Input
+                  type="text"
+                  name="nombre"
+                  value={nuevoProducto.nombre}
+                  onChange={handleInputChange}
+                  placeholder="Ej: Zapatillas deportivas"
+                />
               </Label>
               <Label>
                 Descripción
-                <TextArea  rows={3} />
+                <TextArea
+                  name="descripcion"
+                  value={nuevoProducto.descripcion}
+                  onChange={handleInputChange}
+                  rows={3}
+                />
               </Label>
               <Label>
                 Categoría
-                <Select>
+                <Select
+                  name="categoria"
+                  value={nuevoProducto.categoria}
+                  onChange={handleInputChange}
+                >
                   <option value="">Selecciona una categoría</option>
                   <option value="calzado">Calzado</option>
                   <option value="ropa">Ropa</option>
@@ -54,13 +140,25 @@ const SellPage = () => {
               </Label>
               <Label>
                 Stock disponible
-                <Input type="number" min="0" placeholder="Cantidad" />
+                <Input
+                  type="number"
+                  name="stock"
+                  value={nuevoProducto.stock}
+                  onChange={handleInputChange}
+                  min="0"
+                  placeholder="Cantidad"
+                />
               </Label>
               <Label>
                 Fotos del producto
-                <Input type="file" multiple accept="image/*" />
+                <Input
+                  type="file"
+                  onChange={handleFileChange}
+                  multiple
+                  accept="image/*"
+                />
               </Label>
-              <Button type="button">Publicar producto</Button>
+              <Button type="submit">Publicar producto</Button>
             </Form>
           </Section>
         </LeftColumn>
@@ -69,7 +167,7 @@ const SellPage = () => {
           <Section>
             <h2>Mis productos publicados</h2>
             <ProductList>
-              {productosEjemplo.map((producto) => (
+              {productos.map((producto) => (
                 <ProductItem key={producto.id}>
                   <ProductImage src={producto.imagen} alt={producto.nombre} />
                   <ProductInfo>
@@ -79,7 +177,9 @@ const SellPage = () => {
                   </ProductInfo>
                   <Actions>
                     <EditButton>Editar</EditButton>
-                    <DeleteButton>Eliminar</DeleteButton>
+                    <DeleteButton onClick={() => handleEliminarClick(producto)}>
+                      Eliminar
+                    </DeleteButton>
                   </Actions>
                 </ProductItem>
               ))}
@@ -87,11 +187,57 @@ const SellPage = () => {
           </Section>
         </RightColumn>
       </Content>
+
+      {/* Pop-up de confirmación */}
+      {mostrarPopup && (
+        <PopupOverlay>
+          <Popup>
+            {mensajeEliminacion ? (
+              <p>{mensajeEliminacion}</p>
+            ) : (
+              <>
+                <p>¿Estás seguro de que deseas eliminar este producto?</p>
+                <PopupActions>
+                  <Button onClick={confirmarEliminar}>Sí</Button>
+                  <Button onClick={cancelarEliminar}>No</Button>
+                </PopupActions>
+              </>
+            )}
+          </Popup>
+        </PopupOverlay>
+      )}
     </SellPageWrapper>
   );
 };
 
 // ===== Estilos =====
+const PopupOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+`;
+
+const Popup = styled.div`
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
+  text-align: center;
+`;
+
+const PopupActions = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+`;
 
 const SellPageWrapper = styled.div`
   max-width: 1200px;
