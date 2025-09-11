@@ -1,0 +1,574 @@
+{
+  "products": [
+    {
+      "id": "prd_001",
+      "nombre": "Acer Aspire 5 (15.6”)",
+      "categoria": "computer",
+      "descripcion": "Lightweight everyday laptop for students and casual users.",
+      "specs": "Intel Core i5 (13th Gen), 8GB RAM, 512GB SSD, 15.6” Full HD",
+      "precio": 599,
+      "originalPrice": 699,
+      "discount": 14,
+      "moneda": "USD",
+      "stock": 120,
+      "imagenes": [
+        "https://http2.mlstatic.com/D_NQ_NP_661000-MLA73197637909_122023-O.png",
+        "https://placehold.co/600x400?text=Acer1",
+        "https://placehold.co/600x400?text=Acer2",
+        "https://placehold.co/600x400?text=Acer3"
+      ],
+      "estado": "disponible"
+    },
+    {
+      "id": "prd_002",
+      "nombre": "Dell Inspiron 14",
+      "categoria": "computer",
+      "descripcion": "Portable laptop for work and school.",
+      "specs": "Intel Core i7, 16GB RAM, 512GB SSD, 14” FHD",
+      "precio": 799,
+      "originalPrice": 999,
+      "discount": 20,
+      "moneda": "USD",
+      "stock": 75,
+      "imagenes": [
+        "https://placehold.co/600x400?text=Dell1",
+        "https://placehold.co/600x400?text=Dell2",
+        "https://placehold.co/600x400?text=Dell3",
+        "https://placehold.co/600x400?text=Dell4"
+      ],
+      "estado": "disponible"
+    },
+    {
+      "id": "prd_003",
+      "nombre": "HP Pavilion 15",
+      "categoria": "computer",
+      "descripcion": "Everyday use laptop with reliable performance.",
+      "specs": "AMD Ryzen 5, 8GB RAM, 512GB SSD, 15.6” FHD",
+      "precio": 650,
+      "originalPrice": 720,
+      "discount": 10,
+      "moneda": "USD",
+      "stock": 90,
+      "imagenes": [
+        "https://placehold.co/600x400?text=HP1",
+        "https://placehold.co/600x400?text=HP2",
+        "https://placehold.co/600x400?text=HP3",
+        "https://placehold.co/600x400?text=HP4"
+      ],
+      "estado": "disponible"
+    },
+    {
+      "id": "prd_004",
+      "nombre": "Apple MacBook Air M2",
+      "categoria": "computer",
+      "descripcion": "Ultra-light laptop with Apple Silicon chip.",
+      "specs": "Apple M2, 8GB RAM, 256GB SSD, 13.6” Retina",
+      "precio": 1099,
+      "originalPrice": 1299,
+      "discount": 15,
+      "moneda": "USD",
+      "stock": 50,
+      "imagenes": [
+        "https://placehold.co/600x400?text=Mac1",
+        "https://placehold.co/600x400?text=Mac2",
+        "https://placehold.co/600x400?text=Mac3",
+        "https://placehold.co/600x400?text=Mac4"
+      ],
+      "estado": "disponible"
+    },
+    {
+      "id": "prd_005",
+      "nombre": "Lenovo ThinkPad X1 Carbon",
+      "categoria": "computer",
+      "descripcion": "Premium business ultrabook with durability.",
+      "specs": "Intel Core i7, 16GB RAM, 1TB SSD, 14” UHD",
+      "precio": 1399,
+      "originalPrice": 1599,
+      "discount": 13,
+      "moneda": "USD",
+      "stock": 35,
+      "imagenes": [
+        "https://placehold.co/600x400?text=Lenovo1",
+        "https://placehold.co/600x400?text=Lenovo2",
+        "https://placehold.co/600x400?text=Lenovo3",
+        "https://placehold.co/600x400?text=Lenovo4"
+      ],
+      "estado": "disponible"
+    },
+    {
+      "id": "prd_006",
+      "nombre": "Asus ROG Strix G16",
+      "categoria": "computer",
+      "descripcion": "Gaming laptop with high refresh display.",
+      "specs": "Intel Core i9, 32GB RAM, 1TB SSD, RTX 4070",
+      "precio": 1999,
+      "originalPrice": 2299,
+      "discount": 13,
+      "moneda": "USD",
+      "stock": 20,
+      "imagenes": [
+        "https://placehold.co/600x400?text=Asus1",
+        "https://placehold.co/600x400?text=Asus2",
+        "https://placehold.co/600x400?text=Asus3",
+        "https://placehold.co/600x400?text=Asus4"
+      ],
+      "estado": "disponible"
+    },
+    {
+      "id": "prd_007",
+      "nombre": "Microsoft Surface Laptop 5",
+      "categoria": "computer",
+      "descripcion": "Sleek touchscreen laptop for productivity.",
+      "specs": "Intel Core i7, 16GB RAM, 512GB SSD, 13.5” PixelSense",
+      "precio": 1299,
+      "originalPrice": 1499,
+      "discount": 13,
+      "moneda": "USD",
+      "stock": 40,
+      "imagenes": [
+        "https://placehold.co/600x400?text=Surface1",
+        "https://placehold.co/600x400?text=Surface2",
+        "https://placehold.co/600x400?text=Surface3",
+        "https://placehold.co/600x400?text=Surface4"
+      ],
+      "estado": "disponible"
+    },
+    {
+      "id": "prd_008",
+      "nombre": "Razer Blade 15",
+      "categoria": "computer",
+      "descripcion": "Premium gaming laptop with sleek design.",
+      "specs": "Intel Core i7, 16GB RAM, 1TB SSD, RTX 4060",
+      "precio": 1899,
+      "originalPrice": 2099,
+      "discount": 10,
+      "moneda": "USD",
+      "stock": 25,
+      "imagenes": [
+        "https://placehold.co/600x400?text=Razer1",
+        "https://placehold.co/600x400?text=Razer2",
+        "https://placehold.co/600x400?text=Razer3",
+        "https://placehold.co/600x400?text=Razer4"
+      ],
+      "estado": "disponible"
+    },
+    {
+      "id": "prd_009",
+      "nombre": "Acer Predator Helios 300",
+      "categoria": "computer",
+      "descripcion": "Gaming powerhouse with customizable RGB.",
+      "specs": "Intel Core i7, 16GB RAM, 512GB SSD, RTX 3070",
+      "precio": 1499,
+      "originalPrice": 1699,
+      "discount": 12,
+      "moneda": "USD",
+      "stock": 30,
+      "imagenes": [
+        "https://placehold.co/600x400?text=Predator1",
+        "https://placehold.co/600x400?text=Predator2",
+        "https://placehold.co/600x400?text=Predator3",
+        "https://placehold.co/600x400?text=Predator4"
+      ],
+      "estado": "disponible"
+    },
+    {
+      "id": "prd_010",
+      "nombre": "Samsung Galaxy Book3",
+      "categoria": "computer",
+      "descripcion": "Slim ultrabook with AMOLED display.",
+      "specs": "Intel Core i7, 16GB RAM, 512GB SSD, 15.6” AMOLED",
+      "precio": 1299,
+      "originalPrice": 1399,
+      "discount": 7,
+      "moneda": "USD",
+      "stock": 60,
+      "imagenes": [
+        "https://placehold.co/600x400?text=Samsung1",
+        "https://placehold.co/600x400?text=Samsung2",
+        "https://placehold.co/600x400?text=Samsung3",
+        "https://placehold.co/600x400?text=Samsung4"
+      ],
+      "estado": "disponible"
+    },
+    {
+      "id": "prd_011",
+      "nombre": "Nike Air Max 270",
+      "categoria": "sneaker",
+      "descripcion": "Breathable and cushioned everyday sneakers.",
+      "specs": "Mesh upper, foam midsole, rubber outsole",
+      "precio": 120,
+      "originalPrice": 150,
+      "discount": 20,
+      "moneda": "USD",
+      "stock": 200,
+      "imagenes": [
+        "https://placehold.co/600x400?text=Nike1",
+        "https://placehold.co/600x400?text=Nike2",
+        "https://placehold.co/600x400?text=Nike3",
+        "https://placehold.co/600x400?text=Nike4"
+      ],
+      "estado": "disponible"
+    },
+    {
+      "id": "prd_012",
+      "nombre": "Adidas Ultraboost 22",
+      "categoria": "sneaker",
+      "descripcion": "Running shoes with responsive cushioning.",
+      "specs": "Primeknit upper, Boost midsole, rubber outsole",
+      "precio": 180,
+      "originalPrice": 200,
+      "discount": 10,
+      "moneda": "USD",
+      "stock": 150,
+      "imagenes": [
+        "https://placehold.co/600x400?text=Adidas1",
+        "https://placehold.co/600x400?text=Adidas2",
+        "https://placehold.co/600x400?text=Adidas3",
+        "https://placehold.co/600x400?text=Adidas4"
+      ],
+      "estado": "disponible"
+    },
+    {
+      "id": "prd_013",
+      "nombre": "Puma RS-X",
+      "categoria": "sneaker",
+      "descripcion": "Chunky sneakers with retro design.",
+      "specs": "Mesh and leather upper, EVA midsole, rubber outsole",
+      "precio": 110,
+      "originalPrice": 140,
+      "discount": 21,
+      "moneda": "USD",
+      "stock": 100,
+      "imagenes": [
+        "https://placehold.co/600x400?text=Puma1",
+        "https://placehold.co/600x400?text=Puma2",
+        "https://placehold.co/600x400?text=Puma3",
+        "https://placehold.co/600x400?text=Puma4"
+      ],
+      "estado": "disponible"
+    },
+    {
+      "id": "prd_014",
+      "nombre": "New Balance 574",
+      "categoria": "sneaker",
+      "descripcion": "Classic sneakers with everyday comfort.",
+      "specs": "Suede/mesh upper, EVA midsole, rubber outsole",
+      "precio": 90,
+      "originalPrice": 110,
+      "discount": 18,
+      "moneda": "USD",
+      "stock": 140,
+      "imagenes": [
+        "https://placehold.co/600x400?text=NB1",
+        "https://placehold.co/600x400?text=NB2",
+        "https://placehold.co/600x400?text=NB3",
+        "https://placehold.co/600x400?text=NB4"
+      ],
+      "estado": "disponible"
+    },
+    {
+      "id": "prd_015",
+      "nombre": "Converse Chuck Taylor",
+      "categoria": "sneaker",
+      "descripcion": "Timeless canvas sneakers with rubber toe cap.",
+      "specs": "Canvas upper, rubber sole",
+      "precio": 60,
+      "originalPrice": 70,
+      "discount": 14,
+      "moneda": "USD",
+      "stock": 180,
+      "imagenes": [
+        "https://placehold.co/600x400?text=Converse1",
+        "https://placehold.co/600x400?text=Converse2",
+        "https://placehold.co/600x400?text=Converse3",
+        "https://placehold.co/600x400?text=Converse4"
+      ],
+      "estado": "disponible"
+    },
+    {
+      "id": "prd_016",
+      "nombre": "Vans Old Skool",
+      "categoria": "sneaker",
+      "descripcion": "Skate classic with durable suede panels.",
+      "specs": "Canvas/suede upper, rubber waffle outsole",
+      "precio": 70,
+      "originalPrice": 85,
+      "discount": 18,
+      "moneda": "USD",
+      "stock": 160,
+      "imagenes": [
+        "https://placehold.co/600x400?text=Vans1",
+        "https://placehold.co/600x400?text=Vans2",
+        "https://placehold.co/600x400?text=Vans3",
+        "https://placehold.co/600x400?text=Vans4"
+      ],
+      "estado": "disponible"
+    },
+    {
+      "id": "prd_017",
+      "nombre": "Reebok Classic Leather",
+      "categoria": "sneaker",
+      "descripcion": "Retro leather sneaker with cushioned midsole.",
+      "specs": "Leather upper, EVA midsole, rubber outsole",
+      "precio": 75,
+      "originalPrice": 95,
+      "discount": 21,
+      "moneda": "USD",
+      "stock": 130,
+      "imagenes": [
+        "https://placehold.co/600x400?text=Reebok1",
+        "https://placehold.co/600x400?text=Reebok2",
+        "https://placehold.co/600x400?text=Reebok3",
+        "https://placehold.co/600x400?text=Reebok4"
+      ],
+      "estado": "disponible"
+    },
+    {
+      "id": "prd_018",
+      "nombre": "Jordan 1 Mid",
+      "categoria": "sneaker",
+      "descripcion": "Iconic basketball sneaker with high ankle support.",
+      "specs": "Leather upper, air cushioning, rubber outsole",
+      "precio": 160,
+      "originalPrice": 190,
+      "discount": 16,
+      "moneda": "USD",
+      "stock": 90,
+      "imagenes": [
+        "https://placehold.co/600x400?text=Jordan1",
+        "https://placehold.co/600x400?text=Jordan2",
+        "https://placehold.co/600x400?text=Jordan3",
+        "https://placehold.co/600x400?text=Jordan4"
+      ],
+      "estado": "disponible"
+    },
+    {
+      "id": "prd_019",
+      "nombre": "Under Armour HOVR Phantom",
+      "categoria": "sneaker",
+      "descripcion": "Running sneaker with energy-return cushioning.",
+      "specs": "Knit upper, HOVR midsole, rubber outsole",
+      "precio": 140,
+      "originalPrice": 160,
+      "discount": 12,
+      "moneda": "USD",
+      "stock": 110,
+      "imagenes": [
+        "https://placehold.co/600x400?text=UA1",
+        "https://placehold.co/600x400?text=UA2",
+        "https://placehold.co/600x400?text=UA3",
+        "https://placehold.co/600x400?text=UA4"
+      ],
+      "estado": "disponible"
+    },
+    {
+      "id": "prd_020",
+      "nombre": "Asics Gel-Kayano 29",
+      "categoria": "sneaker",
+      "descripcion": "Stability running shoes with gel cushioning.",
+      "specs": "Engineered mesh, gel midsole, rubber outsole",
+      "precio": 160,
+      "originalPrice": 180,
+      "discount": 11,
+      "moneda": "USD",
+      "stock": 100,
+      "imagenes": [
+        "https://placehold.co/600x400?text=Asics1",
+        "https://placehold.co/600x400?text=Asics2",
+        "https://placehold.co/600x400?text=Asics3",
+        "https://placehold.co/600x400?text=Asics4"
+      ],
+      "estado": "disponible"
+    },
+    {
+      "id": "prd_021",
+      "nombre": "Ray-Ban Wayfarer",
+      "categoria": "glasses",
+      "descripcion": "Classic square sunglasses with UV protection.",
+      "specs": "Acetate frame, green lenses",
+      "precio": 150,
+      "originalPrice": 180,
+      "discount": 17,
+      "moneda": "USD",
+      "stock": 80,
+      "imagenes": [
+        "https://placehold.co/600x400?text=RayBan1",
+        "https://placehold.co/600x400?text=RayBan2",
+        "https://placehold.co/600x400?text=RayBan3",
+        "https://placehold.co/600x400?text=RayBan4"
+      ],
+      "estado": "disponible"
+    },
+    {
+      "id": "prd_022",
+      "nombre": "Oakley Holbrook",
+      "categoria": "glasses",
+      "descripcion": "Sporty sunglasses with polarized lenses.",
+      "specs": "O-Matter frame, Prizm lenses",
+      "precio": 170,
+      "originalPrice": 200,
+      "discount": 15,
+      "moneda": "USD",
+      "stock": 70,
+      "imagenes": [
+        "https://placehold.co/600x400?text=Oakley1",
+        "https://placehold.co/600x400?text=Oakley2",
+        "https://placehold.co/600x400?text=Oakley3",
+        "https://placehold.co/600x400?text=Oakley4"
+      ],
+      "estado": "disponible"
+    },
+    {
+      "id": "prd_023",
+      "nombre": "Gucci GG0061S",
+      "categoria": "glasses",
+      "descripcion": "Luxury oversized square sunglasses.",
+      "specs": "Acetate frame, gradient lenses",
+      "precio": 350,
+      "originalPrice": 420,
+      "discount": 16,
+      "moneda": "USD",
+      "stock": 40,
+      "imagenes": [
+        "https://placehold.co/600x400?text=Gucci1",
+        "https://placehold.co/600x400?text=Gucci2",
+        "https://placehold.co/600x400?text=Gucci3",
+        "https://placehold.co/600x400?text=Gucci4"
+      ],
+      "estado": "disponible"
+    },
+    {
+      "id": "prd_024",
+      "nombre": "Prada PR 17WS",
+      "categoria": "glasses",
+      "descripcion": "Bold geometric sunglasses with wide temples.",
+      "specs": "Acetate frame, gray lenses",
+      "precio": 300,
+      "originalPrice": 350,
+      "discount": 14,
+      "moneda": "USD",
+      "stock": 50,
+      "imagenes": [
+        "https://placehold.co/600x400?text=Prada1",
+        "https://placehold.co/600x400?text=Prada2",
+        "https://placehold.co/600x400?text=Prada3",
+        "https://placehold.co/600x400?text=Prada4"
+      ],
+      "estado": "disponible"
+    },
+    {
+      "id": "prd_025",
+      "nombre": "Persol PO0649",
+      "categoria": "glasses",
+      "descripcion": "Iconic aviator-style sunglasses.",
+      "specs": "Acetate frame, crystal lenses",
+      "precio": 220,
+      "originalPrice": 260,
+      "discount": 15,
+      "moneda": "USD",
+      "stock": 60,
+      "imagenes": [
+        "https://placehold.co/600x400?text=Persol1",
+        "https://placehold.co/600x400?text=Persol2",
+        "https://placehold.co/600x400?text=Persol3",
+        "https://placehold.co/600x400?text=Persol4"
+      ],
+      "estado": "disponible"
+    },
+    {
+      "id": "prd_026",
+      "nombre": "Tom Ford FT0693",
+      "categoria": "glasses",
+      "descripcion": "Modern square sunglasses with metal bridge.",
+      "specs": "Acetate/metal frame, gray lenses",
+      "precio": 320,
+      "originalPrice": 370,
+      "discount": 14,
+      "moneda": "USD",
+      "stock": 55,
+      "imagenes": [
+        "https://placehold.co/600x400?text=TomFord1",
+        "https://placehold.co/600x400?text=TomFord2",
+        "https://placehold.co/600x400?text=TomFord3",
+        "https://placehold.co/600x400?text=TomFord4"
+      ],
+      "estado": "disponible"
+    },
+    {
+      "id": "prd_027",
+      "nombre": "Versace VE4361",
+      "categoria": "glasses",
+      "descripcion": "Bold wraparound sunglasses with logo detail.",
+      "specs": "Acetate frame, tinted lenses",
+      "precio": 280,
+      "originalPrice": 330,
+      "discount": 15,
+      "moneda": "USD",
+      "stock": 45,
+      "imagenes": [
+        "https://placehold.co/600x400?text=Versace1",
+        "https://placehold.co/600x400?text=Versace2",
+        "https://placehold.co/600x400?text=Versace3",
+        "https://placehold.co/600x400?text=Versace4"
+      ],
+      "estado": "disponible"
+    },
+    {
+      "id": "prd_028",
+      "nombre": "Armani Exchange AX2012S",
+      "categoria": "glasses",
+      "descripcion": "Lightweight metal aviator sunglasses.",
+      "specs": "Metal frame, polarized lenses",
+      "precio": 150,
+      "originalPrice": 180,
+      "discount": 17,
+      "moneda": "USD",
+      "stock": 70,
+      "imagenes": [
+        "https://placehold.co/600x400?text=Armani1",
+        "https://placehold.co/600x400?text=Armani2",
+        "https://placehold.co/600x400?text=Armani3",
+        "https://placehold.co/600x400?text=Armani4"
+      ],
+      "estado": "disponible"
+    },
+    {
+      "id": "prd_029",
+      "nombre": "Maui Jim Red Sands",
+      "categoria": "glasses",
+      "descripcion": "Polarized sunglasses for outdoor lifestyle.",
+      "specs": "Nylon frame, SuperThin Glass lenses",
+      "precio": 240,
+      "originalPrice": 280,
+      "discount": 14,
+      "moneda": "USD",
+      "stock": 65,
+      "imagenes": [
+        "https://placehold.co/600x400?text=Maui1",
+        "https://placehold.co/600x400?text=Maui2",
+        "https://placehold.co/600x400?text=Maui3",
+        "https://placehold.co/600x400?text=Maui4"
+      ],
+      "estado": "disponible"
+    },
+    {
+      "id": "prd_030",
+      "nombre": "Carrera Champion",
+      "categoria": "glasses",
+      "descripcion": "Sport-inspired aviator sunglasses.",
+      "specs": "Plastic frame, gradient lenses",
+      "precio": 130,
+      "originalPrice": 160,
+      "discount": 19,
+      "moneda": "USD",
+      "stock": 75,
+      "imagenes": [
+        "https://placehold.co/600x400?text=Carrera1",
+        "https://placehold.co/600x400?text=Carrera2",
+        "https://placehold.co/600x400?text=Carrera3",
+        "https://placehold.co/600x400?text=Carrera4"
+      ],
+      "estado": "disponible"
+    }
+  ]
+}
