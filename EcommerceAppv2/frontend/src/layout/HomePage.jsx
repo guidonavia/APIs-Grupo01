@@ -1,8 +1,8 @@
 import { useState } from "react"
 import styled from "styled-components"
-import Carousel from "../components/Carousel"
-import ProductGrid from "../components/ProductGrid"
-import Footer from "../components/Footer"
+import Carousel from "../shared/components/ui/Carousel"
+import ProductGrid from "../features/products/components/catalog/ProductList/ProductList"
+import Footer from "../shared/components/layout/Footer/Footer"
 
 
 const HomePage = () => {

@@ -1,7 +1,7 @@
 import styled from "styled-components"
-import  Logo  from "../assets/logo.png"
-import Cart from "../icons/Cart"
-import avatar  from "../assets/image-avatar.png"
+import  Logo  from "../../../../assets/images/logo.png";
+import Cart from "../../ui/icons/Cart";
+import avatar from "../../../../assets/images/image-avatar.png";
 import { useState } from "react"
 
 const Navbar = ({ user, onSignInClick }) => {

@@ -1,9 +1,9 @@
 import React, { useState } from "react"
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom"
-import Navbar from "./components/Navbar"
-import SignInModal from "./components/SignInModal"
-import HomePage from "./layout/HomePage"
-import ProductPage from "./layout/ProductPage"
+import Navbar from "../shared/components/layout/Header/Navbar"
+import SignInModal from "../features/user/components/auth/LoginForm/SignInModal"
+import HomePage from "../layout/HomePage"
+import ProductPage from "../layout/ProductPage"
 
 function App() {
   const [user, setUser] = useState(null)
