@@ -5,7 +5,7 @@ import ProductGrid from "../features/products/components/catalog/ProductList/Pro
 import Footer from "../shared/components/layout/Footer/Footer"
 
 
-const HomePage = () => {
+const HomePage = ({search}) => {
   const [user, setUser] = useState(null)
 
   const handleSignIn = () => {
@@ -16,7 +16,7 @@ const HomePage = () => {
   return (
     <PageWrapper>
       <Carousel />
-      <ProductGrid />
+      <ProductGrid search={search} />
       <Footer />
     </PageWrapper>
   )

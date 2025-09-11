@@ -8,6 +8,7 @@ import ProductPage from "../layout/ProductPage"
 function App() {
   const [user, setUser] = useState(null)
   const [showSignIn, setShowSignIn] = useState(false)
+  const [search, setSearch] = useState("");
 
   const handleSignIn = () => {
     // Mock login
@@ -17,9 +18,12 @@ function App() {
 
   return (
     <>
-      <Navbar user={user} onSignInClick={() => setShowSignIn(true)} />
+      <Navbar
+       user={user} onSignInClick={() => setShowSignIn(true)} 
+       search={search} setSearch={setSearch} />
+       {console.log("search:", search)}
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<HomePage search={search} />} />
         <Route path="/product/:id" element={<ProductPage />} />
       </Routes>
 

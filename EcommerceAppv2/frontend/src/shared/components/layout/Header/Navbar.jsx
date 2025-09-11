@@ -2,17 +2,16 @@ import styled from "styled-components"
 import  Logo  from "../../../../assets/images/logo.png";
 import Cart from "../../ui/icons/Cart";
 import avatar from "../../../../assets/images/image-avatar.png";
+import Search from "../Header/Search.jsx";
 import { useState } from "react"
 
-const Navbar = ({ user, onSignInClick }) => {
+const Navbar = ({ user, onSignInClick, search, setSearch }) => {
   return (
     <NavWrapper>
       <div className="logo">
         <img src={Logo} alt="logo" style={{ height: "5rem" }} />
       </div>
-      <div className="search">
-        <input type="text" placeholder="Buscar Productos..." />
-      </div>
+      <Search search={search} setSearch={setSearch} />
       <div className="user-action">
         {user ? (
           <>
@@ -30,6 +29,7 @@ const Navbar = ({ user, onSignInClick }) => {
 }
 
 export default Navbar
+
 
 const NavWrapper = styled.header`
   display: flex;

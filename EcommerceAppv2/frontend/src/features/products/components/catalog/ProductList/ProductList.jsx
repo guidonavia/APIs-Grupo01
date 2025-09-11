@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 
-const ProductGrid = () => {
+const ProductGrid = ({search}) => {
   const[products, setProducts] = useState([]);
   const navigate = useNavigate();
 
@@ -14,9 +14,14 @@ const ProductGrid = () => {
       .catch(err => console.error("Error fetching products:", err));
   }, []);
 
+  console.log("Filtrando con:", search);
+  const filteredProducts = products.filter((product) =>
+    (product?.nombre || "").toLowerCase().includes((search || "").toLowerCase())
+  );
+
   return (
     <GridWrapper>
-      {products.map((product) => (
+      {filteredProducts.map((product) => (
         <Card key={product.id}>
           <img src={product.imagenes} alt={product.nombre} />
           <h3>{product.nombre}</h3>
