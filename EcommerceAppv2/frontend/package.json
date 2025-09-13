@@ -10,7 +10,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "server": "json-server --watch ../db-users.json --port 3001",
-    "start": "concurrently \"npm run dev\" \"npm run server\""
+    "start": "concurrently \"npm run dev\" \"npm run server\" \"npm run api\""
   },
   "dependencies": {
     "@splidejs/react-splide": "^0.7.12",
