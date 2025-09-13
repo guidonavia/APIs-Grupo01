@@ -1,0 +1,94 @@
+import { useNavigate } from "react-router-dom"
+import styled from "styled-components"
+import ProductInfo from "../../../features/products/components/catalog/ProductCard/ProductInfo"
+import Button from "../../../shared/components/ui/Button/Button"
+import { useGlobalContext } from "../../../context/context"
+
+const FloatingCart = ({ className }) => {
+  const { state } = useGlobalContext()
+  const navigate = useNavigate()
+  return (
+    <FloatingCartWrapper className={className}>
+      <header>
+        <p>Cart</p>
+      </header>
+      <div className="divider"></div>
+      <ul className="cart-items">
+        {state.cart.length > 0 ? (
+          state.cart.map((cartItem) => (
+            <ProductInfo
+              key={cartItem.productId}
+              productId={cartItem.productId}
+              productName={cartItem.nombre || ""}
+              productDescription={cartItem.descripcion || ""}
+              productPrice={cartItem.precio || 0}
+              originalPrice={cartItem.originalPrice || cartItem.precio || 0}
+              discount={cartItem.discount || 0}
+              isCartItem={true}
+              amount={cartItem.amount}
+              productImages={cartItem.imagenes || []}
+            />
+          ))
+        ) : (
+          <p className="empty">Carrito Vacio</p>
+        )}
+        {state.cart.length > 0 && (
+          <Button func={() => navigate("/checkout")}>
+            Checkout
+          </Button>
+        )}
+      </ul>
+    </FloatingCartWrapper>
+  )
+}
+
+const FloatingCartWrapper = styled.div`
+  display: none;
+  position: absolute;
+  border-radius: 1rem;
+  background-color: hsl(var(--white));
+  top: 6rem;
+  right: -1.6rem;
+  margin: 0 auto;
+  z-index: 1000;
+  width: 36rem;
+  box-shadow: 0 2rem 5rem -2rem hsl(var(--black) / 0.9);
+  &.active {
+    display: block;
+  }
+
+  header {
+    padding: 2.4rem 2.4rem 0 2.4rem;
+    margin-bottom: 2.7rem;
+
+    p {
+      font-size: 1.6rem;
+      font-weight: 700;
+    }
+  }
+
+  .divider {
+    width: 100%;
+    height: 0.1rem;
+    background-color: hsl(var(--divider));
+  }
+
+  .cart-items {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2.4rem;
+    min-height: 18.8rem;
+    gap: 2.4rem;
+
+    .empty {
+      text-align: center;
+      font-size: 1.6rem;
+      line-height: 2.6rem;
+      font-weight: 700;
+      color: hsl(var(--dark-grayish-blue));
+    }
+  }
+`
+
+export default FloatingCart

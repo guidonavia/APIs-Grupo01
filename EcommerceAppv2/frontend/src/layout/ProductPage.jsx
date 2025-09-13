@@ -2,13 +2,15 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Footer from "../shared/components/layout/Footer/Footer";
+import ProductInfo from "../features/products/components/catalog/ProductCard/ProductInfo";
+import { useGlobalContext } from "../context/context";
 
 const ProductPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { addToCart, state } = useGlobalContext();
   const [product, setProduct] = useState(null);
   const [mainImage, setMainImage] = useState("");
-  const [qty, setQty] = useState(0);
   const [relatedProducts, setRelatedProducts] = useState([]);
 
   useEffect(() => {
@@ -54,29 +56,15 @@ const ProductPage = () => {
             </Thumbnails>
           </ImageGallery>
 
-          <InfoCard>
-            <div className="top-content">
-              <h1>{product.nombre}</h1>
-              <p>{product.descripcion}</p>
-            </div>
-
-            <div className="bottom-content">
-              <div className="price-section">
-                <span className="price">${product.precio}</span>
-                <span className="discount">{product.discount}%</span>
-                <span className="original-price">${product.originalPrice}</span>
-              </div>
-
-              <div className="quantity-cart">
-                <div className="quantity">
-                  <button onClick={() => setQty(Math.max(qty - 1, 0))}>-</button>
-                  <span>{qty}</span>
-                  <button onClick={() => setQty(qty + 1)}>+</button>
-                </div>
-                <button className="add-cart">Añadir al carrito</button>
-              </div>
-            </div>
-          </InfoCard>
+          <ProductInfo
+            productId={product.id}
+            companyName={product.marca || "Ecommerce"}
+            productName={product.nombre}
+            productDescription={product.descripcion}
+            productPrice={product.precio}
+            isOnSale={product.discount > 0}
+            salePercent={(100 - product.discount) / 100}
+          />
         </MainSection>
 
         <BottomSection>
@@ -152,117 +140,7 @@ const Thumb = styled.img`
   cursor: pointer;
 `;
 
-const InfoCard = styled.div`
-  flex: 1;
-  padding: 1.5rem;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-height: 400px;
 
-  .top-content {
-    h1 {
-      color: #333;
-      font-size: 4rem;
-      font-weight: 600;
-      margin-bottom: 1rem;
-    }
-
-    p {
-      color: #666;
-      line-height: 1.5;
-      font-size: 2.5rem;
-    }
-  }
-
-  .bottom-content {
-    margin-top: auto;
-    padding-top: 1.5rem;
-    border-top: 1px solid #eee;
-
-    .price-section {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 1rem;
-    }
-
-    .price {
-      font-size: 4rem;
-      font-weight: 600;
-      color: #333;
-    }
-
-    .discount {
-      background: #fff0e6;
-      color: #ff6b00;
-      font-weight: 600;
-      padding: 0.2rem 0.5rem;
-      border-radius: 4px;
-      font-size: 2rem;
-    }
-
-    .original-price {
-      color: #999;
-      text-decoration: line-through;
-      font-size: 2rem;
-      justify: right;
-    }
-
-    .quantity-cart {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    .quantity {
-      display: flex;
-      align-items: center;
-      background: #f5f5f5;
-      border-radius: 4px;
-      justify-content: space-between;
-      padding: 0.5rem;
-
-      button {
-        border: none;
-        background: none;
-        color: #ff6b00;
-        font-size: 2rem;
-        font-weight: 600;
-        cursor: pointer;
-        padding: 0 1rem;
-
-        &:hover {
-          color: #ff8533;
-        }
-      }
-
-      span {
-        font-weight: 600;
-      }
-    }
-
-    button.add-cart {
-      width: 100%;
-      background: #ff6b00;
-      border: none;
-      padding: 1rem;
-      color: white;
-      border-radius: 4px;
-      font-weight: 600;
-      font-size: 2rem;
-      cursor: pointer;
-      transition: background 0.2s ease;
-
-      &:hover {
-        background: #ff8533;
-      }
-    }
-  }
-`;
 
 const BottomSection = styled.div`
   margin-top: 2rem;

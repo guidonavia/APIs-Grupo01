@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 
-const ProductGrid = () => {
+const ProductGrid = ({search}) => {
   const[products, setProducts] = useState([]);
   const navigate = useNavigate();
 
@@ -13,6 +13,11 @@ const ProductGrid = () => {
       .then(data => setProducts(data))
       .catch(err => console.error("Error fetching products:", err));
   }, []);
+
+  console.log("Filtrando con:", search);
+  const filteredProducts = products.filter((product) =>
+    (product?.nombre || "").toLowerCase().includes((search || "").toLowerCase())
+  );
 
   return (
     <GridWrapper>
