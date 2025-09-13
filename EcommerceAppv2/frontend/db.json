@@ -3,7 +3,7 @@
     {
       "id": "1",
       "companyName": "Sneaker Company",
-      "productName": "Fall Limited Edition Sneakers",
+      "productName": "Fall Limited Edition",
       "productDescription": "These low-profile sneakers are your perfect casual wear companion. Featuring a durable rubber outer sole, they'll withstand everything the weather can offer.",
       "productPrice": 250,
       "isOnSale": true,
@@ -12,23 +12,8 @@
       "images": [
         {
           "id": 1,
-          "url": "/images/image-product-1.jpg",
-          "thumbnail": "/images/image-product-1-thumbnail.jpg"
-        },
-        {
-          "id": 2,
-          "url": "/images/image-product-2.jpg",
-          "thumbnail": "/images/image-product-2-thumbnail.jpg"
-        },
-        {
-          "id": 3,
-          "url": "/images/image-product-3.jpg",
-          "thumbnail": "/images/image-product-3-thumbnail.jpg"
-        },
-        {
-          "id": 4,
-          "url": "/images/image-product-4.jpg",
-          "thumbnail": "/images/image-product-4-thumbnail.jpg"
+          "url": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80",
+          "thumbnail": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=200&q=80"
         }
       ]
     },
@@ -44,8 +29,8 @@
       "images": [
         {
           "id": 1,
-          "url": "/images/image-product-2.jpg",
-          "thumbnail": "/images/image-product-2-thumbnail.jpg"
+          "url": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=800&q=80",
+          "thumbnail": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=200&q=80"
         }
       ]
     },
@@ -57,12 +42,12 @@
       "productPrice": 320,
       "isOnSale": true,
       "salePercent": 0.25,
-      "stock": 11,
+      "stock": 15,
       "images": [
         {
           "id": 1,
-          "url": "/images/image-product-3.jpg",
-          "thumbnail": "/images/image-product-3-thumbnail.jpg"
+          "url": "https://images.unsplash.com/photo-1465453869711-7e174808ace9?q=80&w=1176&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "thumbnail": "https://images.unsplash.com/photo-1599121046282-034b503500f4?auto=format&fit=crop&w=200&q=80"
         }
       ]
     }

@@ -1,11 +1,10 @@
-import { useRef, useState, useEffect } from "react"
+import { useRef, useState } from "react"
 import { Splide, SplideSlide } from "@splidejs/react-splide"
 import "@splidejs/react-splide/css"
 import { useGlobalContext } from "../context/context"
 import ImageOverlay from "./ImageOverlay"
 import styled from "styled-components"
 
-// 1. Cambiamos las props que recibe el componente. Ahora solo es 'images'.
 const ImageCarousel = ({ images }) => {
   const [imageIndex, setImageIndex] = useState(0)
   const {
@@ -13,24 +12,22 @@ const ImageCarousel = ({ images }) => {
     showImageOverlay,
   } = useGlobalContext()
 
-  // Carousel and Overlay refs
   const carouselRef = useRef(null)
   const overlayRef = useRef(null)
 
-  const splideOptions = {
-    pagination: false,
-    height: `${
-      screenWidth < 601 ? "30rem" : screenWidth < 768 ? "40rem" : "44.5rem"
-    }`,
-    type: "loop",
-    autoWidth: false,
-    perPage: 1,
-    drag: false,
+  // 1. Comprobación de seguridad: Si no hay imágenes, no renderizar nada.
+  // Esto evita el error "Cannot read properties of undefined".
+  if (!images || images.length === 0) {
+    return <div className="placeholder">Cargando imagen...</div>
   }
 
-  // 2. Agregamos una comprobación para evitar errores si 'images' aún no ha llegado.
-  if (!images || images.length === 0) {
-    return <div>Cargando imágenes...</div>
+  const splideOptions = {
+    pagination: false,
+    arrows: screenWidth < 768, // Solo mostrar flechas en móvil
+    height: "auto",
+    type: "loop",
+    perPage: 1,
+    drag: true,
   }
 
   return (
@@ -39,7 +36,6 @@ const ImageCarousel = ({ images }) => {
         <Splide
           onClick={() => {
             if (screenWidth >= 768) {
-              // Solo mostrar overlay en pantallas más grandes
               showImageOverlay()
               if (carouselRef.current && overlayRef.current) {
                 overlayRef.current.sync(carouselRef.current.splide)
@@ -51,40 +47,33 @@ const ImageCarousel = ({ images }) => {
           ref={carouselRef}
           onMove={() => setImageIndex(carouselRef.current.splide.index)}
         >
-          {/* 3. Usamos el array 'images' para las imágenes principales */}
-          {images.map((image, idx) => {
-            const { url, id } = image
-            return (
-              <SplideSlide key={id || idx}>
-                <img src={url} alt={`Product image ${id}`} />
-              </SplideSlide>
-            )
-          })}
+          {images.map((image, idx) => (
+            <SplideSlide key={image.id || idx}>
+              <img src={image.url} alt={`Product image ${idx + 1}`} />
+            </SplideSlide>
+          ))}
         </Splide>
+        
+        {/* 2. Las miniaturas solo se muestran en pantallas grandes */}
         <div className="thumbnails">
-          {/* 4. Usamos el mismo array 'images' para los thumbnails */}
-          {images.map((image, idx) => {
-            const { thumbnail, id } = image
-            return (
-              <button
-                className={`thumb-btn ${imageIndex === idx ? "active" : ""}`}
-                key={id || idx}
-                onClick={() => {
-                  setImageIndex(idx)
-                  carouselRef.current.go(idx)
-                }}
-              >
-                <img src={thumbnail} alt={`Product thumbnail ${id}`} />
-              </button>
-            )
-          })}
+          {images.length > 1 && images.map((image, idx) => (
+            <button
+              className={`thumb-btn ${imageIndex === idx ? "active" : ""}`}
+              key={image.id || idx}
+              onClick={() => {
+                setImageIndex(idx)
+                carouselRef.current.go(idx)
+              }}
+            >
+              <img src={image.thumbnail} alt={`Product thumbnail ${idx + 1}`} />
+            </button>
+          ))}
         </div>
       </CarouselWrapper>
       {showingOverlay && (
         <ImageOverlay
           carouselRef={carouselRef}
           overlayRef={overlayRef}
-          // 5. Pasamos el array 'images' al overlay también
           images={images}
           imageIndex={imageIndex}
           setImageIndex={setImageIndex}
@@ -94,14 +83,13 @@ const ImageCarousel = ({ images }) => {
   )
 }
 
+// --- ESTILOS CORREGIDOS ---
 const CarouselWrapper = styled.section`
-  .splide {
-    cursor: pointer;
+  .splide__slide img {
     width: 100%;
-  }
-
-  .splide__track {
-    /* margin: 0 auto; */
+    height: 100%;
+    object-fit: cover;
+    aspect-ratio: 1 / 1; /* Asegura que la imagen sea cuadrada */
   }
 
   .splide__arrow {
@@ -111,60 +99,41 @@ const CarouselWrapper = styled.section`
     width: 4rem;
   }
 
-  img {
-    display: block;
-    width: 100%;
-    object-fit: cover;
+  .splide {
+    cursor: pointer;
   }
 
+  /* 3. Ocultamos las miniaturas por defecto */
   .thumbnails {
     display: none;
   }
 
+  /* 4. Mostramos y estilizamos las miniaturas solo en pantallas grandes */
   @media only screen and (min-width: 768px) {
-    display: flex;
-    flex-direction: column;
-    gap: 3.2rem;
-    max-width: 80%;
-    margin: 0 auto;
-
-    .splide__arrow {
-      display: none;
-    }
-
     .thumbnails {
       display: flex;
-      gap: 3rem;
+      gap: 1rem;
+      margin-top: 1rem;
+      padding: 0 1rem; /* Añadimos padding para que no se peguen a los bordes */
 
       .thumb-btn {
-        border-radius: 1rem;
+        border-radius: 0.8rem;
         overflow: hidden;
-        transition: 0.3s ease opacity;
+        border: 2px solid transparent;
+        transition: border-color 0.3s ease;
 
         &.active {
+          border-color: hsl(var(--orange));
           img {
             opacity: 0.5;
           }
-          outline: 0.2rem solid hsl(var(--orange));
         }
 
-        &:hover {
-          opacity: 0.8;
+        img {
+          width: 100%;
+          display: block;
         }
       }
-    }
-  }
-
-  @media only screen and (min-width: 1000px) {
-    max-width: 100%;
-
-    .splide__slide img {
-      border-radius: 1.5rem;
-    }
-
-    .splide__arrow--next,
-    .splide__arrow--prev {
-      display: none;
     }
   }
 `

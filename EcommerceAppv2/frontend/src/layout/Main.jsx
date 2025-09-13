@@ -24,7 +24,7 @@ const Main = () => {
     }
 
     fetchProducts()
-  }, []) // El array vacío asegura que esto se ejecute solo una vez
+  }, [])
 
   if (loading) {
     return <MainWrapper>Cargando productos...</MainWrapper>
@@ -43,14 +43,15 @@ const Main = () => {
   )
 }
 
+// --- ESTILOS MEJORADOS ---
 const MainWrapper = styled.main`
-  max-width: 111rem;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem;
-  display: flex;
-  flex-wrap: wrap; // Permite que los productos se acomoden en varias líneas
-  justify-content: center; // Centra los productos
-  gap: 2rem; // Espacio entre productos
+  padding: 4rem 2rem;
+  display: grid;
+  /* Crea una grilla responsive: se ajusta automáticamente y cada columna tiene un mínimo de 300px */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 3rem; /* Espacio entre las tarjetas */
 `
 
 export default Main

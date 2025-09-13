@@ -2,32 +2,28 @@ import styled from "styled-components"
 import ImageCarousel from "../components/ImageCarousel"
 import ProductInfo from "../components/ProductInfo"
 
-// El componente recibe 'productData' como prop
 const Product = ({ productData }) => {
-  // Ya no desestructuramos aquí. Pasamos el objeto completo.
   return (
     <ProductWrapper>
-      {/* ImageCarousel solo necesita las imágenes */}
       <ImageCarousel images={productData.images} />
-      {/* ProductInfo recibe el objeto de datos COMPLETO como un solo prop 'product' */}
       <ProductInfo product={productData} />
     </ProductWrapper>
   )
 }
 
+// --- ESTILOS SIMPLIFICADOS ---
 const ProductWrapper = styled.article`
-  border: 1px solid hsl(var(--divider));
-  border-radius: 1rem;
+  background-color: #fff;
+  border-radius: 15px;
   overflow: hidden;
-  box-shadow: 0 1rem 2rem -1rem hsl(var(--black) / 0.1);
-  max-width: 350px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
-  background-color: #fff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 
-  @media screen and (min-width: 1000px) {
-    gap: 2.4rem;
-    padding: 2rem;
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
   }
 `
 
