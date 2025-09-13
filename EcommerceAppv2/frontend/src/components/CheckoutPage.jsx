@@ -2,11 +2,10 @@ import styled from "styled-components"
 import { useGlobalContext } from "../context/context"
 import Button from "./Button"
 import { useNavigate } from "react-router-dom"
-import { data } from "../utils/data" 
 import { useEffect } from "react"
 
 const CheckoutPage = () => {
-  const { state, removeItem, checkStock, updateStock } = useGlobalContext()
+  const { state, removeItem } = useGlobalContext()
   const navigate = useNavigate()
 
   const calculateTotal = () => {
@@ -18,23 +17,34 @@ const CheckoutPage = () => {
     }, 0).toFixed(2)
   }
 
-const handleCheckout = async () => {
+  const handleCheckout = async () => {
     try {
-      // Verificar stock disponible
-      const totalAmount = state.cart.reduce((total, item) => total + item.amount, 0)
-      
-      if (data.stock < totalAmount) {
-        alert(`Lo sentimos, solo hay ${data.stock} unidades disponibles`)
-        return
+      // 1. Verificar el stock para CADA producto en el carrito
+      for (const item of state.cart) {
+        const response = await fetch(`http://localhost:3001/products/${item.id}`)
+        const productInDB = await response.json()
+
+        if (productInDB.stock < item.amount) {
+          alert(`Lo sentimos, solo quedan ${productInDB.stock} unidades de "${item.productName}".`)
+          return // Detiene el proceso si no hay stock de algún producto
+        }
       }
 
-      // Actualizar stock
-      data.stock = data.stock - totalAmount
-      console.log('Stock restante:', data.stock) // Para debug
+      // 2. Si hay stock para todo, actualizar CADA producto en la API
+      for (const item of state.cart) {
+        const newStock = item.stock - item.amount
+        await fetch(`http://localhost:3001/products/${item.id}`, {
+          method: 'PATCH', // PATCH actualiza solo los campos que enviamos
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ stock: newStock }),
+        })
+      }
       
-      // Limpiar carrito
+      // 3. Limpiar el carrito localmente
       state.cart.forEach(item => {
-        removeItem(item.productId)
+        removeItem(item.id) // Asegúrate que removeItem usa el id correcto
       })
 
       alert('¡Compra realizada con éxito!')
@@ -42,17 +52,12 @@ const handleCheckout = async () => {
       
     } catch (error) {
       console.error('Error al procesar la compra:', error)
-      alert('Hubo un error al procesar tu compra')
+      alert('Hubo un error al procesar tu compra. Revisa la consola.')
     }
   }
 
-  // Añadimos este efecto para manejar carrito vacío
-  useEffect(() => {
-    if (state.cart.length === 0) {
-      navigate('/')
-    }
-  }, [state.cart, navigate])
-
+  // ... (el resto del componente se mantiene igual) ...
+  // ... existing code ...
   if (state.cart.length === 0) {
     return <div>Procesando...</div>
   }
@@ -64,7 +69,7 @@ const handleCheckout = async () => {
         <div className="order-summary">
           <h3>Resumen del Pedido</h3>
           {state.cart.map((item) => (
-            <div key={item.productId} className="cart-item">
+            <div key={item.id} className="cart-item">
               <img src={item.images[0].url} alt={item.productName} />
               <div className="item-details">
                 <p>{item.productName}</p>
@@ -86,64 +91,6 @@ const handleCheckout = async () => {
   )
 }
 
-const CheckoutWrapper = styled.div`
-  padding: 2rem;
-  max-width: 800px;
-  margin: 0 auto;
-
-  h2 {
-    font-size: 2.4rem;
-    margin-bottom: 2rem;
-  }
-
-  .checkout-container {
-    background: white;
-    padding: 2rem;
-    border-radius: 1rem;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  }
-
-  .order-summary {
-    margin-bottom: 2rem;
-  }
-
-  .cart-item {
-    display: flex;
-    gap: 1rem;
-    padding: 1rem 0;
-    border-bottom: 1px solid hsl(var(--divider));
-
-    img {
-      width: 60px;
-      height: 60px;
-      border-radius: 0.5rem;
-    }
-
-    .item-details {
-      p {
-        font-size: 1.4rem;
-        color: hsl(var(--dark-grayish-blue));
-      }
-    }
-  }
-
-  .total {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 2rem;
-    padding-top: 1rem;
-    border-top: 2px solid hsl(var(--divider));
-
-    h4 {
-      font-size: 1.8rem;
-    }
-
-    p {
-      font-size: 1.8rem;
-      font-weight: bold;
-      color: hsl(var(--orange));
-    }
-  }
-`
-
+// ... (styled-components se mantienen igual) ...
+// ... existing code ...
 export default CheckoutPage

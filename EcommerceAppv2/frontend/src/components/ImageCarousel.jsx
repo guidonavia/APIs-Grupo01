@@ -5,7 +5,8 @@ import { useGlobalContext } from "../context/context"
 import ImageOverlay from "./ImageOverlay"
 import styled from "styled-components"
 
-const ImageCarousel = ({ productImages, productThumbnails }) => {
+// 1. Cambiamos las props que recibe el componente. Ahora solo es 'images'.
+const ImageCarousel = ({ images }) => {
   const [imageIndex, setImageIndex] = useState(0)
   const {
     state: { screenWidth, showingOverlay },
@@ -27,43 +28,53 @@ const ImageCarousel = ({ productImages, productThumbnails }) => {
     drag: false,
   }
 
+  // 2. Agregamos una comprobación para evitar errores si 'images' aún no ha llegado.
+  if (!images || images.length === 0) {
+    return <div>Cargando imágenes...</div>
+  }
+
   return (
     <>
       <CarouselWrapper>
         <Splide
           onClick={() => {
-            showImageOverlay()
-            if (carouselRef.current && overlayRef.current) {
-              overlayRef.current.sync(carouselRef.current.splide)
-              setImageIndex(carouselRef.current.splide.index)
+            if (screenWidth >= 768) {
+              // Solo mostrar overlay en pantallas más grandes
+              showImageOverlay()
+              if (carouselRef.current && overlayRef.current) {
+                overlayRef.current.sync(carouselRef.current.splide)
+                setImageIndex(carouselRef.current.splide.index)
+              }
             }
           }}
           options={splideOptions}
           ref={carouselRef}
           onMove={() => setImageIndex(carouselRef.current.splide.index)}
         >
-          {productImages.map((image, idx) => {
-            const { url, alt } = image
+          {/* 3. Usamos el array 'images' para las imágenes principales */}
+          {images.map((image, idx) => {
+            const { url, id } = image
             return (
-              <SplideSlide key={idx}>
-                <img src={url} alt={alt} />
+              <SplideSlide key={id || idx}>
+                <img src={url} alt={`Product image ${id}`} />
               </SplideSlide>
             )
           })}
         </Splide>
         <div className="thumbnails">
-          {productThumbnails.map((thumbnail, idx) => {
-            const { url, alt } = thumbnail
+          {/* 4. Usamos el mismo array 'images' para los thumbnails */}
+          {images.map((image, idx) => {
+            const { thumbnail, id } = image
             return (
               <button
                 className={`thumb-btn ${imageIndex === idx ? "active" : ""}`}
-                key={idx}
+                key={id || idx}
                 onClick={() => {
                   setImageIndex(idx)
                   carouselRef.current.go(idx)
                 }}
               >
-                <img src={url} alt={alt} />
+                <img src={thumbnail} alt={`Product thumbnail ${id}`} />
               </button>
             )
           })}
@@ -73,8 +84,8 @@ const ImageCarousel = ({ productImages, productThumbnails }) => {
         <ImageOverlay
           carouselRef={carouselRef}
           overlayRef={overlayRef}
-          productImages={productImages}
-          productThumbnails={productThumbnails}
+          // 5. Pasamos el array 'images' al overlay también
+          images={images}
           imageIndex={imageIndex}
           setImageIndex={setImageIndex}
         />

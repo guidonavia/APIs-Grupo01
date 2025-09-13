@@ -1,27 +1,31 @@
 import styled from "styled-components"
-import PropTypes from "prop-types"
 import { Plus, Minus, Cart } from "../icons/index"
 import Button from "./Button"
 import { useGlobalContext } from "../context/context"
-import { data } from "../utils/data"
-const ProductControls = ({ productId }) => {
-  const { increaseAmount, decreaseAmount, removeItem, addToCart, state } =
+
+// Recibimos el objeto 'product' como prop
+const ProductControls = ({ product }) => {
+  const { increaseAmount, decreaseAmount, addToCart, state } =
     useGlobalContext()
+
+  // NOTA: El estado 'amount' es global. Para manejar cantidades por producto,
+  // esto necesitaría un refactor más grande. Por ahora, funciona para agregar al carrito.
+  const currentAmount = state.amount
 
   return (
     <ControlsWrapper>
       <div className="inner-controls">
         <button
           onClick={() => {
-            decreaseAmount(productId)
+            decreaseAmount(product.id)
           }}
         >
           <Minus />
         </button>
-        <span className="amount">{state.amount}</span>
+        <span className="amount">{currentAmount}</span>
         <button
           onClick={() => {
-            increaseAmount(productId)
+            increaseAmount(product.id)
           }}
         >
           <Plus />
@@ -30,7 +34,10 @@ const ProductControls = ({ productId }) => {
       <Button
         className="cart"
         func={() => {
-          addToCart(state.amount, data)
+          // Usamos el objeto 'product' recibido en lugar de un archivo estático
+          if (currentAmount > 0) {
+            addToCart(currentAmount, product)
+          }
         }}
         color={"#FFFFFF"}
       >
@@ -42,35 +49,36 @@ const ProductControls = ({ productId }) => {
 }
 
 const ControlsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+
   .inner-controls {
+    background-color: hsl(var(--light-grayish-blue));
+    border-radius: 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: hsl(var(--light-grayish-blue));
-    padding: 2.2rem 2.4rem;
-    border-radius: 1rem;
-    margin-bottom: 2.4rem;
+    padding: 1.6rem 2.4rem;
+
+    button {
+      color: hsl(var(--orange));
+      &:hover {
+        opacity: 0.7;
+      }
+    }
 
     .amount {
-      font-size: 1.6rem;
       font-weight: 700;
-      line-height: 2rem;
+      font-size: 1.6rem;
     }
   }
 
-  @media only screen and (min-width: 1000px) {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
+  .cart {
+    display: flex;
     align-items: center;
+    justify-content: center;
     gap: 1.6rem;
-
-    .inner-controls {
-      margin-bottom: 0;
-      grid-column: 1 /3;
-    }
-    .cart {
-      grid-column: 3 / 6;
-    }
   }
 `
 

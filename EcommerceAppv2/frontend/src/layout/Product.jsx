@@ -1,40 +1,33 @@
 import styled from "styled-components"
 import ImageCarousel from "../components/ImageCarousel"
-import ImageOverlay from "../components/ImageOverlay"
 import ProductInfo from "../components/ProductInfo"
-import { productImages, productThumbnails } from "../assets/imagedata"
-import { useGlobalContext } from "../context/context"
-import { data } from "../utils/data"
-const Product = () => {
+
+// El componente recibe 'productData' como prop
+const Product = ({ productData }) => {
+  // Ya no desestructuramos aquí. Pasamos el objeto completo.
   return (
     <ProductWrapper>
-      <ImageCarousel
-        productImages={productImages}
-        productThumbnails={productThumbnails}
-      />
-      <ProductInfo {...data} />
+      {/* ImageCarousel solo necesita las imágenes */}
+      <ImageCarousel images={productData.images} />
+      {/* ProductInfo recibe el objeto de datos COMPLETO como un solo prop 'product' */}
+      <ProductInfo product={productData} />
     </ProductWrapper>
   )
 }
 
 const ProductWrapper = styled.article`
+  border: 1px solid hsl(var(--divider));
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 1rem 2rem -1rem hsl(var(--black) / 0.1);
+  max-width: 350px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  background-color: #fff;
 
-  @media only screen and (min-width: 768px) {
-    margin-top: 5rem;
-  }
-
-  @media only screen and (min-width: 1000px) {
-    margin-top: 9rem;
-    gap: 5rem;
-    display: grid;
-    grid-template-columns: 44.5rem 44.5rem;
-  }
-
-  @media only screen and (min-width: 1200px) {
-    gap: 11rem;
+  @media screen and (min-width: 1000px) {
+    gap: 2.4rem;
+    padding: 2rem;
   }
 `
 
