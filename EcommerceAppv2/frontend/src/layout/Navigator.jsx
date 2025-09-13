@@ -4,12 +4,14 @@ import { avatar } from "../assets/imagedata"
 import FloatingCart from "../components/FloatingCart"
 import AvatarMenu from "../components/AvatarMenu" // Importamos el nuevo componente
 import { useGlobalContext } from "../context/context"
+import { useAuth } from '../context/AuthContext';
 import { useState } from "react"
 
 const navLinks = ["collections", "men", "women", "about", "contact"]
 
 const Navigator = () => {
   const { showSidebar, showCart, hideCart, state } = useGlobalContext()
+  const { logout, user } = useAuth();
   const [isAvatarMenuOpen, setAvatarMenuOpen] = useState(false)
 
   const toggleAvatarMenu = () => {
@@ -24,7 +26,7 @@ const Navigator = () => {
 
   return (
     <NavigatorWrapper>
-      <nav>
+      <nav className="nav-container">
         <div className="nav-left">
           <button onClick={showSidebar} className="menu-btn">
             <Menu />
@@ -63,6 +65,14 @@ const Navigator = () => {
           <FloatingCart className={`${state.showingCart ? "active" : ""}`} />
         </div>
       </nav>
+      {user && (
+        <button 
+          onClick={logout}
+          className="logout-button"
+        >
+          Cerrar Sesión
+        </button>
+      )}
     </NavigatorWrapper>
   )
 }
