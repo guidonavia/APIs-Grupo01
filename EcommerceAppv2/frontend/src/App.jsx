@@ -1,11 +1,19 @@
 import { useAuth } from './context/AuthContext';
 import Login from './components/Login';
 import Home from './layout/Home';
+import { useAuth } from './context/AuthContext';
+import Login from './components/Login';
+import Home from './layout/Home';
 
 function App() {
   const { user } = useAuth();
+  const { user } = useAuth();
 
   return (
+    <div className="App">
+      {!user ? <Login /> : <Home />}
+    </div>
+  );
     <div className="App">
       {!user ? <Login /> : <Home />}
     </div>
@@ -14,3 +22,4 @@ function App() {
 
 export default App;
 
+;

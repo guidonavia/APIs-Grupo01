@@ -1,171 +1,98 @@
 import styled from "styled-components"
-import PropTypes from "prop-types"
 import ProductControls from "./ProductControls"
 
-const ProductInfo = ({
-  productId,
-  companyName,
-  productName,
-  productDescription,
-  productPrice,
-  isOnSale,
-  salePercent,
-}) => {
+// Recibe el objeto 'product' completo
+const ProductInfo = ({ product }) => {
+  // Desestructuramos las propiedades para mostrarlas
+  const {
+    companyName,
+    productName,
+    productDescription,
+    productPrice,
+    isOnSale,
+    salePercent,
+  } = product
+
+  const finalPrice = isOnSale ? productPrice * (1 - salePercent) : productPrice
+
   return (
     <InfoWrapper>
       <div className="inner-info">
-        <h2 className="company-name">{companyName}</h2>
-        <p className="product-name">{productName}</p>
+        <span className="company-name">{companyName}</span>
+        <h1 className="product-name">{productName}</h1>
         <p className="product-description">{productDescription}</p>
-        <div className="pricing">
-          <p className="price">
-            $
-            {isOnSale
-              ? (productPrice * salePercent).toFixed(2)
-              : productPrice.toFixed(2)}
-          </p>
+        <div className="price-wrapper">
+          <span className="final-price">${finalPrice.toFixed(2)}</span>
           {isOnSale && (
-            <p className="percent">{salePercent.toFixed(2) * 100 + "%"}</p>
+            <span className="sale-percent">{salePercent * 100}%</span>
           )}
           {isOnSale && (
-            <p className="original-price">${productPrice.toFixed(2)}</p>
+            <span className="original-price">${productPrice.toFixed(2)}</span>
           )}
         </div>
       </div>
-      <ProductControls productId={productId} />
+      {/* Pasamos el objeto 'product' completo a ProductControls */}
+      <ProductControls product={product} />
     </InfoWrapper>
   )
 }
 
-const InfoWrapper = styled.section`
+const InfoWrapper = styled.div`
   padding: 2.4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-grow: 1;
 
-  @media screen and (min-width: 600px) {
-    padding: 2.4rem 4rem;
+  .company-name {
+    color: hsl(var(--orange));
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    font-size: 1.4rem;
+    margin-bottom: 1.2rem;
+    display: block;
   }
 
-  @media screen and (min-width: 768px) {
-    margin: 0 auto;
-  }
-
-  .inner-info {
+  .product-name {
+    font-size: 2.8rem;
+    line-height: 1.2;
     margin-bottom: 1.6rem;
-
-    .company-name {
-      font-size: 1.2rem;
-      color: hsl(var(--orange));
-      margin-bottom: 2rem;
-    }
-
-    .product-name {
-      font-size: 2.8rem;
-      font-weight: 700;
-      margin-bottom: 1.5rem;
-    }
-
-    .product-description {
-      font-size: 1.5rem;
-      color: hsl(var(--dark-grayish-blue));
-      line-height: 2.5rem;
-      margin-bottom: 2.4rem;
-    }
-
-    .pricing {
-      display: grid;
-      align-items: center;
-      grid-template-columns: repeat(4, 1fr);
-      grid-template-rows: 1fr;
-      gap: 1.6rem;
-
-      .price {
-        font-size: 2.8rem;
-        font-weight: 700;
-        grid-column: 1 / 2;
-      }
-
-      .percent {
-        color: hsl(var(--orange));
-        background-color: hsl(var(--pale-orange));
-        font-size: 1.6rem;
-        font-weight: 700;
-        padding: 0.7rem 0.8rem;
-        border-radius: 0.6rem;
-        grid-column: 2 / 3;
-        text-align: center;
-      }
-
-      .original-price {
-        text-decoration: line-through;
-        font-size: 1.6rem;
-        font-weight: 700;
-        color: hsl(var(--grayish-blue));
-        grid-column: 4 / 5;
-      }
-    }
   }
 
-  @media screen and (min-width: 1000px) {
+  .product-description {
+    color: hsl(var(--dark-grayish-blue));
+    line-height: 1.6;
+    margin-bottom: 2.4rem;
+  }
+
+  .price-wrapper {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 0;
-    flex-basis: 44.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.6rem;
+    margin-bottom: 2.4rem;
+  }
 
-    .inner-info {
-      .company-name {
-        font-size: 1.3rem;
-        line-height: 1.6rem;
-        margin-bottom: 2.4rem;
-      }
+  .final-price {
+    font-size: 2.8rem;
+    font-weight: 700;
+  }
 
-      .product-name {
-        font-size: 4.4rem;
-        line-height: 4.8rem;
-        margin-bottom: 3.2rem;
-      }
+  .sale-percent {
+    background-color: hsl(var(--pale-orange));
+    color: hsl(var(--orange));
+    padding: 0.4rem 0.8rem;
+    border-radius: 0.6rem;
+    font-weight: 700;
+  }
 
-      .product-description {
-        font-size: 1.6rem;
-        line-height: 2.6rem;
-      }
-
-      .pricing {
-        grid-template-rows: 1fr 1fr;
-        gap: 0 1.6rem;
-        .price {
-          grid-column: 1 / 2;
-          grid-row: 1;
-        }
-
-        .percent {
-          justify-self: start;
-        }
-
-        .original-price {
-          grid-column: 1 / 2;
-          grid-row: 2;
-        }
-      }
-    }
+  .original-price {
+    color: hsl(var(--grayish-blue));
+    text-decoration: line-through;
+    font-weight: 700;
+    width: 100%;
   }
 `
-
-ProductInfo.propTypes = {
-  companyName: PropTypes.string,
-  productName: PropTypes.string,
-  productDescription: PropTypes.string,
-  productPrice: PropTypes.number,
-  isOnSale: PropTypes.bool,
-  salePercent: PropTypes.number,
-}
-
-ProductInfo.defaultProps = {
-  companyName: "N/A",
-  productName: "N/A",
-  productDescription: "No description available.",
-  productPrice: 0,
-  isOnSale: false,
-  salePercent: 0,
-}
 
 export default ProductInfo

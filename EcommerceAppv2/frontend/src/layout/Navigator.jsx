@@ -2,14 +2,27 @@ import styled from "styled-components"
 import { Logo, Menu, Cart } from "../icons/index"
 import { avatar } from "../assets/imagedata"
 import FloatingCart from "../components/FloatingCart"
+import AvatarMenu from "../components/AvatarMenu" // Importamos el nuevo componente
 import { useGlobalContext } from "../context/context"
 import { useAuth } from '../context/AuthContext';
+import { useState } from "react"
 
 const navLinks = ["collections", "men", "women", "about", "contact"]
 
 const Navigator = () => {
   const { showSidebar, showCart, hideCart, state } = useGlobalContext()
   const { logout, user } = useAuth();
+  const [isAvatarMenuOpen, setAvatarMenuOpen] = useState(false)
+
+  const toggleAvatarMenu = () => {
+    setAvatarMenuOpen((prev) => !prev)
+  }
+
+  const closeAvatarMenu = () => {
+    setAvatarMenuOpen(false)
+  }
+
+  // test papi
 
   return (
     <NavigatorWrapper>
@@ -45,9 +58,10 @@ const Navigator = () => {
             <Cart />
             {state.totalCartSize > 0 && <span>{state.totalCartSize}</span>}
           </button>
-          <button className="avatar-btn">
+          <button className="avatar-btn" onClick={toggleAvatarMenu}>
             <img src={avatar} alt="avatar" />
           </button>
+          <AvatarMenu isOpen={isAvatarMenuOpen} closeMenu={closeAvatarMenu} />
           <FloatingCart className={`${state.showingCart ? "active" : ""}`} />
         </div>
       </nav>

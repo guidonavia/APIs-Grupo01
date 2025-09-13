@@ -1,40 +1,29 @@
 import styled from "styled-components"
 import ImageCarousel from "../components/ImageCarousel"
-import ImageOverlay from "../components/ImageOverlay"
 import ProductInfo from "../components/ProductInfo"
-import { productImages, productThumbnails } from "../assets/imagedata"
-import { useGlobalContext } from "../context/context"
-import { data } from "../utils/data"
-const Product = () => {
+
+const Product = ({ productData }) => {
   return (
     <ProductWrapper>
-      <ImageCarousel
-        productImages={productImages}
-        productThumbnails={productThumbnails}
-      />
-      <ProductInfo {...data} />
+      <ImageCarousel images={productData.images} />
+      <ProductInfo product={productData} />
     </ProductWrapper>
   )
 }
 
+// --- ESTILOS SIMPLIFICADOS ---
 const ProductWrapper = styled.article`
+  background-color: #fff;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 
-  @media only screen and (min-width: 768px) {
-    margin-top: 5rem;
-  }
-
-  @media only screen and (min-width: 1000px) {
-    margin-top: 9rem;
-    gap: 5rem;
-    display: grid;
-    grid-template-columns: 44.5rem 44.5rem;
-  }
-
-  @media only screen and (min-width: 1200px) {
-    gap: 11rem;
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
   }
 `
 
