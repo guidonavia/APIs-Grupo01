@@ -9,7 +9,7 @@ const SellPage = () => {
 
   const [actualizando, setActualizando] = useState(false); // Estado de actualización
 
-  const [nuevoProducto, setNuevoProducto] = useState({
+  const [producto, setProducto] = useState({
     nombre: "",
     descripcion: "",
     categoria: "",
@@ -33,29 +33,29 @@ const SellPage = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setNuevoProducto({ ...nuevoProducto, [name]: value });
+    setProducto({ ...producto, [name]: value });
   };
 
   const handleFileChange = (e) => {
-    setNuevoProducto({ ...nuevoProducto, imagen: URL.createObjectURL(e.target.files[0]) });
+    setProducto({ ...producto, imagen: URL.createObjectURL(e.target.files[0]) });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!nuevoProducto.nombre || !nuevoProducto.categoria || !nuevoProducto.stock) {
+    if (!producto.nombre || !producto.categoria || !producto.stock) {
       alert("Por favor, completa todos los campos obligatorios.");
       return;
     }
 
     if (actualizando) {
       console.log("Actualizando producto...");
-      console.log(nuevoProducto);
-      fetch(`http://localhost:3002/productos/${nuevoProducto.id}`, {
+      console.log(producto);
+      fetch(`http://localhost:3002/productos/${producto.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(nuevoProducto),
+        body: JSON.stringify(producto),
       })
         .then((response) => response.json())
         .then((data) => {
@@ -63,7 +63,7 @@ const SellPage = () => {
             prod.id === data.id ? data : prod
           );
           setProductos(productosActualizados);
-          setNuevoProducto({
+          setProducto({
             nombre: "",
             descripcion: "",
             categoria: "",
@@ -76,7 +76,7 @@ const SellPage = () => {
     } else {
       // Asignar un ID único (simplemente el siguiente número en la lista)
       const productoConId = {
-        ...nuevoProducto,
+        ...producto,
         id: (productos.length + 1).toString(),
       };
 
@@ -91,7 +91,7 @@ const SellPage = () => {
         .then((response) => response.json())
         .then((data) => {
           setProductos([...productos, data]); // Actualiza la lista de productos
-          setNuevoProducto({
+          setProducto({
             nombre: "",
             descripcion: "",
             categoria: "",
@@ -136,7 +136,7 @@ const SellPage = () => {
 
   const actualizarProd = (producto) => {
     setActualizando(true);
-    setNuevoProducto(producto);
+    setProducto(producto);
   }
 
   return (
@@ -152,7 +152,7 @@ const SellPage = () => {
                 <Input
                   type="text"
                   name="nombre"
-                  value={nuevoProducto.nombre}
+                  value={producto.nombre}
                   onChange={handleInputChange}
                   placeholder="Ej: Zapatillas deportivas"
                 />
@@ -161,7 +161,7 @@ const SellPage = () => {
                 Descripción
                 <TextArea
                   name="descripcion"
-                  value={nuevoProducto.descripcion}
+                  value={producto.descripcion}
                   onChange={handleInputChange}
                   rows={3}
                 />
@@ -170,7 +170,7 @@ const SellPage = () => {
                 Categoría
                 <Select
                   name="categoria"
-                  value={nuevoProducto.categoria}
+                  value={producto.categoria}
                   onChange={handleInputChange}
                 >
                   <option value="">Selecciona una categoría</option>
@@ -185,7 +185,7 @@ const SellPage = () => {
                 <Input
                   type="number"
                   name="stock"
-                  value={nuevoProducto.stock}
+                  value={producto.stock}
                   onChange={handleInputChange}
                   min="0"
                   placeholder="Cantidad"
