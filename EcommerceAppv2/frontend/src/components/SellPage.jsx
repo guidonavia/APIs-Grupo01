@@ -5,7 +5,6 @@ const SellPage = () => {
   const [productos, setProductos] = useState([]); // Lista de productos
   const [productoAEliminar, setProductoAEliminar] = useState(null); // Producto seleccionado para eliminar
   const [mostrarPopup, setMostrarPopup] = useState(false); // Controla la visibilidad del pop-up
-  const [mensajeEliminacion, setMensajeEliminacion] = useState(""); // Mensaje de confirmación
 
   const [actualizando, setActualizando] = useState(false); // Estado de actualización
 
@@ -37,7 +36,10 @@ const SellPage = () => {
   };
 
   const handleFileChange = (e) => {
-    setProducto({ ...producto, imagen: URL.createObjectURL(e.target.files[0]) });
+    setProducto({
+      ...producto,
+      imagen: URL.createObjectURL(e.target.files[0]),
+    });
   };
 
   const handleSubmit = (e) => {
@@ -71,13 +73,15 @@ const SellPage = () => {
             imagen: null,
           }); // Limpia el formulario
         })
-        .catch((error) => console.error("Error al agregar el producto:", error));
+        .catch((error) =>
+          console.error("Error al agregar el producto:", error)
+        );
       setActualizando(false);
     } else {
       // Asignar un ID único (simplemente el siguiente número en la lista)
       const productoConId = {
         ...producto,
-        id: (productos.length + 1).toString(),
+        id: (productos.length === 0 ? "1" : (parseInt(productos[productos.length - 1].id) + 1).toString()),
       };
 
       // Agregar el producto a json-server
@@ -99,14 +103,15 @@ const SellPage = () => {
             imagen: null,
           }); // Limpia el formulario
         })
-        .catch((error) => console.error("Error al agregar el producto:", error));
+        .catch((error) =>
+          console.error("Error al agregar el producto:", error)
+        );
     }
   };
 
   const handleEliminarClick = (producto) => {
     setProductoAEliminar(producto); // Establece el producto a eliminar
     setMostrarPopup(true); // Muestra el pop-up
-    setMensajeEliminacion(""); // Limpia el mensaje previo
   };
 
   const confirmarEliminar = () => {
@@ -117,12 +122,10 @@ const SellPage = () => {
       .then(() => {
         setProductos(productos.filter((p) => p.id !== productoAEliminar.id)); // Actualiza la lista de productos
         setProductoAEliminar(null); // Limpia el producto seleccionado
-        setMensajeEliminacion("¡Producto eliminado!"); // Muestra el mensaje de eliminación
 
         // Oculta el pop-up después de 1 segundo
         setTimeout(() => {
           setMostrarPopup(false);
-          setMensajeEliminacion(""); // Limpia el mensaje
         }, 1000);
       })
       .catch((error) => console.error("Error al eliminar el producto:", error));
@@ -131,21 +134,24 @@ const SellPage = () => {
   const cancelarEliminar = () => {
     setProductoAEliminar(null); // Limpia el producto seleccionado
     setMostrarPopup(false); // Oculta el pop-up
-    setMensajeEliminacion(""); // Limpia el mensaje
   };
 
   const actualizarProd = (producto) => {
     setActualizando(true);
     setProducto(producto);
-  }
+  };
 
   return (
     <SellPageWrapper>
-      <h1>Vender productos</h1>
+      <h1>
+        {actualizando ? "Actualizar producto" : "Publicar nuevo producto"}
+      </h1>
       <Content>
         <LeftColumn>
           <Section>
-            <h2>Publicar nuevo producto</h2>
+            <h2>
+              {actualizando ? "Actualizar producto" : "Publicar nuevo producto"}
+            </h2>
             <Form onSubmit={handleSubmit}>
               <Label>
                 Nombre del producto
@@ -200,7 +206,9 @@ const SellPage = () => {
                   accept="image/*"
                 />
               </Label>
-              <Button type="submit">{actualizando ? "Actualizar producto" : "Publicar producto"}</Button>
+              <Button type="submit">
+                {actualizando ? "Actualizar producto" : "Publicar producto"}
+              </Button>
             </Form>
           </Section>
         </LeftColumn>
@@ -218,7 +226,9 @@ const SellPage = () => {
                     <p className="stock">Stock: {producto.stock}</p>
                   </ProductInfo>
                   <Actions>
-                    <EditButton onClick={() => actualizarProd(producto)}>Editar</EditButton>
+                    <EditButton onClick={() => actualizarProd(producto)}>
+                      Editar
+                    </EditButton>
                     <DeleteButton onClick={() => handleEliminarClick(producto)}>
                       Eliminar
                     </DeleteButton>
@@ -234,17 +244,11 @@ const SellPage = () => {
       {mostrarPopup && (
         <PopupOverlay>
           <Popup>
-            {mensajeEliminacion ? (
-              <p>{mensajeEliminacion}</p>
-            ) : (
-              <>
-                <p>¿Estás seguro de que deseas eliminar este producto?</p>
-                <PopupActions>
-                  <Button onClick={confirmarEliminar}>Sí</Button>
-                  <Button onClick={cancelarEliminar}>No</Button>
-                </PopupActions>
-              </>
-            )}
+            <p>¿Estás seguro de que deseas eliminar este producto?</p>
+            <PopupActions>
+              <Button onClick={confirmarEliminar}>Sí</Button>
+              <Button onClick={cancelarEliminar}>No</Button>
+            </PopupActions>
           </Popup>
         </PopupOverlay>
       )}

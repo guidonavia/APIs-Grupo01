@@ -1,28 +1,20 @@
 {
   "productos": [
     {
-      "id": "1",
-      "nombre": "prueba",
-      "descripcion": "ii",
-      "categoria": "accesorios",
-      "stock": "10",
-      "imagen": "blob:http://localhost:5173/d2c77877-7366-426c-9493-08bbe561ccf7"
-    },
-    {
       "id": "2",
       "nombre": "prueba",
-      "descripcion": "jbhv",
-      "categoria": "ropa",
-      "stock": "15",
-      "imagen": "blob:http://localhost:5173/cac04344-3388-4ea0-8871-e308d9e9ce65"
+      "descripcion": "hvkhvh",
+      "categoria": "calzado",
+      "stock": "10",
+      "imagen": "blob:http://localhost:5173/0e07c99e-be96-40d7-bdae-c28544fba8d8"
     },
     {
       "id": "3",
-      "nombre": "prueba99999999",
-      "descripcion": "",
-      "categoria": "otros",
-      "stock": "18",
-      "imagen": "blob:http://localhost:5173/af58ea66-036b-419f-809a-92044d781ed7"
+      "nombre": "zapatillla deportiva",
+      "descripcion": "jblblkn",
+      "categoria": "accesorios",
+      "stock": "10",
+      "imagen": "blob:http://localhost:5173/4a2dd190-fc9f-415e-8a8e-e4d64a3e3d1e"
     }
   ]
 }
