@@ -1,45 +1,69 @@
 {
   "products": [
     {
-      "id": 1,
+      "id": "1",
       "companyName": "Sneaker Company",
       "productName": "Fall Limited Edition Sneakers",
       "productDescription": "These low-profile sneakers are your perfect casual wear companion. Featuring a durable rubber outer sole, they'll withstand everything the weather can offer.",
       "productPrice": 250,
       "isOnSale": true,
       "salePercent": 0.5,
-      "stock": 10,
+      "stock": 8,
       "images": [
-        { "id": 1, "url": "/images/image-product-1.jpg", "thumbnail": "/images/image-product-1-thumbnail.jpg" },
-        { "id": 2, "url": "/images/image-product-2.jpg", "thumbnail": "/images/image-product-2-thumbnail.jpg" },
-        { "id": 3, "url": "/images/image-product-3.jpg", "thumbnail": "/images/image-product-3-thumbnail.jpg" },
-        { "id": 4, "url": "/images/image-product-4.jpg", "thumbnail": "/images/image-product-4-thumbnail.jpg" }
+        {
+          "id": 1,
+          "url": "/images/image-product-1.jpg",
+          "thumbnail": "/images/image-product-1-thumbnail.jpg"
+        },
+        {
+          "id": 2,
+          "url": "/images/image-product-2.jpg",
+          "thumbnail": "/images/image-product-2-thumbnail.jpg"
+        },
+        {
+          "id": 3,
+          "url": "/images/image-product-3.jpg",
+          "thumbnail": "/images/image-product-3-thumbnail.jpg"
+        },
+        {
+          "id": 4,
+          "url": "/images/image-product-4.jpg",
+          "thumbnail": "/images/image-product-4-thumbnail.jpg"
+        }
       ]
     },
     {
-      "id": 2,
+      "id": "2",
       "companyName": "Urban Kicks",
       "productName": "Classic White Runners",
       "productDescription": "A timeless classic. These white runners are made with premium leather and offer ultimate comfort for your day-to-day.",
       "productPrice": 180,
       "isOnSale": false,
       "salePercent": 0,
-      "stock": 25,
+      "stock": 23,
       "images": [
-        { "id": 1, "url": "/images/image-product-2.jpg", "thumbnail": "/images/image-product-2-thumbnail.jpg" }
+        {
+          "id": 1,
+          "url": "/images/image-product-2.jpg",
+          "thumbnail": "/images/image-product-2-thumbnail.jpg"
+        }
       ]
     },
     {
-      "id": 3,
+      "id": "3",
       "companyName": "Trail Blazers",
       "productName": "All-Terrain Hikers",
       "productDescription": "Built for the great outdoors. Waterproof, sturdy, and with a grip that won't quit, these are the ultimate hiking boots.",
       "productPrice": 320,
       "isOnSale": true,
       "salePercent": 0.25,
-      "stock": 15,
+      "stock": 11,
       "images": [
-        { "id": 1, "url": "/images/image-product-3.jpg", "thumbnail": "/images/image-product-3-thumbnail.jpg" }
+        {
+          "id": 1,
+          "url": "/images/image-product-3.jpg",
+          "thumbnail": "/images/image-product-3-thumbnail.jpg"
+        }
       ]
     }
   ]

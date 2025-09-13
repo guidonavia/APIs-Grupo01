@@ -1,42 +1,44 @@
 import styled from "styled-components"
+import { useState } from "react" // Importamos useState
 import { Plus, Minus, Cart } from "../icons/index"
 import Button from "./Button"
 import { useGlobalContext } from "../context/context"
 
 // Recibimos el objeto 'product' como prop
 const ProductControls = ({ product }) => {
-  const { increaseAmount, decreaseAmount, addToCart, state } =
-    useGlobalContext()
+  // ELIMINAMOS increase/decreaseAmount globales. Usamos un estado LOCAL.
+  const { addToCart } = useGlobalContext()
+  
+  // 1. CADA producto tendrá su propio contador de cantidad.
+  const [quantity, setQuantity] = useState(0)
 
-  // NOTA: El estado 'amount' es global. Para manejar cantidades por producto,
-  // esto necesitaría un refactor más grande. Por ahora, funciona para agregar al carrito.
-  const currentAmount = state.amount
+  const handleIncrease = () => {
+    setQuantity((prev) => prev + 1)
+  }
+
+  const handleDecrease = () => {
+    setQuantity((prev) => (prev > 0 ? prev - 1 : 0))
+  }
 
   return (
     <ControlsWrapper>
       <div className="inner-controls">
-        <button
-          onClick={() => {
-            decreaseAmount(product.id)
-          }}
-        >
+        <button onClick={handleDecrease}>
           <Minus />
         </button>
-        <span className="amount">{currentAmount}</span>
-        <button
-          onClick={() => {
-            increaseAmount(product.id)
-          }}
-        >
+        {/* 2. Mostramos la cantidad LOCAL */}
+        <span className="amount">{quantity}</span>
+        <button onClick={handleIncrease}>
           <Plus />
         </button>
       </div>
       <Button
         className="cart"
         func={() => {
-          // Usamos el objeto 'product' recibido en lugar de un archivo estático
-          if (currentAmount > 0) {
-            addToCart(currentAmount, product)
+          // 3. Si la cantidad es mayor a 0, agregamos al carrito y reseteamos el contador local.
+          if (quantity > 0) {
+            addToCart(quantity, product)
+            setQuantity(0) // Opcional: resetear el contador después de agregar
           }
         }}
         color={"#FFFFFF"}
