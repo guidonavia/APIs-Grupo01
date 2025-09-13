@@ -7,6 +7,8 @@ const SellPage = () => {
   const [mostrarPopup, setMostrarPopup] = useState(false); // Controla la visibilidad del pop-up
   const [mensajeEliminacion, setMensajeEliminacion] = useState(""); // Mensaje de confirmación
 
+  const [actualizando, setActualizando] = useState(false); // Estado de actualización
+
   const [nuevoProducto, setNuevoProducto] = useState({
     nombre: "",
     descripcion: "",
@@ -17,10 +19,16 @@ const SellPage = () => {
 
   // Cargar productos desde json-server al montar el componente
   useEffect(() => {
-    fetch("http://localhost:5001/productos")
-      .then((response) => response.json())
-      .then((data) => setProductos(data))
-      .catch((error) => console.error("Error al cargar los productos:", error));
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost:3002/productos");
+        const result = await response.json();
+        setProductos(result);
+      } catch (error) {
+        console.error("Error al cargar los productos:", error);
+      }
+    };
+    fetchData();
   }, []);
 
   const handleInputChange = (e) => {
@@ -39,31 +47,60 @@ const SellPage = () => {
       return;
     }
 
-    const productoConId = {
-      ...nuevoProducto,
-      id: productos.length + 1,
-    };
-
-    // Agregar el producto a json-server
-    fetch("http://localhost:5001/productos", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(productoConId),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setProductos([...productos, data]); // Actualiza la lista de productos
-        setNuevoProducto({
-          nombre: "",
-          descripcion: "",
-          categoria: "",
-          stock: "",
-          imagen: null,
-        }); // Limpia el formulario
+    if (actualizando) {
+      console.log("Actualizando producto...");
+      console.log(nuevoProducto);
+      fetch(`http://localhost:3002/productos/${nuevoProducto.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(nuevoProducto),
       })
-      .catch((error) => console.error("Error al agregar el producto:", error));
+        .then((response) => response.json())
+        .then((data) => {
+          const productosActualizados = productos.map((prod) =>
+            prod.id === data.id ? data : prod
+          );
+          setProductos(productosActualizados);
+          setNuevoProducto({
+            nombre: "",
+            descripcion: "",
+            categoria: "",
+            stock: "",
+            imagen: null,
+          }); // Limpia el formulario
+        })
+        .catch((error) => console.error("Error al agregar el producto:", error));
+      setActualizando(false);
+    } else {
+      // Asignar un ID único (simplemente el siguiente número en la lista)
+      const productoConId = {
+        ...nuevoProducto,
+        id: (productos.length + 1).toString(),
+      };
+
+      // Agregar el producto a json-server
+      fetch("http://localhost:3002/productos", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(productoConId),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          setProductos([...productos, data]); // Actualiza la lista de productos
+          setNuevoProducto({
+            nombre: "",
+            descripcion: "",
+            categoria: "",
+            stock: "",
+            imagen: null,
+          }); // Limpia el formulario
+        })
+        .catch((error) => console.error("Error al agregar el producto:", error));
+    }
   };
 
   const handleEliminarClick = (producto) => {
@@ -74,7 +111,7 @@ const SellPage = () => {
 
   const confirmarEliminar = () => {
     // Eliminar el producto de json-server
-    fetch(`http://localhost:5001/productos/${productoAEliminar.id}`, {
+    fetch(`http://localhost:3002/productos/${productoAEliminar.id}`, {
       method: "DELETE",
     })
       .then(() => {
@@ -96,6 +133,11 @@ const SellPage = () => {
     setMostrarPopup(false); // Oculta el pop-up
     setMensajeEliminacion(""); // Limpia el mensaje
   };
+
+  const actualizarProd = (producto) => {
+    setActualizando(true);
+    setNuevoProducto(producto);
+  }
 
   return (
     <SellPageWrapper>
@@ -158,7 +200,7 @@ const SellPage = () => {
                   accept="image/*"
                 />
               </Label>
-              <Button type="submit">Publicar producto</Button>
+              <Button type="submit">{actualizando ? "Actualizar producto" : "Publicar producto"}</Button>
             </Form>
           </Section>
         </LeftColumn>
@@ -176,7 +218,7 @@ const SellPage = () => {
                     <p className="stock">Stock: {producto.stock}</p>
                   </ProductInfo>
                   <Actions>
-                    <EditButton>Editar</EditButton>
+                    <EditButton onClick={() => actualizarProd(producto)}>Editar</EditButton>
                     <DeleteButton onClick={() => handleEliminarClick(producto)}>
                       Eliminar
                     </DeleteButton>

@@ -1,12 +1,28 @@
 {
   "productos": [
     {
-      "id": 1,
+      "id": "1",
       "nombre": "prueba",
-      "descripcion": "prueba",
-      "categoria": "calzado",
-      "stock": "1",
-      "imagen": "blob:http://localhost:5173/1063c94f-8920-417e-bb7f-66e76cc85710"
+      "descripcion": "ii",
+      "categoria": "accesorios",
+      "stock": "10",
+      "imagen": "blob:http://localhost:5173/d2c77877-7366-426c-9493-08bbe561ccf7"
+    },
+    {
+      "id": "2",
+      "nombre": "prueba",
+      "descripcion": "jbhv",
+      "categoria": "ropa",
+      "stock": "15",
+      "imagen": "blob:http://localhost:5173/cac04344-3388-4ea0-8871-e308d9e9ce65"
+    },
+    {
+      "id": "3",
+      "nombre": "prueba99999999",
+      "descripcion": "",
+      "categoria": "otros",
+      "stock": "18",
+      "imagen": "blob:http://localhost:5173/af58ea66-036b-419f-809a-92044d781ed7"
     }
   ]
 }
