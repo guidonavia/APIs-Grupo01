@@ -1,25 +1,15 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
-import { Main, Navigator, Sidebar } from "./layout/index"
-import { useGlobalContext } from "./context/context"
-import CheckoutPage from "./components/CheckoutPage"
-import SellPage from "./components/SellPage"
+import { useAuth } from './context/AuthContext';
+import Login from './components/Login';
+import Home from './layout/Home';
 
 function App() {
-  const { state } = useGlobalContext()
+  const { user } = useAuth();
 
   return (
-    <Router>
-      <div className="App">
-        <Navigator />
-        <Sidebar isShowing={state.showSidebar} />
-        <Routes>
-          <Route path="/" element={<Main />} />
-          <Route path="/checkout" element={<CheckoutPage />} />
-          <Route path="/sell" element={<SellPage />} />
-        </Routes>
-      </div>
-    </Router>
-  )
+    <div className="App">
+      {!user ? <Login /> : <Home />}
+    </div>
+  );
 }
 
-export default App
+export default App;
