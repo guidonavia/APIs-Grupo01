@@ -20,6 +20,8 @@ const Navigator = () => {
     setAvatarMenuOpen(false)
   }
 
+  // test papi
+
   return (
     <NavigatorWrapper>
       <nav>
