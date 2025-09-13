@@ -6,23 +6,28 @@ import HomePage from "../layout/HomePage"
 import ProductPage from "../layout/ProductPage"
 import CheckoutPage from "../layout/CheckoutPage"
 import SellPage from "../features/products/components/management/SellPage"
+import Login from "../components/Login"
 import { useGlobalContext } from "../context/context"
+import { useAuth } from "../context/AuthContext"
 
 function App() {
-  const [user, setUser] = useState(null)
-  const [showSignIn, setShowSignIn] = useState(false)
+  const { user } = useAuth();
+  const [showSignIn, setShowSignIn] = useState(false);
   const [search, setSearch] = useState("");
   const { state } = useGlobalContext();
 
-  const handleSignIn = () => {
-    // Mock login
-    setUser({ name: "John Doe" })
-    setShowSignIn(false)
+  if (!user) {
+    return <Login />;
   }
 
   return (
     <>
-      <Navbar user={user} onSignInClick={() => setShowSignIn(true)} />
+      <Navbar 
+        user={user} 
+        onSignInClick={() => setShowSignIn(true)}
+        search={search}
+        setSearch={setSearch}
+      />
       <Routes>
         <Route path="/" element={<HomePage search={search} />} />
         <Route path="/product/:id" element={<ProductPage />} />
@@ -51,7 +56,7 @@ function App() {
       <SignInModal
         isOpen={showSignIn}
         onClose={() => setShowSignIn(false)}
-        onSubmit={handleSignIn}
+        onSubmit={() => setShowSignIn(false)}
       />
     </>
   );
