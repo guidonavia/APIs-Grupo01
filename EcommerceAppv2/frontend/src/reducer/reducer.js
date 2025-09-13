@@ -14,28 +14,35 @@ const reducer = (state, action) => {
       return { ...state, showingCart: true }
     case "HIDE_CART":
       return { ...state, showingCart: false }
-    case "INCREASE_AMOUNT":
-      const increasedAmount = state.amount + 1
-      return { ...state, amount: increasedAmount }
-    case "DECREASE_AMOUNT":
-      const decreasedAmount = () => {
-        if (state.amount <= 0) return 0
-        return state.amount - 1
-      }
-      return { ...state, amount: decreasedAmount() }
-    case "ADD_TO_CART":
-      const { item, amount } = action.payload
-      const hasItem = state.cart.find((product) => {
-        return product.productId === item.productId
-      })
-      if (hasItem) {
-        console.log("the item exists")
-        const updatedItem = { ...hasItem, amount }
-        return { ...state, amount: 0, cart: [updatedItem] }
+    case "ADD_TO_CART": {
+      const { item: newItem, amount } = action.payload
+      const existingItem = state.cart.find((item) => item.id === newItem.id)
+
+      let updatedCart
+      if (existingItem) {
+        // Si el item ya existe, actualizamos su cantidad
+        updatedCart = state.cart.map((item) =>
+          item.id === newItem.id
+            ? { ...item, amount: item.amount + amount }
+            : item
+        )
       } else {
-        const newItem = { ...item, amount }
-        return { ...state, amount: 0, cart: [...state.cart, newItem] }
+        // Si es un item nuevo, lo agregamos al carrito con su cantidad
+        updatedCart = [...state.cart, { ...newItem, amount }]
       }
+
+      // Calculamos el tamaño total del carrito
+      const newTotalSize = updatedCart.reduce(
+        (total, item) => total + item.amount,
+        0
+      )
+
+      return {
+        ...state,
+        cart: updatedCart,
+        totalCartSize: newTotalSize,
+      }
+    }
     case "UPDATE_CART":
       return { ...state }
     case "REMOVE_ITEM":

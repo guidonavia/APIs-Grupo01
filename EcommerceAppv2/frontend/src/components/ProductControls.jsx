@@ -1,36 +1,45 @@
 import styled from "styled-components"
-import PropTypes from "prop-types"
+import { useState } from "react" // Importamos useState
 import { Plus, Minus, Cart } from "../icons/index"
 import Button from "./Button"
 import { useGlobalContext } from "../context/context"
-import { data } from "../utils/data"
-const ProductControls = ({ productId }) => {
-  const { increaseAmount, decreaseAmount, removeItem, addToCart, state } =
-    useGlobalContext()
+
+// Recibimos el objeto 'product' como prop
+const ProductControls = ({ product }) => {
+  // ELIMINAMOS increase/decreaseAmount globales. Usamos un estado LOCAL.
+  const { addToCart } = useGlobalContext()
+  
+  // 1. CADA producto tendrá su propio contador de cantidad.
+  const [quantity, setQuantity] = useState(0)
+
+  const handleIncrease = () => {
+    setQuantity((prev) => prev + 1)
+  }
+
+  const handleDecrease = () => {
+    setQuantity((prev) => (prev > 0 ? prev - 1 : 0))
+  }
 
   return (
     <ControlsWrapper>
       <div className="inner-controls">
-        <button
-          onClick={() => {
-            decreaseAmount(productId)
-          }}
-        >
+        <button onClick={handleDecrease}>
           <Minus />
         </button>
-        <span className="amount">{state.amount}</span>
-        <button
-          onClick={() => {
-            increaseAmount(productId)
-          }}
-        >
+        {/* 2. Mostramos la cantidad LOCAL */}
+        <span className="amount">{quantity}</span>
+        <button onClick={handleIncrease}>
           <Plus />
         </button>
       </div>
       <Button
         className="cart"
         func={() => {
-          addToCart(state.amount, data)
+          // 3. Si la cantidad es mayor a 0, agregamos al carrito y reseteamos el contador local.
+          if (quantity > 0) {
+            addToCart(quantity, product)
+            setQuantity(0) // Opcional: resetear el contador después de agregar
+          }
         }}
         color={"#FFFFFF"}
       >
@@ -42,35 +51,36 @@ const ProductControls = ({ productId }) => {
 }
 
 const ControlsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+
   .inner-controls {
+    background-color: hsl(var(--light-grayish-blue));
+    border-radius: 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: hsl(var(--light-grayish-blue));
-    padding: 2.2rem 2.4rem;
-    border-radius: 1rem;
-    margin-bottom: 2.4rem;
+    padding: 1.6rem 2.4rem;
+
+    button {
+      color: hsl(var(--orange));
+      &:hover {
+        opacity: 0.7;
+      }
+    }
 
     .amount {
-      font-size: 1.6rem;
       font-weight: 700;
-      line-height: 2rem;
+      font-size: 1.6rem;
     }
   }
 
-  @media only screen and (min-width: 1000px) {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
+  .cart {
+    display: flex;
     align-items: center;
+    justify-content: center;
     gap: 1.6rem;
-
-    .inner-controls {
-      margin-bottom: 0;
-      grid-column: 1 /3;
-    }
-    .cart {
-      grid-column: 3 / 6;
-    }
   }
 `
 
