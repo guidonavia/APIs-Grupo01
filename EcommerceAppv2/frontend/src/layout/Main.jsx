@@ -10,7 +10,7 @@ const Main = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch("http://localhost:3001/products")
+        const response = await fetch("http://localhost:3002/products")
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`)
         }

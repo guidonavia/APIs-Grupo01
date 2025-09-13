@@ -29,7 +29,7 @@ const CheckoutPage = () => {
   const handleCheckout = async () => {
     try {
       for (const item of state.cart) {
-        const response = await fetch(`http://localhost:3001/products/${item.id}`)
+        const response = await fetch(`http://localhost:3002/products/${item.id}`)
         const productInDB = await response.json()
 
         if (productInDB.stock < item.amount) {
@@ -39,11 +39,11 @@ const CheckoutPage = () => {
       }
 
       for (const item of state.cart) {
-        const response = await fetch(`http://localhost:3001/products/${item.id}`)
+        const response = await fetch(`http://localhost:3002/products/${item.id}`)
         const productInDB = await response.json()
         const newStock = productInDB.stock - item.amount
 
-        await fetch(`http://localhost:3001/products/${item.id}`, {
+        await fetch(`http://localhost:3002/products/${item.id}`, {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ stock: newStock }),
