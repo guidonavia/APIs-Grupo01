@@ -22,13 +22,9 @@ function App() {
 
   return (
     <>
-      <Navbar
-       user={user} onSignInClick={() => setShowSignIn(true)}
-       search={search} setSearch={setSearch}
-      />
-      {console.log("search:", search)}
+      <Navbar user={user} onSignInClick={() => setShowSignIn(true)} />
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<HomePage search={search} />} />
         <Route path="/product/:id" element={<ProductPage />} />
         <Route 
           path="/checkout" 

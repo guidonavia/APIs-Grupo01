@@ -3,11 +3,12 @@ import Logo from "../../../../assets/images/logo.png";
 import Cart from "../../ui/icons/Cart";
 import avatar from "../../../../assets/images/image-avatar.png";
 import Search from "../Header/Search.jsx";
+import Search from "../Header/Search.jsx";
 import { useState } from "react"
 import FloatingCart from "../../../../features/cart/components/FloatingCart";
 import AvatarMenu from "../../../../features/user/components/profile/ProfileInfo/AvatarMenu";
 
-const Navbar = ({ user, onSignInClick, search, setSearch }) => {
+const Navbar = ({ user, onSignInClick, search, setSearch, search, setSearch }) => {
   const [showCart, setShowCart] = useState(false);
   const [showAvatarMenu, setShowAvatarMenu] = useState(false);
 
@@ -16,6 +17,7 @@ const Navbar = ({ user, onSignInClick, search, setSearch }) => {
       <div className="logo">
         <img src={Logo} alt="logo" style={{ height: "5rem" }} />
       </div>
+      <Search search={search} setSearch={setSearch} />
       <Search search={search} setSearch={setSearch} />
       <div className="user-action">
         {user ? (
@@ -50,6 +52,7 @@ const Navbar = ({ user, onSignInClick, search, setSearch }) => {
 }
 
 export default Navbar
+
 
 const NavWrapper = styled.header`
   display: flex;

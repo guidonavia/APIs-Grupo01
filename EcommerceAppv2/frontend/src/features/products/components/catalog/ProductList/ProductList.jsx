@@ -21,7 +21,7 @@ const ProductGrid = ({search}) => {
 
   return (
     <GridWrapper>
-      {products.map((product) => (
+      {filteredProducts.map((product) => (
         <Card key={product.id}>
           <img src={product.imagenes} alt={product.nombre} />
           <h3>{product.nombre}</h3>
