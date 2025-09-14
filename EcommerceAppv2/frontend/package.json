@@ -8,9 +8,8 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "api-users": "json-server --watch db-users.json --port 3001",
-    "api-products": "json-server --watch db.json --port 3002",
-    "start": "concurrently \"npm run dev\" \"npm run api-products\" \"npm run api-users\""
+    "server": "json-server --watch ../db-users.json --port 3001",
+    "start": "concurrently \"npm run dev\" \"npm run server\" \"npm run api\""
   },
   "dependencies": {
     "@splidejs/react-splide": "^0.7.12",

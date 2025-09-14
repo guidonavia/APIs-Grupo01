@@ -1,97 +1,95 @@
 import styled from "styled-components"
 import { Delete } from "../icons"
 import { useGlobalContext } from "../context/context"
-import PropTypes from "prop-types"
 
+// Recibimos todas las props del item del carrito
 const SingleCartItem = ({
-  productId,
+  id,
+  images,
   productName,
   productPrice,
+  amount,
   isOnSale,
   salePercent,
-  amount,
-  images,
 }) => {
   const { removeItem } = useGlobalContext()
 
-  const actualPrice = isOnSale
-    ? (productPrice * salePercent).toFixed(2)
-    : productPrice.toFixed(2)
+  // --- ¡AQUÍ ESTÁ LA CORRECCIÓN! ---
+  // Calculamos el precio final por unidad, aplicando el descuento si existe.
+  const finalUnitPrice = isOnSale
+    ? productPrice * (1 - salePercent)
+    : productPrice
 
-  const totalPrice = (actualPrice * amount).toFixed(2)
+  // Calculamos el precio total para este item (precio unitario * cantidad)
+  const totalPrice = finalUnitPrice * amount
 
   return (
-    <SingleItemWrapper>
-      <img src={images[0].url} alt={images[0].alt} />
-      <div className="item-info">
+    <SingleCartItemWrapper>
+      <div className="img-container">
+        {/* Usamos la primera imagen disponible */}
+        <img src={images[0].thumbnail || images[0].url} alt={productName} />
+      </div>
+      <div className="info">
         <p className="name">{productName}</p>
-        <p className="total">
-          ${actualPrice}
-          &nbsp;x&nbsp;{amount}&nbsp;
-          <span>${totalPrice}</span>
+        <p className="price-details">
+          {/* Mostramos el precio unitario y la cantidad */}
+          <span>{`$${finalUnitPrice.toFixed(2)} x ${amount}`}</span>
+          {/* Mostramos el precio total para esta línea */}
+          <span className="total-price">{`$${totalPrice.toFixed(2)}`}</span>
         </p>
       </div>
-      <button onClick={() => removeItem(productId)}>
+      <button onClick={() => removeItem(id)} className="delete-btn">
         <Delete />
       </button>
-    </SingleItemWrapper>
+    </SingleCartItemWrapper>
   )
 }
 
-const SingleItemWrapper = styled.li`
+const SingleCartItemWrapper = styled.li`
   display: flex;
   align-items: center;
   gap: 1.6rem;
 
-  img {
-    border-radius: 0.4rem;
-    width: 5rem;
+  .img-container {
     height: 5rem;
+    width: 5rem;
+    border-radius: 0.4rem;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   }
 
-  .item-info {
-    gap: 1.6rem;
-    .name {
-      font-size: 1.6rem;
-      color: hsl(var(--dark-grayish-blue));
-      margin-bottom: 0.4rem;
-    }
-    .total {
-      font-size: 1.6rem;
+  .info {
+    flex-grow: 1;
+    font-size: 1.5rem;
+    color: hsl(var(--dark-grayish-blue));
 
-      span {
-        margin-left: 0.5rem;
-        font-weight: 700;
-      }
+    .name {
+      text-transform: capitalize;
+      margin-bottom: 0.5rem;
+    }
+
+    .price-details {
+      display: flex;
+      gap: 0.8rem;
+    }
+
+    .total-price {
+      font-weight: 700;
+      color: hsl(var(--black));
+    }
+  }
+
+  .delete-btn {
+    color: hsl(var(--grayish-blue));
+    &:hover {
+      color: hsl(var(--black));
     }
   }
 `
-
-SingleCartItem.propTypes = {
-  productId: PropTypes.number,
-  productName: PropTypes.string,
-  productPrice: PropTypes.number,
-  amount: PropTypes.number,
-  isOnSale: PropTypes.bool,
-  images: PropTypes.array,
-}
-
-SingleCartItem.defaultProps = {
-  productPrice: 0,
-  amount: 0,
-  isOnSale: false,
-  images: [],
-}
-
-// productId: 1,
-// companyName: "Sneaker Company",
-// productName: "Fall Limited Edition Sneakers",
-// productDescription:
-//   "These low-profile sneakers are your perfect casual wear companion. Featuring a durable rubber outer sole, they’ll withstand everything the weather can offer.",
-// productPrice: 250,
-// isOnSale: true,
-// salePercent: 0.5,
-// amount: 0,
-// images: productImages,
 
 export default SingleCartItem
