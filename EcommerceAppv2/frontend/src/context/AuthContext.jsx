@@ -42,8 +42,44 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
+  const register = async (name, email, password) => {
+    try {
+      // Valido si el usuario a registrar ya existe
+      const checkResponse = await fetch(`http://localhost:3001/users?email=${email}`);
+      const existingUsers = await checkResponse.json();
+      
+      // Si existe, retorno un aviso
+      if (existingUsers.length > 0) {
+        return { success: false, message: 'El email ya está registrado' };
+      }
+
+      // Create new user
+      const response = await fetch('http://localhost:3001/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          password,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Error en el registro');
+      }
+
+      const newUser = await response.json();
+      setUser(newUser);
+      return { success: true };
+    } catch (error) {
+      return { success: false, message: 'Error en el servidor' };
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, register }}>
       {children}
     </AuthContext.Provider>
   );

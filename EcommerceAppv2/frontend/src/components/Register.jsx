@@ -1,29 +1,24 @@
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Logo } from '../icons';
-import Register from './Register';
 import '../Login.css';
 
-const Login = () => {
-  const [isRegistering, setIsRegistering] = useState(false);
+const Register = ({ switchToLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
   const [error, setError] = useState('');
-  const { login } = useAuth();
+  const { register } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     
-    const result = await login(email, password);
+    const result = await register(name, email, password);
     if (!result.success) {
       setError(result.message);
     }
   };
-
-  if (isRegistering) {
-    return <Register switchToLogin={() => setIsRegistering(false)} />;
-  }
 
   return (
     <div className="login-wrapper">
@@ -31,9 +26,19 @@ const Login = () => {
         <Logo />
       </header>
       <div className="login-container">
-        <h2>Iniciar Sesión</h2>
+        <h2>Crear Cuenta</h2>
         {error && <div className="error-message">{error}</div>}
         <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="name">Nombre:</label>
+            <input
+              type="text"
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </div>
           <div className="form-group">
             <label htmlFor="email">Email:</label>
             <input
@@ -55,13 +60,13 @@ const Login = () => {
             />
           </div>
           <button type="submit" className="login-button">
-            Ingresar
+            Registrarse
           </button>
         </form>
         <p className="switch-auth">
-          ¿No tienes una cuenta?{' '}
-          <button className="switch-button" onClick={() => setIsRegistering(true)}>
-            Registrarse
+          ¿Ya tienes una cuenta?{' '}
+          <button className="switch-button" onClick={switchToLogin}>
+            Iniciar Sesión
           </button>
         </p>
       </div>
@@ -69,4 +74,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;
