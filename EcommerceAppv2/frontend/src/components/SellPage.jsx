@@ -1,6 +1,16 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
+const CATEGORIAS = [
+  "Zapatillas",
+  "Ropa deportiva",
+  "Accesorios",
+  "Calzado casual",
+  "Indumentaria",
+  "Equipamiento",
+  "Otro",
+];
+
 const SellPage = () => {
   const [productos, setProductos] = useState([]); // Lista de productos
   const [productoAEliminar, setProductoAEliminar] = useState(null); // Producto seleccionado para eliminar
@@ -15,6 +25,7 @@ const SellPage = () => {
     productName: "",
     productDescription: "",
     productPrice: "",
+    category: "", // Agregado
     isOnSale: false,
     salePercent: 0,
     stock: 0,
@@ -66,6 +77,7 @@ const SellPage = () => {
       !producto.productName ||
       !producto.productDescription ||
       !producto.productPrice ||
+      !producto.category || // Agregado
       !producto.stock
     ) {
       alert("Por favor, completa todos los campos obligatorios.");
@@ -112,6 +124,7 @@ const SellPage = () => {
             productName: "",
             productDescription: "",
             productPrice: "",
+            category: "", // Agregado
             isOnSale: false,
             salePercent: 0,
             stock: 0,
@@ -149,6 +162,7 @@ const SellPage = () => {
             productName: "",
             productDescription: "",
             productPrice: "",
+            category: "", // Agregado
             isOnSale: false,
             salePercent: 0,
             stock: 0,
@@ -203,6 +217,7 @@ const SellPage = () => {
       productName: "",
       productDescription: "",
       productPrice: "",
+      category: "", // Agregado
       isOnSale: false,
       salePercent: 0,
       stock: 0,
@@ -263,6 +278,22 @@ const SellPage = () => {
                   min="1"
                   placeholder="Precio"
                 />
+              </Label>
+              <Label>
+                Categoría
+                <Select
+                  name="category"
+                  value={producto.category}
+                  onChange={handleInputChange}
+                  required
+                >
+                  <option value="">Selecciona una categoría</option>
+                  {CATEGORIAS.map((cat) => (
+                    <option key={cat} value={cat}>
+                      {cat}
+                    </option>
+                  ))}
+                </Select>
               </Label>
               <Label>
                 ¿Está en oferta?
@@ -342,8 +373,18 @@ const SellPage = () => {
                   <ProductInfo>
                     <p className="nombre">{producto.productName}</p>
                     <p className="categoria">{producto.companyName}</p>
+                    <p className="category">
+                      Categoría: {producto.category}
+                    </p>{" "}
+                    {/* Agregado */}
                     <p className="stock">Stock: {producto.stock}</p>
-                    <p className="precio">Precio: ${producto.productPrice - (producto.isOnSale ? producto.productPrice * producto.salePercent : 0)}</p>
+                    <p className="precio">
+                      Precio: $
+                      {producto.productPrice -
+                        (producto.isOnSale
+                          ? producto.productPrice * producto.salePercent
+                          : 0)}
+                    </p>
                     {producto.isOnSale && (
                       <p className="oferta">
                         Oferta: {producto.salePercent * 100}% OFF
@@ -575,6 +616,13 @@ const ProductInfo = styled.div`
     font-size: 0.95rem;
     color: #666;
     margin-bottom: 0.3rem;
+  }
+
+  .category {
+    font-size: 0.95rem;
+    color: #666;
+    margin-bottom: 0.3rem;
+    font-style: italic;
   }
 
   .stock {

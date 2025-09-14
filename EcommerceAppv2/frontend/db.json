@@ -7,7 +7,7 @@
       "productDescription": "These low-profile sneakers are your perfect casual wear companion. Featuring a durable rubber outer sole, they'll withstand everything the weather can offer.",
       "productPrice": 250,
       "isOnSale": true,
-      "salePercent": 0.5,
+      "salePercent": 0.1,
       "stock": 4,
       "images": [
         {
@@ -15,7 +15,8 @@
           "url": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80",
           "thumbnail": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=200&q=80"
         }
-      ]
+      ],
+      "category": "Calzado casual"
     },
     {
       "id": "2",
@@ -38,48 +39,17 @@
       "id": "3",
       "companyName": "Freelance",
       "productName": "producto prueba",
-      "productDescription": "prueba n1",
-      "productPrice": 120000,
-      "isOnSale": true,
-      "salePercent": 0.38,
-      "stock": 1,
+      "productDescription": "hhhh",
+      "productPrice": 100,
+      "category": "Zapatillas",
+      "isOnSale": false,
+      "salePercent": 0,
+      "stock": 0,
       "images": [
         {
           "id": 1,
-          "url": "blob:http://localhost:5173/ea382715-1227-462a-8c7b-a1b58afb8f28",
-          "thumbnail": "blob:http://localhost:5173/8829df71-8b7e-40d1-aca9-5cef9a5e98db"
-        },
-        {
-          "id": 2,
-          "url": "blob:http://localhost:5173/62182a09-1d21-4b59-a91a-aac6157ab06d",
-          "thumbnail": "blob:http://localhost:5173/6a69cab1-5526-41d3-8b27-4c13bd18854d"
-        },
-        {
-          "id": 3,
-          "url": "blob:http://localhost:5173/1f711127-c5d6-4aa4-a0f9-af124164ccaa",
-          "thumbnail": "blob:http://localhost:5173/89bf4532-8888-4deb-bda9-fbb79d06d97d"
-        },
-        {
-          "id": 4,
-          "url": "blob:http://localhost:5173/f194c06f-0318-4987-8f7c-7540ccf5406d",
-          "thumbnail": "blob:http://localhost:5173/98588caf-03c5-4c17-9215-ee751397e72d"
-        }
-      ]
-    },
-    {
-      "id": "4",
-      "companyName": "test",
-      "productName": "zapas",
-      "productDescription": "rweer",
-      "productPrice": 1200,
-      "isOnSale": true,
-      "salePercent": 0.2,
-      "stock": 11,
-      "images": [
-        {
-          "id": 1,
-          "url": "blob:http://localhost:5173/5d2e52f6-0a90-491f-865f-d96a1e956357",
-          "thumbnail": "blob:http://localhost:5173/e2854c1b-3a6c-4459-922f-93fa0df48e57"
+          "url": "blob:http://localhost:5173/e0a65865-88a2-4f94-9cc4-c5bb5c3bb805",
+          "thumbnail": "blob:http://localhost:5173/75a95484-c959-458c-adfc-d78cebd2b44f"
         }
       ]
     }
