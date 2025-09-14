@@ -343,7 +343,7 @@ const SellPage = () => {
                     <p className="nombre">{producto.productName}</p>
                     <p className="categoria">{producto.companyName}</p>
                     <p className="stock">Stock: {producto.stock}</p>
-                    <p className="precio">Precio: ${producto.productPrice}</p>
+                    <p className="precio">Precio: ${producto.productPrice - (producto.isOnSale ? producto.productPrice * producto.salePercent : 0)}</p>
                     {producto.isOnSale && (
                       <p className="oferta">
                         Oferta: {producto.salePercent * 100}% OFF
