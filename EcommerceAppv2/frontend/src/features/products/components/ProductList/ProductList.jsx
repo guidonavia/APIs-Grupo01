@@ -15,9 +15,13 @@ const ProductGrid = ({search}) => {
   }, []);
 
   console.log("Filtrando con:", search);
-  const filteredProducts = products.filter((product) =>
-    (product?.nombre || "").toLowerCase().includes((search || "").toLowerCase())
-  );
+  const filteredProducts = products.filter((product) =>{
+    const term = (search || "").toLowerCase();
+    return(
+      (product?.nombre || "").toLowerCase().includes(term) ||
+      (product?.categoria || "").toLowerCase().includes(term)
+    );
+  });
 
   return (
     <GridWrapper>

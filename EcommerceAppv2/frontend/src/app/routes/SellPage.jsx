@@ -17,7 +17,7 @@ const SellPage = () => {
 
   // Cargar productos desde json-server al montar el componente
   useEffect(() => {
-    fetch("http://localhost:5000/productos")
+    fetch("http://localhost:3002/products")
       .then((response) => response.json())
       .then((data) => setProductos(data))
       .catch((error) => console.error("Error al cargar los productos:", error));
@@ -45,7 +45,7 @@ const SellPage = () => {
     };
 
     // Agregar el producto a json-server
-    fetch("http://localhost:5000/productos", {
+    fetch("http://localhost:3002/products", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -74,7 +74,7 @@ const SellPage = () => {
 
   const confirmarEliminar = () => {
     // Eliminar el producto de json-server
-    fetch(`http://localhost:5001/productos/${productoAEliminar.id}`, {
+    fetch(`http://localhost:3002/products/${productoAEliminar.id}`, {
       method: "DELETE",
     })
       .then(() => {

@@ -1,25 +1,49 @@
-import styled from "styled-components"
-import { useNavigate } from "react-router-dom"
-import PropTypes from "prop-types"
+import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 
-const AvatarMenu = ({ isOpen, closeMenu }) => {
-  const navigate = useNavigate()
+const AvatarMenu = ({ isOpen, closeMenu, onLogout }) => {
+  const navigate = useNavigate();
 
   const handleSellClick = () => {
-    closeMenu() 
-    navigate("/sell")
-  }
+    closeMenu();
+    navigate("/sell");
+  };
+
+  const handleProfileClick = () => {
+    closeMenu();
+    navigate("/profile");
+  };
+
+  const handleLogoutClick = () => {
+    closeMenu();
+    onLogout();
+  };
 
   return (
     <MenuWrapper className={`${isOpen ? "active" : ""}`}>
       <ul>
         <li>
+          <button onClick={handleProfileClick}>Perfil</button>
+        </li>
+        <li>
           <button onClick={handleSellClick}>Vender</button>
+        </li>
+        <li>
+          <button onClick={handleLogoutClick}>Cerrar sesión</button>
         </li>
       </ul>
     </MenuWrapper>
-  )
-}
+  );
+};
+
+AvatarMenu.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  closeMenu: PropTypes.func.isRequired,
+  onLogout: PropTypes.func.isRequired,
+};
+
+export default AvatarMenu;
 
 const MenuWrapper = styled.div`
   position: absolute;
@@ -61,10 +85,3 @@ const MenuWrapper = styled.div`
     }
   }
 `
-
-AvatarMenu.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  closeMenu: PropTypes.func.isRequired,
-}
-
-export default AvatarMenu

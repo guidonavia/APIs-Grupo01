@@ -6,15 +6,18 @@ import Search from "../Header/Search.jsx";
 import { useState } from "react"
 import FloatingCart from "../../../../features/cart/components/FloatingCart";
 import AvatarMenu from "../../../../features/user/components/profile/ProfileInfo/AvatarMenu";
+import { Link } from "react-router-dom"; 
 
-const Navbar = ({ user, onSignInClick, search, setSearch }) => {
+const Navbar = ({ user, onSignInClick, search, setSearch, onLogout }) => {
   const [showCart, setShowCart] = useState(false);
   const [showAvatarMenu, setShowAvatarMenu] = useState(false);
 
   return (
     <NavWrapper>
       <div className="logo">
-        <Logo style={{ height: "5rem" }} />
+        <Link to="/">
+          <Logo style={{ height: "5rem" }} />
+        </Link>
       </div>
       <Search search={search} setSearch={setSearch} />
       <div className="user-action">
@@ -30,14 +33,18 @@ const Navbar = ({ user, onSignInClick, search, setSearch }) => {
               <FloatingCart className={showCart ? 'active' : ''} />
             </div>
             <div className="avatar-container">
-              <img 
-                className="avatar" 
-                src={avatar} 
-                alt="avatar" 
+              <button
+                className = "avatar-btn"
                 onClick={() => setShowAvatarMenu(!showAvatarMenu)}
-              />
+              >
+                <img className="avatar" src={avatar} alt="avatar" /> 
+              </button>
               {showAvatarMenu && (
-                <AvatarMenu />
+                <AvatarMenu
+                  isOpen={showAvatarMenu} 
+                  closeMenu={() => setShowAvatarMenu(false)} 
+                  onLogout={onLogout}
+                />
               )}
             </div>
           </>
@@ -66,9 +73,9 @@ const NavWrapper = styled.header`
     width: 800px;
   }
 
-  .user-action button:not(.cart-btn) {
+  .user-action button:not(.cart-btn):not(.avatar-btn)  {
     padding: 0.7rem 1rem;
-    background-color: #ff7a00;
+    background-color: #a1a19cff;
     color: white;
     border: none;
     cursor: pointer;
@@ -97,6 +104,16 @@ const NavWrapper = styled.header`
     }
   }
   
+  .avatar-btn {
+    background: none; 
+    border: none;     
+    padding: 0;       
+    cursor: pointer; 
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .cart-btn {
     background: none;
     border: none;
