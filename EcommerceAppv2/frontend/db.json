@@ -65,6 +65,23 @@
           "thumbnail": "blob:http://localhost:5173/98588caf-03c5-4c17-9215-ee751397e72d"
         }
       ]
+    },
+    {
+      "id": "4",
+      "companyName": "test",
+      "productName": "zapas",
+      "productDescription": "rweer",
+      "productPrice": 1200,
+      "isOnSale": true,
+      "salePercent": 0.2,
+      "stock": 11,
+      "images": [
+        {
+          "id": 1,
+          "url": "blob:http://localhost:5173/5d2e52f6-0a90-491f-865f-d96a1e956357",
+          "thumbnail": "blob:http://localhost:5173/e2854c1b-3a6c-4459-922f-93fa0df48e57"
+        }
+      ]
     }
   ]
 }
