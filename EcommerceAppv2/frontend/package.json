@@ -5,12 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "api": "json-server --watch db.json --port 3002",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "server": "json-server --watch ../db-users.json --port 3001",
-    "start": "concurrently \"npm run dev\" \"npm run server\" \"npm run api\""
+    "api-users": "json-server --watch db-users.json --port 3001",
+    "api-products": "json-server --watch db.json --port 3002",
+    "start": "concurrently \"npm run dev\" \"npm run api-products\" \"npm run api-users\""
   },
   "dependencies": {
     "@splidejs/react-splide": "^0.7.12",
