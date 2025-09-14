@@ -7,20 +7,27 @@ const SellPage = () => {
   const [mostrarPopup, setMostrarPopup] = useState(false); // Controla la visibilidad del pop-up
 
   const [actualizando, setActualizando] = useState(false); // Estado de actualización
+  const [productoEditandoId, setProductoEditandoId] = useState(null); // ID del producto en edición
 
   const [producto, setProducto] = useState({
-    nombre: "",
-    descripcion: "",
-    categoria: "",
-    stock: "",
-    imagen: null,
+    id: "",
+    companyName: "",
+    productName: "",
+    productDescription: "",
+    productPrice: "",
+    isOnSale: false,
+    salePercent: 0,
+    stock: 0,
+    images: [],
   });
+
+  const [imagenes, setImagenes] = useState([]);
 
   // Cargar productos desde json-server al montar el componente
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:3002/productos");
+        const response = await fetch("http://localhost:3002/products");
         const result = await response.json();
         setProductos(result);
       } catch (error) {
@@ -31,33 +38,67 @@ const SellPage = () => {
   }, []);
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setProducto({ ...producto, [name]: value });
-  };
-
-  const handleFileChange = (e) => {
+    const { name, value, type, checked } = e.target;
     setProducto({
       ...producto,
-      imagen: URL.createObjectURL(e.target.files[0]),
+      [name]: type === "checkbox" ? checked : value,
     });
+  };
+
+  // const handleFileChange = (e) => {
+  //   setProducto({
+  //     ...producto,
+  //     imagen: URL.createObjectURL(e.target.files[0]),
+  //   });
+  // };
+
+  const handleImagenesChange = (e) => {
+    const files = Array.from(e.target.files).slice(0, 5);
+    setImagenes(files);
+    // No se actualiza producto.images aquí, se hace en handleSubmit
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!producto.nombre || !producto.categoria || !producto.stock) {
+    // Validación básica
+    if (
+      !producto.companyName ||
+      !producto.productName ||
+      !producto.productDescription ||
+      !producto.productPrice ||
+      !producto.stock
+    ) {
       alert("Por favor, completa todos los campos obligatorios.");
       return;
     }
 
+    // Procesar imágenes (solo URLs locales, en producción deberías subirlas a un servidor)
+    let imagesArr = [];
+    if (imagenes.length > 0) {
+      imagesArr = imagenes.slice(0, 5).map((img, idx) => ({
+        id: idx + 1,
+        url: URL.createObjectURL(img),
+        thumbnail: URL.createObjectURL(img),
+      }));
+    } else {
+      imagesArr = producto.images || [];
+    }
+
+    const productoFinal = {
+      ...producto,
+      productPrice: Number(producto.productPrice),
+      salePercent: Number(producto.salePercent),
+      stock: Number(producto.stock),
+      images: imagesArr,
+    };
+
     if (actualizando) {
-      console.log("Actualizando producto...");
-      console.log(producto);
-      fetch(`http://localhost:3002/productos/${producto.id}`, {
+      fetch(`http://localhost:3002/products/${producto.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(producto),
+        body: JSON.stringify(productoFinal),
       })
         .then((response) => response.json())
         .then((data) => {
@@ -66,26 +107,33 @@ const SellPage = () => {
           );
           setProductos(productosActualizados);
           setProducto({
-            nombre: "",
-            descripcion: "",
-            categoria: "",
-            stock: "",
-            imagen: null,
-          }); // Limpia el formulario
+            id: "",
+            companyName: "",
+            productName: "",
+            productDescription: "",
+            productPrice: "",
+            isOnSale: false,
+            salePercent: 0,
+            stock: 0,
+            images: [],
+          });
+          setImagenes([]);
         })
         .catch((error) =>
-          console.error("Error al agregar el producto:", error)
+          console.error("Error al actualizar el producto:", error)
         );
       setActualizando(false);
     } else {
       // Asignar un ID único (simplemente el siguiente número en la lista)
       const productoConId = {
-        ...producto,
-        id: (productos.length === 0 ? "1" : (parseInt(productos[productos.length - 1].id) + 1).toString()),
+        ...productoFinal,
+        id:
+          productos.length === 0
+            ? "1"
+            : (parseInt(productos[productos.length - 1].id) + 1).toString(),
       };
 
-      // Agregar el producto a json-server
-      fetch("http://localhost:3002/productos", {
+      fetch("http://localhost:3002/products", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -94,14 +142,19 @@ const SellPage = () => {
       })
         .then((response) => response.json())
         .then((data) => {
-          setProductos([...productos, data]); // Actualiza la lista de productos
+          setProductos([...productos, data]);
           setProducto({
-            nombre: "",
-            descripcion: "",
-            categoria: "",
-            stock: "",
-            imagen: null,
-          }); // Limpia el formulario
+            id: "",
+            companyName: "",
+            productName: "",
+            productDescription: "",
+            productPrice: "",
+            isOnSale: false,
+            salePercent: 0,
+            stock: 0,
+            images: [],
+          });
+          setImagenes([]);
         })
         .catch((error) =>
           console.error("Error al agregar el producto:", error)
@@ -116,7 +169,7 @@ const SellPage = () => {
 
   const confirmarEliminar = () => {
     // Eliminar el producto de json-server
-    fetch(`http://localhost:3002/productos/${productoAEliminar.id}`, {
+    fetch(`http://localhost:3002/products/${productoAEliminar.id}`, {
       method: "DELETE",
     })
       .then(() => {
@@ -139,6 +192,24 @@ const SellPage = () => {
   const actualizarProd = (producto) => {
     setActualizando(true);
     setProducto(producto);
+    setProductoEditandoId(producto.id); // Guardar el ID del producto en edición
+  };
+
+  const cancelarEdicion = () => {
+    setActualizando(false);
+    setProducto({
+      id: "",
+      companyName: "",
+      productName: "",
+      productDescription: "",
+      productPrice: "",
+      isOnSale: false,
+      salePercent: 0,
+      stock: 0,
+      images: [],
+    });
+    setImagenes([]);
+    setProductoEditandoId(null); // Limpiar el ID del producto en edición
   };
 
   return (
@@ -154,38 +225,69 @@ const SellPage = () => {
             </h2>
             <Form onSubmit={handleSubmit}>
               <Label>
+                Nombre de la empresa
+                <Input
+                  type="text"
+                  name="companyName"
+                  value={producto.companyName}
+                  onChange={handleInputChange}
+                  placeholder="Ej: Sneaker Company"
+                />
+              </Label>
+              <Label>
                 Nombre del producto
                 <Input
                   type="text"
-                  name="nombre"
-                  value={producto.nombre}
+                  name="productName"
+                  value={producto.productName}
                   onChange={handleInputChange}
-                  placeholder="Ej: Zapatillas deportivas"
+                  placeholder="Ej: Fall Limited Edition"
                 />
               </Label>
               <Label>
                 Descripción
                 <TextArea
-                  name="descripcion"
-                  value={producto.descripcion}
+                  name="productDescription"
+                  value={producto.productDescription}
                   onChange={handleInputChange}
                   rows={3}
                 />
               </Label>
               <Label>
-                Categoría
-                <Select
-                  name="categoria"
-                  value={producto.categoria}
+                Precio
+                <Input
+                  type="number"
+                  name="productPrice"
+                  value={producto.productPrice}
                   onChange={handleInputChange}
-                >
-                  <option value="">Selecciona una categoría</option>
-                  <option value="calzado">Calzado</option>
-                  <option value="ropa">Ropa</option>
-                  <option value="accesorios">Accesorios</option>
-                  <option value="otros">Otros</option>
-                </Select>
+                  min="1"
+                  placeholder="Precio"
+                />
               </Label>
+              <Label>
+                ¿Está en oferta?
+                <Input
+                  type="checkbox"
+                  name="isOnSale"
+                  checked={producto.isOnSale}
+                  onChange={handleInputChange}
+                />
+              </Label>
+              {producto.isOnSale && (
+                <Label>
+                  Porcentaje de oferta (0 a 1)
+                  <Input
+                    type="number"
+                    name="salePercent"
+                    value={producto.salePercent}
+                    onChange={handleInputChange}
+                    min="0"
+                    max="1"
+                    step="0.01"
+                    placeholder="Ej: 0.5 para 50%"
+                  />
+                </Label>
+              )}
               <Label>
                 Stock disponible
                 <Input
@@ -198,18 +300,28 @@ const SellPage = () => {
                 />
               </Label>
               <Label>
-                Fotos del producto
+                Fotos del producto (máx. 5)
                 <Input
                   type="file"
-                  onChange={handleFileChange}
                   multiple
                   accept="image/*"
+                  onChange={handleImagenesChange}
                 />
               </Label>
               <Button type="submit">
                 {actualizando ? "Actualizar producto" : "Publicar producto"}
               </Button>
             </Form>
+            <div>
+              {imagenes.map((img, idx) => (
+                <img
+                  key={idx}
+                  src={URL.createObjectURL(img)}
+                  alt={`preview-${idx}`}
+                  width={60}
+                />
+              ))}
+            </div>
           </Section>
         </LeftColumn>
 
@@ -219,16 +331,38 @@ const SellPage = () => {
             <ProductList>
               {productos.map((producto) => (
                 <ProductItem key={producto.id}>
-                  <ProductImage src={producto.imagen} alt={producto.nombre} />
+                  {producto.images && producto.images.length > 0 && (
+                    <ProductImage
+                      src={
+                        producto.images[0].thumbnail || producto.images[0].url
+                      }
+                      alt={producto.productName}
+                    />
+                  )}
                   <ProductInfo>
-                    <p className="nombre">{producto.nombre}</p>
-                    <p className="categoria">{producto.categoria}</p>
+                    <p className="nombre">{producto.productName}</p>
+                    <p className="categoria">{producto.companyName}</p>
                     <p className="stock">Stock: {producto.stock}</p>
+                    <p className="precio">Precio: ${producto.productPrice}</p>
+                    {producto.isOnSale && (
+                      <p className="oferta">
+                        Oferta: {producto.salePercent * 100}% OFF
+                      </p>
+                    )}
                   </ProductInfo>
                   <Actions>
-                    <EditButton onClick={() => actualizarProd(producto)}>
-                      Editar
-                    </EditButton>
+                    {actualizando && producto.id === productoEditandoId ? (
+                      <EditButton
+                        onClick={cancelarEdicion}
+                        style={{ background: "#aaa" }}
+                      >
+                        Cancelar
+                      </EditButton>
+                    ) : (
+                      <EditButton onClick={() => actualizarProd(producto)}>
+                        Editar
+                      </EditButton>
+                    )}
                     <DeleteButton onClick={() => handleEliminarClick(producto)}>
                       Eliminar
                     </DeleteButton>
@@ -446,6 +580,19 @@ const ProductInfo = styled.div`
   .stock {
     font-size: 0.9rem;
     color: #444;
+  }
+
+  .precio {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #333;
+    margin: 0.2rem 0;
+  }
+
+  .oferta {
+    font-size: 0.9rem;
+    color: #e74c3c;
+    font-weight: 500;
   }
 `;
 
