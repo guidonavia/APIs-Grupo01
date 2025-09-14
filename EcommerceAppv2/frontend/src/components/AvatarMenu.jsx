@@ -1,21 +1,39 @@
 import styled from "styled-components"
-import { useNavigate } from "react-router-dom"
-import PropTypes from "prop-types"
+import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import '../Login.css';
 
 const AvatarMenu = ({ isOpen, closeMenu }) => {
-  const navigate = useNavigate()
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
-  const handleSellClick = () => {
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
+
+  const handleSell = () => {
     closeMenu() 
-    navigate("/sell")
-  }
+    navigate('/sell');
+  };
 
   return (
     <MenuWrapper className={`${isOpen ? "active" : ""}`}>
       <ul>
-        <li>
-          <button onClick={handleSellClick}>Vender</button>
-        </li>
+        {user ? (
+          <>
+            <li>
+              <button onClick={handleSell}>Vender Producto</button>
+            </li>
+            <li>
+              <button onClick={handleLogout}>Cerrar Sesión</button>
+            </li>
+          </>
+        ) : (
+          <li>
+            <button onClick={() => navigate('/login')}>Iniciar Sesión</button>
+          </li>
+        )}
       </ul>
     </MenuWrapper>
   )
@@ -61,10 +79,5 @@ const MenuWrapper = styled.div`
     }
   }
 `
-
-AvatarMenu.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  closeMenu: PropTypes.func.isRequired,
-}
 
 export default AvatarMenu
