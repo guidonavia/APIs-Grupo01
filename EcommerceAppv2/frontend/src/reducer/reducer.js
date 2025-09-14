@@ -45,14 +45,26 @@ const reducer = (state, action) => {
     }
     case "UPDATE_CART":
       return { ...state }
-    case "REMOVE_ITEM":
-      const { id: itemId } = action.payload
-      const newCart = state.cart.filter((product) => product.productId !== itemId)
-      return { 
-        ...state, 
+    case "REMOVE_ITEM": {
+      // --- ¡AQUÍ ESTÁ LA CORRECCIÓN! ---
+      // Filtramos el carrito buscando la propiedad 'id', no 'productId'.
+      const newCart = state.cart.filter(
+        (item) => item.id !== action.payload
+      )
+
+      // Recalculamos el tamaño total del carrito después de eliminar el item.
+      const newTotalSize = newCart.reduce(
+        (total, item) => total + item.amount,
+        0
+      )
+
+      return {
+        ...state,
         cart: newCart,
-        totalCartSize: newCart.reduce((total, item) => total + item.amount, 0)
+        totalCartSize: newTotalSize,
       }
+    }
+
     case "GET_TOTAL_CART":
       const totalCartCount = state.cart.reduce((total, currentItem) => {
         return total + currentItem.amount
