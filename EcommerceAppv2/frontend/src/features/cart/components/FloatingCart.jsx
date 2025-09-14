@@ -1,12 +1,13 @@
 import { useNavigate } from "react-router-dom"
 import styled from "styled-components"
-import ProductInfo from "../../products/components/ProductCard/ProductInfo"
+import CartItem from "../../cart/components/CartItem"
 import Button from "../../../shared/components/ui/Button/Button"
 import { useGlobalContext } from "../../../context/context"
 
 const FloatingCart = ({ className }) => {
   const { state } = useGlobalContext()
   const navigate = useNavigate()
+  
   return (
     <FloatingCartWrapper className={className}>
       <header>
@@ -16,21 +17,16 @@ const FloatingCart = ({ className }) => {
       <ul className="cart-items">
         {state.cart.length > 0 ? (
           state.cart.map((cartItem) => (
-            <ProductInfo
-              key={cartItem.productId}
-              productId={cartItem.productId}
+            <CartItem
+              key={cartItem.productId}                 // 👈 key aquí
               productName={cartItem.nombre || ""}
-              productDescription={cartItem.descripcion || ""}
               productPrice={cartItem.precio || 0}
-              originalPrice={cartItem.originalPrice || cartItem.precio || 0}
-              discount={cartItem.discount || 0}
-              isCartItem={true}
               amount={cartItem.amount}
-              productImages={cartItem.imagenes || []}
+              imageUrl={cartItem.imagenes?.[0] || ""}  // usa primera imagen
             />
           ))
         ) : (
-          <p className="empty">Carrito Vacio</p>
+          <p className="empty">Carrito vacío</p>
         )}
         {state.cart.length > 0 && (
           <Button func={() => navigate("/checkout")}>

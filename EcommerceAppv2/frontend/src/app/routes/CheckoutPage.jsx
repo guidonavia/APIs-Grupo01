@@ -20,7 +20,7 @@ const CheckoutPage = () => {
 const handleCheckout = async () => {
     try {
       // Get products from db.json
-      const response = await fetch('http://localhost:5000/products');
+      const response = await fetch('http://localhost:3002/products');
       const products = await response.json();
       
       // Check stock for each cart item
@@ -39,7 +39,7 @@ const handleCheckout = async () => {
       // Update stock for each product
       for (const cartItem of state.cart) {
         const product = products.find(p => p.id === cartItem.productId);
-        await fetch(`http://localhost:5000/products/${product.id}`, {
+        await fetch(`http://localhost:3002/products/${product.id}`, {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
