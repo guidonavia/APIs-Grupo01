@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom"
 import styled from "styled-components"
-import SingleCartItem from "./SingleCartItem"
-import Button from "../components/Button"
-import { useGlobalContext } from "../context/context"
+import ProductInfo from "../../products/components/ProductCard/ProductInfo"
+import Button from "../../../shared/components/ui/Button/Button"
+import { useGlobalContext } from "../../../context/context"
 
 const FloatingCart = ({ className }) => {
   const { state } = useGlobalContext()

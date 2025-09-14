@@ -1,6 +1,6 @@
 import styled from "styled-components"
-import { useGlobalContext } from "../context/context"
-import Button from "../shared/components/ui/Button/Button"
+import { useGlobalContext } from "../../context/context"
+import Button from "../../shared/components/ui/Button/Button"
 import { useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 

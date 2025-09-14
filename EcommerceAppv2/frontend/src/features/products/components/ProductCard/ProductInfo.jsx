@@ -17,7 +17,7 @@ const ProductInfo = ({
   const isOnSale = discount > 0;
   const salePercent = isOnSale ? (100 - discount) / 100 : 1;
   return (
-    <InfoWrapper isCartItem={isCartItem}>
+    <InfoWrapper $isCartItem={isCartItem}>
       {isCartItem ? (
         <div className="cart-item">
           <img src={productImages[0]} alt={productName} />
@@ -31,8 +31,10 @@ const ProductInfo = ({
           <ProductControls 
             productId={productId}
             productName={productName}
+            productDescription={productDescription}
             productPrice={productPrice}
             productImages={productImages}
+            discount={discount}
             isCartItem={true}
             amount={amount}
           />
@@ -61,8 +63,10 @@ const ProductInfo = ({
           <ProductControls 
             productId={productId}
             productName={productName}
+            productDescription={productDescription}
             productPrice={productPrice}
             productImages={productImages}
+            discount={discount}
           />
         </>
       )}
@@ -71,7 +75,7 @@ const ProductInfo = ({
 }
 
 const InfoWrapper = styled.section`
-  padding: ${props => props.isCartItem ? '1rem' : '2.4rem'};
+  padding: ${props => props.$isCartItem ? '1rem' : '2.4rem'};
   
   .cart-item {
     display: flex;

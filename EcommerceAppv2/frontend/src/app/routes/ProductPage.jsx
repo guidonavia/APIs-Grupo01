@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import Footer from "../shared/components/layout/Footer/Footer";
-import ProductInfo from "../features/products/components/catalog/ProductCard/ProductInfo";
-import { useGlobalContext } from "../context/context";
+import Footer from "../../shared/components/layout/Footer/Footer";
+import ProductInfo from "../../features/products/components/ProductCard/ProductInfo";
+import { useGlobalContext } from "../../context/context";
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -14,7 +14,7 @@ const ProductPage = () => {
   const [relatedProducts, setRelatedProducts] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/products/${id}`)
+    fetch(`http://localhost:3002/products/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setProduct(data);
@@ -24,7 +24,7 @@ const ProductPage = () => {
 
   useEffect(() => {
     if (product?.categoria) {
-      fetch(`http://localhost:5000/products`)
+      fetch(`http://localhost:3002/products`)
         .then((res) => res.json())
         .then((allProducts) => {
           const filtered = allProducts.filter(
@@ -50,7 +50,7 @@ const ProductPage = () => {
                   src={img}
                   alt={`thumb-${idx}`}
                   onClick={() => setMainImage(img)}
-                  active={mainImage === img}
+                  active={(mainImage === img).toString()}
                 />
               ))}
             </Thumbnails>

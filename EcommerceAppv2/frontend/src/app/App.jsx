@@ -1,18 +1,16 @@
 import React, { useState } from "react"
 import { Route, Routes, Navigate } from "react-router-dom"
 import Navbar from "../shared/components/layout/Header/Navbar"
-import SignInModal from "../features/user/components/auth/LoginForm/SignInModal"
-import HomePage from "../layout/HomePage"
-import ProductPage from "../layout/ProductPage"
-import CheckoutPage from "../layout/CheckoutPage"
-import SellPage from "../features/products/components/management/SellPage"
-import Login from "../components/Login"
+import HomePage from "./routes/HomePage"
+import ProductPage from "./routes/ProductPage"
+import CheckoutPage from "./routes/CheckoutPage"
+import SellPage from "./routes/SellPage"
+import Login from "../features/user/components/profile/Login/Login"
 import { useGlobalContext } from "../context/context"
 import { useAuth } from "../context/AuthContext"
 
 function App() {
   const { user } = useAuth();
-  const [showSignIn, setShowSignIn] = useState(false);
   const [search, setSearch] = useState("");
   const { state } = useGlobalContext();
 
@@ -23,8 +21,7 @@ function App() {
   return (
     <>
       <Navbar 
-        user={user} 
-        onSignInClick={() => setShowSignIn(true)}
+        user={user}
         search={search}
         setSearch={setSearch}
       />
@@ -52,12 +49,6 @@ function App() {
           } 
         />
       </Routes>
-
-      <SignInModal
-        isOpen={showSignIn}
-        onClose={() => setShowSignIn(false)}
-        onSubmit={() => setShowSignIn(false)}
-      />
     </>
   );
 }

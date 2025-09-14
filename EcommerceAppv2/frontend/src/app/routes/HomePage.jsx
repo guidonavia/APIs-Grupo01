@@ -1,8 +1,8 @@
 import { useState } from "react"
 import styled from "styled-components"
-import Carousel from "../shared/components/ui/Carousel"
-import ProductGrid from "../features/products/components/catalog/ProductList/ProductList"
-import Footer from "../shared/components/layout/Footer/Footer"
+import Carousel from "../../shared/components/ui/Carousel"
+import ProductGrid from "../../features/products/components/ProductList/ProductList"
+import Footer from "../../shared/components/layout/Footer/Footer"
 
 
 const HomePage = ({search}) => {

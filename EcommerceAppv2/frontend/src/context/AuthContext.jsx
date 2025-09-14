@@ -16,8 +16,16 @@ export const AuthProvider = ({ children }) => {
     }
   }, [user]);
 
-  const login = async (email, password) => {
+  const login = async (userData) => {
     try {
+      // If we receive a user object directly
+      if (typeof userData === 'object') {
+        setUser(userData);
+        return { success: true };
+      }
+      
+      // Backward compatibility for email/password login
+      const { email, password } = userData;
       const response = await fetch(`http://localhost:3001/users?email=${email}`);
       
       if (!response.ok) {

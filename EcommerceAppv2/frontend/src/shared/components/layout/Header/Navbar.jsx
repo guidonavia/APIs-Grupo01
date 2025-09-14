@@ -1,23 +1,21 @@
 import styled from "styled-components"
-import Logo from "../../../../assets/images/logo.png";
+import Logo from "../../ui/icons/Logo";
 import Cart from "../../ui/icons/Cart";
-import avatar from "../../../../assets/images/image-avatar.png";
-import Search from "../Header/Search.jsx";
+import avatar from "../../../../../public/images/image-avatar.png";
 import Search from "../Header/Search.jsx";
 import { useState } from "react"
 import FloatingCart from "../../../../features/cart/components/FloatingCart";
 import AvatarMenu from "../../../../features/user/components/profile/ProfileInfo/AvatarMenu";
 
-const Navbar = ({ user, onSignInClick, search, setSearch, search, setSearch }) => {
+const Navbar = ({ user, onSignInClick, search, setSearch }) => {
   const [showCart, setShowCart] = useState(false);
   const [showAvatarMenu, setShowAvatarMenu] = useState(false);
 
   return (
     <NavWrapper>
       <div className="logo">
-        <img src={Logo} alt="logo" style={{ height: "5rem" }} />
+        <Logo style={{ height: "5rem" }} />
       </div>
-      <Search search={search} setSearch={setSearch} />
       <Search search={search} setSearch={setSearch} />
       <div className="user-action">
         {user ? (

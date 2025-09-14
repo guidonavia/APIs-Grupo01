@@ -8,7 +8,7 @@ const ProductGrid = ({search}) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:5000/products")
+    fetch("http://localhost:3002/products")
       .then(res => res.json())
       .then(data => setProducts(data))
       .catch(err => console.error("Error fetching products:", err));
@@ -27,7 +27,7 @@ const ProductGrid = ({search}) => {
           <h3>{product.nombre}</h3>
           <p>{product.descripcion}</p>
           <Price>
-            {product.precio} {product.moneda}
+            {product.moneda} {product.precio}
           </Price>
           <Stock estado={product.estado}>
             {product.estado === "disponible" ? "En stock" : "Agotado"}

@@ -16,13 +16,13 @@ const reducer = (state, action) => {
       return { ...state, showingCart: false }
     case "ADD_TO_CART": {
       const { item: newItem, amount } = action.payload
-      const existingItem = state.cart.find((item) => item.id === newItem.id)
+      const existingItem = state.cart.find((item) => item.productId === newItem.productId)
 
       let updatedCart
       if (existingItem) {
         // Si el item ya existe, actualizamos su cantidad
         updatedCart = state.cart.map((item) =>
-          item.id === newItem.id
+          item.productId === newItem.productId
             ? { ...item, amount: item.amount + amount }
             : item
         )

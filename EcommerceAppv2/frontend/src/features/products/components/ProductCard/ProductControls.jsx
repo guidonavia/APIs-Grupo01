@@ -1,15 +1,21 @@
 import styled from "styled-components"
-import { useState } from "react" // Importamos useState
-import { Plus, Minus, Cart } from "../icons/index"
-import Button from "./Button"
-import { useGlobalContext } from "../context/context"
+import { useState } from "react"
+import PropTypes from "prop-types"
+import { Plus, Minus, Cart } from "../../../../shared/components/ui/icons/index"
+import Button from "../../../../shared/components/ui/Button/Button.jsx"
+import { useGlobalContext } from "../../../../context/context.jsx"
 
-// Recibimos el objeto 'product' como prop
-const ProductControls = ({ product }) => {
-  // ELIMINAMOS increase/decreaseAmount globales. Usamos un estado LOCAL.
+const ProductControls = ({ 
+  productId,
+  productName,
+  productDescription,
+  productPrice,
+  productImages = [],
+  discount = 0,
+  isCartItem = false,
+  amount = 0
+}) => {
   const { addToCart } = useGlobalContext()
-  
-  // 1. CADA producto tendrá su propio contador de cantidad.
   const [quantity, setQuantity] = useState(0)
 
   const handleIncrease = () => {
@@ -26,7 +32,6 @@ const ProductControls = ({ product }) => {
         <button onClick={handleDecrease}>
           <Minus />
         </button>
-        {/* 2. Mostramos la cantidad LOCAL */}
         <span className="amount">{quantity}</span>
         <button onClick={handleIncrease}>
           <Plus />
@@ -35,10 +40,17 @@ const ProductControls = ({ product }) => {
       <Button
         className="cart"
         func={() => {
-          // 3. Si la cantidad es mayor a 0, agregamos al carrito y reseteamos el contador local.
           if (quantity > 0) {
-            addToCart(quantity, product)
-            setQuantity(0) // Opcional: resetear el contador después de agregar
+            const cartItem = {
+              productId: productId,
+              nombre: productName,
+              descripcion: productDescription,
+              precio: productPrice,
+              discount: discount,
+              imagenes: productImages
+            }
+            addToCart(quantity, cartItem)
+            setQuantity(0)
           }
         }}
         color={"#FFFFFF"}
@@ -83,5 +95,24 @@ const ControlsWrapper = styled.div`
     gap: 1.6rem;
   }
 `
+
+ProductControls.propTypes = {
+  productId: PropTypes.string.isRequired,
+  productName: PropTypes.string.isRequired,
+  productDescription: PropTypes.string,
+  productPrice: PropTypes.number.isRequired,
+  productImages: PropTypes.arrayOf(PropTypes.string),
+  discount: PropTypes.number,
+  isCartItem: PropTypes.bool,
+  amount: PropTypes.number
+}
+
+ProductControls.defaultProps = {
+  productDescription: "",
+  productImages: [],
+  discount: 0,
+  isCartItem: false,
+  amount: 0
+}
 
 export default ProductControls
