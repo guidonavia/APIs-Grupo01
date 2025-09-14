@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import Search from "./Search.jsx"
 import { Logo, Menu, Cart } from "../icons/index"
 import { avatar } from "../assets/imagedata"
 import FloatingCart from "../components/FloatingCart"
@@ -7,9 +8,9 @@ import { useGlobalContext } from "../context/context"
 import { useAuth } from '../context/AuthContext';
 import { useState } from "react"
 
-const navLinks = ["collections", "men", "women", "about", "contact"]
+const navLinks = ["all", "men", "women"]
 
-const Navigator = () => {
+const Navigator = ( {search, setSearch} ) => {
   const { showSidebar, showCart, hideCart, state } = useGlobalContext()
   const { logout, user } = useAuth();
   const [isAvatarMenuOpen, setAvatarMenuOpen] = useState(false)
@@ -73,6 +74,7 @@ const Navigator = () => {
           Cerrar Sesión
         </button>
       )}
+      <Search search={search} setSearch={setSearch}/>
     </NavigatorWrapper>
   )
 }

@@ -2,7 +2,7 @@ import styled from "styled-components"
 import { useState, useEffect } from "react"
 import Product from "./Product"
 
-const Main = () => {
+const Main = ( {search} ) => {
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -34,9 +34,13 @@ const Main = () => {
     return <MainWrapper>Error al cargar productos: {error}</MainWrapper>
   }
 
+  console.log("Filtrando con:", search);
+  const filteredProducts = products.filter((product) =>
+  (product?.productName || "").toLowerCase().includes((search || "").toLowerCase()));
+
   return (
     <MainWrapper>
-      {products.map((product) => (
+      {filteredProducts.map((product) => (
         <Product key={product.id} productData={product} />
       ))}
     </MainWrapper>

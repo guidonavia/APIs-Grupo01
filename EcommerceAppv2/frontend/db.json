@@ -7,7 +7,7 @@
       "productDescription": "These low-profile sneakers are your perfect casual wear companion. Featuring a durable rubber outer sole, they'll withstand everything the weather can offer.",
       "productPrice": 250,
       "isOnSale": true,
-      "salePercent": 0.1,
+      "salePercent": 0.5,
       "stock": 4,
       "images": [
         {
@@ -15,8 +15,7 @@
           "url": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80",
           "thumbnail": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=200&q=80"
         }
-      ],
-      "category": "Calzado casual"
+      ]
     },
     {
       "id": "2",
@@ -37,19 +36,341 @@
     },
     {
       "id": "3",
-      "companyName": "Freelance",
-      "productName": "producto prueba",
-      "productDescription": "hhhh",
-      "productPrice": 100,
-      "category": "Zapatillas",
-      "isOnSale": false,
-      "salePercent": 0,
-      "stock": 0,
+      "companyName": "Trail Blazers",
+      "productName": "All-Terrain Hikers",
+      "productDescription": "Built for the great outdoors. Waterproof, sturdy, and with a grip that won't quit, these are the ultimate hiking boots.",
+      "productPrice": 320,
+      "isOnSale": true,
+      "salePercent": 0.25,
+      "stock": 8,
       "images": [
         {
           "id": 1,
-          "url": "blob:http://localhost:5173/e0a65865-88a2-4f94-9cc4-c5bb5c3bb805",
-          "thumbnail": "blob:http://localhost:5173/75a95484-c959-458c-adfc-d78cebd2b44f"
+          "url": "https://images.unsplash.com/photo-1465453869711-7e174808ace9?q=80&w=1176&auto=format&fit=crop",
+          "thumbnail": "https://images.unsplash.com/photo-1599121046282-034b503500f4?auto=format&fit=crop&w=200&q=80"
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "companyName": "StreetWear Co.",
+      "productName": "Canvas Low Tops",
+      "productDescription": "Lightweight canvas sneakers with a cushioned insole—perfect for everyday city walks.",
+      "productPrice": 95,
+      "isOnSale": false,
+      "salePercent": 0,
+      "stock": 20,
+      "images": [
+        {
+          "id": 1,
+          "url": "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80",
+          "thumbnail": "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=200&q=80"
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "companyName": "Peak Performance",
+      "productName": "Sprint Pro Runners",
+      "productDescription": "Breathable mesh upper and responsive midsole for speed training and daily mileage.",
+      "productPrice": 210,
+      "isOnSale": true,
+      "salePercent": 0.15,
+      "stock": 12,
+      "images": [
+        {
+          "id": 1,
+          "url": "https://images.unsplash.com/photo-1542291022-0d2783c36e42?auto=format&fit=crop&w=800&q=80",
+          "thumbnail": "https://images.unsplash.com/photo-1542291022-0d2783c36e42?auto=format&fit=crop&w=200&q=80"
+        }
+      ]
+    },
+    {
+      "id": "6",
+      "companyName": "Monarch Leather",
+      "productName": "Heritage Boots",
+      "productDescription": "Full-grain leather boots with Goodyear welt construction for long-lasting wear.",
+      "productPrice": 340,
+      "isOnSale": false,
+      "salePercent": 0,
+      "stock": 9,
+      "images": [
+        {
+          "id": 1,
+          "url": "https://images.unsplash.com/photo-1518081461904-9acb98449e86?auto=format&fit=crop&w=800&q=80",
+          "thumbnail": "https://images.unsplash.com/photo-1518081461904-9acb98449e86?auto=format&fit=crop&w=200&q=80"
+        }
+      ]
+    },
+    {
+      "id": "7",
+      "companyName": "Coastal Slides",
+      "productName": "Beach Slide Sandals",
+      "productDescription": "Water-friendly slides with a contoured footbed for poolside comfort.",
+      "productPrice": 45,
+      "isOnSale": true,
+      "salePercent": 0.3,
+      "stock": 30,
+      "images": [
+        {
+          "id": 1,
+          "url": "https://images.unsplash.com/photo-1519741498018-8f0fa1f4b3c7?auto=format&fit=crop&w=800&q=80",
+          "thumbnail": "https://images.unsplash.com/photo-1519741498018-8f0fa1f4b3c7?auto=format&fit=crop&w=200&q=80"
+        }
+      ]
+    },
+    {
+      "id": "8",
+      "companyName": "Nordic Trail",
+      "productName": "Winter Grip Boots",
+      "productDescription": "Insulated hiking boots with aggressive tread for icy paths and snowy treks.",
+      "productPrice": 290,
+      "isOnSale": false,
+      "salePercent": 0,
+      "stock": 7,
+      "images": [
+        {
+          "id": 1,
+          "url": "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=800&q=80",
+          "thumbnail": "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=200&q=80"
+        }
+      ]
+    },
+    {
+      "id": "9",
+      "companyName": "CityFlex",
+      "productName": "Knit Everyday",
+      "productDescription": "Sock-like knit upper with elastic collar for easy on and off and all-day comfort.",
+      "productPrice": 150,
+      "isOnSale": true,
+      "salePercent": 0.2,
+      "stock": 18,
+      "images": [
+        {
+          "id": 1,
+          "url": "https://images.unsplash.com/photo-1539185441755-769473a23570?auto=format&fit=crop&w=800&q=80",
+          "thumbnail": "https://images.unsplash.com/photo-1539185441755-769473a23570?auto=format&fit=crop&w=200&q=80"
+        }
+      ]
+    },
+    {
+      "id": "10",
+      "companyName": "Court Classics",
+      "productName": "Retro Tennis 84",
+      "productDescription": "Vintage-inspired court shoes with premium suede overlays and cupsole traction.",
+      "productPrice": 175,
+      "isOnSale": false,
+      "salePercent": 0,
+      "stock": 14,
+      "images": [
+        {
+          "id": 1,
+          "url": "https://images.unsplash.com/photo-1519744792095-2f2205e87b6f?auto=format&fit=crop&w=800&q=80",
+          "thumbnail": "https://images.unsplash.com/photo-1519744792095-2f2205e87b6f?auto=format&fit=crop&w=200&q=80"
+        }
+      ]
+    },
+    {
+      "id": "11",
+      "companyName": "AeroRun",
+      "productName": "CloudFoam Elite",
+      "productDescription": "Ultralight running shoes with high-rebound foam and engineered ventilation.",
+      "productPrice": 230,
+      "isOnSale": true,
+      "salePercent": 0.1,
+      "stock": 22,
+      "images": [
+        {
+          "id": 1,
+          "url": "https://images.unsplash.com/photo-1519741494545-0f7a1c7a3a4b?auto=format&fit=crop&w=800&q=80",
+          "thumbnail": "https://images.unsplash.com/photo-1519741494545-0f7a1c7a3a4b?auto=format&fit=crop&w=200&q=80"
+        }
+      ]
+    },
+    {
+      "id": "12",
+      "companyName": "Urban Kicks",
+      "productName": "Monochrome High",
+      "productDescription": "High-top silhouette with tonal laces and padded collar for street-ready style.",
+      "productPrice": 160,
+      "isOnSale": false,
+      "salePercent": 0,
+      "stock": 26,
+      "images": [
+        {
+          "id": 1,
+          "url": "https://images.unsplash.com/photo-1491553895911-0055eca6402d?auto=format&fit=crop&w=800&q=80",
+          "thumbnail": "https://images.unsplash.com/photo-1491553895911-0055eca6402d?auto=format&fit=crop&w=200&q=80"
+        }
+      ]
+    },
+    {
+      "id": "13",
+      "companyName": "Desert Craft",
+      "productName": "Suede Chukka",
+      "productDescription": "Minimalist chukka boots made from soft suede with crepe-style outsole.",
+      "productPrice": 200,
+      "isOnSale": true,
+      "salePercent": 0.25,
+      "stock": 11,
+      "images": [
+        {
+          "id": 1,
+          "url": "https://images.unsplash.com/photo-1543508282-6319a3e2621f?auto=format&fit=crop&w=800&q=80",
+          "thumbnail": "https://images.unsplash.com/photo-1543508282-6319a3e2621f?auto=format&fit=crop&w=200&q=80"
+        }
+      ]
+    },
+    {
+      "id": "14",
+      "companyName": "Marathon Co.",
+      "productName": "Endurance 2.0",
+      "productDescription": "Stability running shoes with medial support for long, steady efforts.",
+      "productPrice": 240,
+      "isOnSale": false,
+      "salePercent": 0,
+      "stock": 10,
+      "images": [
+        {
+          "id": 1,
+          "url": "https://images.unsplash.com/photo-1542293787938-c9e299b88054?auto=format&fit=crop&w=800&q=80",
+          "thumbnail": "https://images.unsplash.com/photo-1542293787938-c9e299b88054?auto=format&fit=crop&w=200&q=80"
+        }
+      ]
+    },
+    {
+      "id": "15",
+      "companyName": "Luxe Loafers",
+      "productName": "Penny Classic",
+      "productDescription": "Elegant leather loafers with hand-stitched detailing and flexible outsole.",
+      "productPrice": 260,
+      "isOnSale": true,
+      "salePercent": 0.2,
+      "stock": 6,
+      "images": [
+        {
+          "id": 1,
+          "url": "https://images.unsplash.com/photo-1520975682031-ae3b5d114eb7?auto=format&fit=crop&w=800&q=80",
+          "thumbnail": "https://images.unsplash.com/photo-1520975682031-ae3b5d114eb7?auto=format&fit=crop&w=200&q=80"
+        }
+      ]
+    },
+    {
+      "id": "16",
+      "companyName": "EcoStride",
+      "productName": "Recycled Runner",
+      "productDescription": "Made with recycled materials, these runners balance sustainability and performance.",
+      "productPrice": 170,
+      "isOnSale": false,
+      "salePercent": 0,
+      "stock": 28,
+      "images": [
+        {
+          "id": 1,
+          "url": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80",
+          "thumbnail": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=200&q=80"
+        }
+      ]
+    },
+    {
+      "id": "17",
+      "companyName": "Trail Blazers",
+      "productName": "Ridge GTX",
+      "productDescription": "Waterproof trail shoes with rock plate protection and sticky rubber outsole.",
+      "productPrice": 310,
+      "isOnSale": true,
+      "salePercent": 0.1,
+      "stock": 13,
+      "images": [
+        {
+          "id": 1,
+          "url": "https://images.unsplash.com/photo-1520256862855-398228c41684?auto=format&fit=crop&w=800&q=80",
+          "thumbnail": "https://images.unsplash.com/photo-1520256862855-398228c41684?auto=format&fit=crop&w=200&q=80"
+        }
+      ]
+    },
+    {
+      "id": "18",
+      "companyName": "SkateLine",
+      "productName": "Deck Ready",
+      "productDescription": "Durable skate sneakers with reinforced ollie area and grippy vulcanized sole.",
+      "productPrice": 130,
+      "isOnSale": false,
+      "salePercent": 0,
+      "stock": 24,
+      "images": [
+        {
+          "id": 1,
+          "url": "https://images.unsplash.com/photo-1520975594084-8d3cf860f6f6?auto=format&fit=crop&w=800&q=80",
+          "thumbnail": "https://images.unsplash.com/photo-1520975594084-8d3cf860f6f6?auto=format&fit=crop&w=200&q=80"
+        }
+      ]
+    },
+    {
+      "id": "19",
+      "companyName": "Nimbus",
+      "productName": "Air Cush Max",
+      "productDescription": "Max-cushion lifestyle sneakers with plush step-in feel and sleek profile.",
+      "productPrice": 220,
+      "isOnSale": true,
+      "salePercent": 0.35,
+      "stock": 15,
+      "images": [
+        {
+          "id": 1,
+          "url": "https://images.unsplash.com/photo-1519744792095-2f0b0f0a0a0b?auto=format&fit=crop&w=800&q=80",
+          "thumbnail": "https://images.unsplash.com/photo-1519744792095-2f0b0f0a0a0b?auto=format&fit=crop&w=200&q=80"
+        }
+      ]
+    },
+    {
+      "id": "20",
+      "companyName": "Summit Lines",
+      "productName": "Approach Pro",
+      "productDescription": "Hybrid approach shoes with climbing-inspired rand and precise forefoot fit.",
+      "productPrice": 195,
+      "isOnSale": false,
+      "salePercent": 0,
+      "stock": 17,
+      "images": [
+        {
+          "id": 1,
+          "url": "https://images.unsplash.com/photo-1520256499336-e0f9c2f2b3c0?auto=format&fit=crop&w=800&q=80",
+          "thumbnail": "https://images.unsplash.com/photo-1520256499336-e0f9c2f2b3c0?auto=format&fit=crop&w=200&q=80"
+        }
+      ]
+    },
+    {
+      "id": "21",
+      "companyName": "CityWalk",
+      "productName": "Everyday Slip-On",
+      "productDescription": "Easy slip-on sneakers with elastic side gores and cushioned heel pad.",
+      "productPrice": 110,
+      "isOnSale": true,
+      "salePercent": 0.1,
+      "stock": 25,
+      "images": [
+        {
+          "id": 1,
+          "url": "https://images.unsplash.com/photo-1519744701167-3f0d6f3b2b3b?auto=format&fit=crop&w=800&q=80",
+          "thumbnail": "https://images.unsplash.com/photo-1519744701167-3f0d6f3b2b3b?auto=format&fit=crop&w=200&q=80"
+        }
+      ]
+    },
+    {
+      "id": "22",
+      "companyName": "RainGuard",
+      "productName": "Storm Chelsea",
+      "productDescription": "Waterproof Chelsea boots with elastic gussets and rugged traction outsole.",
+      "productPrice": 230,
+      "isOnSale": false,
+      "salePercent": 0,
+      "stock": 8,
+      "images": [
+        {
+          "id": 1,
+          "url": "https://images.unsplash.com/photo-1520975682213-6b3f2d9b0e7a?auto=format&fit=crop&w=800&q=80",
+          "thumbnail": "https://images.unsplash.com/photo-1520975682213-6b3f2d9b0e7a?auto=format&fit=crop&w=200&q=80"
         }
       ]
     }
