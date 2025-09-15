@@ -43,16 +43,50 @@ const reducer = (state, action) => {
         totalCartSize: newTotalSize,
       }
     }
-    case "UPDATE_CART":
-      return { ...state }
-    case "REMOVE_ITEM":
-      const { id: itemId } = action.payload
-      const newCart = state.cart.filter((product) => product.productId !== itemId)
-      return { 
-        ...state, 
+    // --- NUEVA LÓGICA ---
+    case "INCREASE_CART_ITEM": {
+      const updatedCart = state.cart.map((item) => {
+        if (item.id === action.payload) {
+          // Aquí podrías añadir una comprobación contra el stock si quisieras
+          return { ...item, amount: item.amount + 1 }
+        }
+        return item
+      })
+      const newTotalSize = updatedCart.reduce((total, item) => total + item.amount, 0)
+      return { ...state, cart: updatedCart, totalCartSize: newTotalSize }
+    }
+    case "DECREASE_CART_ITEM": {
+      let tempCart = state.cart.map((item) => {
+        if (item.id === action.payload) {
+          return { ...item, amount: item.amount - 1 }
+        }
+        return item
+      })
+      // Si la cantidad llega a 0, filtramos el producto fuera del carrito.
+      const updatedCart = tempCart.filter((item) => item.amount > 0)
+      const newTotalSize = updatedCart.reduce((total, item) => total + item.amount, 0)
+      return { ...state, cart: updatedCart, totalCartSize: newTotalSize }
+    }
+    case "REMOVE_ITEM": {
+      // --- ¡AQUÍ ESTÁ LA CORRECCIÓN! ---
+      // Filtramos el carrito buscando la propiedad 'id', no 'productId'.
+      const newCart = state.cart.filter(
+        (item) => item.id !== action.payload
+      )
+
+      // Recalculamos el tamaño total del carrito después de eliminar el item.
+      const newTotalSize = newCart.reduce(
+        (total, item) => total + item.amount,
+        0
+      )
+
+      return {
+        ...state,
         cart: newCart,
-        totalCartSize: newCart.reduce((total, item) => total + item.amount, 0)
+        totalCartSize: newTotalSize,
       }
+    }
+
     case "GET_TOTAL_CART":
       const totalCartCount = state.cart.reduce((total, currentItem) => {
         return total + currentItem.amount
