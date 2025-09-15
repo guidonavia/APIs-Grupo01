@@ -2,7 +2,7 @@ import styled from "styled-components"
 import { Logo, Menu, Cart } from "../icons/index"
 import { avatar } from "../assets/imagedata"
 import FloatingCart from "../components/FloatingCart"
-import AvatarMenu from "../components/AvatarMenu" // Importamos el nuevo componente
+import AvatarMenu from "../components/AvatarMenu"
 import { useGlobalContext } from "../context/context"
 import { useAuth } from '../context/AuthContext';
 import { useState } from "react"
@@ -21,8 +21,6 @@ const Navigator = () => {
   const closeAvatarMenu = () => {
     setAvatarMenuOpen(false)
   }
-
-  // test papi
 
   return (
     <NavigatorWrapper>
@@ -65,14 +63,6 @@ const Navigator = () => {
           <FloatingCart className={`${state.showingCart ? "active" : ""}`} />
         </div>
       </nav>
-      {user && (
-        <button 
-          onClick={logout}
-          className="logout-button"
-        >
-          Cerrar Sesión
-        </button>
-      )}
     </NavigatorWrapper>
   )
 }
