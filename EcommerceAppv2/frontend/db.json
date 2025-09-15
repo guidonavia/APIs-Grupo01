@@ -1,6 +1,7 @@
 {
   "products": [
     {
+<<<<<<< HEAD
       "id": "1",
       "companyName": "Sneaker Company",
       "productName": "Fall Limited Edition",
@@ -18,6 +19,8 @@
       ]
     },
     {
+=======
+>>>>>>> origin/develop
       "id": "2",
       "companyName": "Urban Kicks",
       "productName": "Classic White Runners",
@@ -25,17 +28,23 @@
       "productPrice": 180,
       "isOnSale": false,
       "salePercent": 0,
+<<<<<<< HEAD
       "stock": 16,
+=======
+      "stock": 15,
+>>>>>>> origin/develop
       "images": [
         {
           "id": 1,
           "url": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=800&q=80",
           "thumbnail": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=200&q=80"
         }
-      ]
+      ],
+      "usuarioId": "1"
     },
     {
       "id": "3",
+<<<<<<< HEAD
       "companyName": "Trail Blazers",
       "productName": "All-Terrain Hikers",
       "productDescription": "Built for the great outdoors. Waterproof, sturdy, and with a grip that won't quit, these are the ultimate hiking boots.",
@@ -48,8 +57,43 @@
           "id": 1,
           "url": "https://images.unsplash.com/photo-1465453869711-7e174808ace9?q=80&w=1176&auto=format&fit=crop",
           "thumbnail": "https://images.unsplash.com/photo-1599121046282-034b503500f4?auto=format&fit=crop&w=200&q=80"
+=======
+      "companyName": "prueba",
+      "productName": "prueba",
+      "productDescription": "descripcion",
+      "productPrice": 123,
+      "category": "Zapatillas",
+      "isOnSale": false,
+      "salePercent": 0,
+      "stock": 1,
+      "images": [
+        {
+          "id": 1,
+          "url": "blob:http://localhost:5173/2f48a8a8-3423-45af-a5af-d396ebbdeff3",
+          "thumbnail": "blob:http://localhost:5173/c08505ac-4410-4b9a-9800-664e1af78d40"
+>>>>>>> origin/develop
         }
-      ]
+      ],
+      "usuarioId": "1"
+    },
+    {
+      "id": "1",
+      "companyName": "prueba",
+      "productName": "prueba",
+      "productDescription": "aaa",
+      "productPrice": 11,
+      "category": "Zapatillas",
+      "isOnSale": false,
+      "salePercent": 0,
+      "stock": 10,
+      "images": [
+        {
+          "id": 1,
+          "url": "blob:http://localhost:5173/6853b565-1ff5-416b-be6e-df3094d1ed5c",
+          "thumbnail": "blob:http://localhost:5173/72cdbfc7-cb3a-46ca-8e68-88b912840e3e"
+        }
+      ],
+      "usuarioId": "efc6"
     }
   ]
 }
