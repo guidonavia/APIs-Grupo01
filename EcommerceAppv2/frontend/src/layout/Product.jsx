@@ -26,6 +26,8 @@ const ProductWrapper = styled.article`
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
+  max-width: 410px;
+  max-height: 900px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 
   &:hover {

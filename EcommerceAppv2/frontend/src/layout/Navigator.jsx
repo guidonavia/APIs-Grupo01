@@ -8,11 +8,14 @@ import { useGlobalContext } from "../context/context"
 import { useAuth } from "../context/AuthContext"
 import { useState } from "react"
 import { Link } from "react-router-dom"
+import Categories from "./Categories.jsx"
 
-const Navbar = ({search, setSearch, onLogout }) => {
+
+const Navbar = ({search, setSearch, onLogout, selectedCategory, setCategory }) => {
   const { showSidebar, showCart, hideCart, state } = useGlobalContext()
   const { logout, user } = useAuth()
   const [isAvatarMenuOpen, setAvatarMenuOpen] = useState(false)
+  const categories = ["All", "Zapatillas", "Botines"];
 
 
   const toggleAvatarMenu = () => setAvatarMenuOpen((prev) => !prev)
@@ -71,6 +74,7 @@ const Navbar = ({search, setSearch, onLogout }) => {
           Cerrar Sesión
         </button>
       )}
+      <Categories categories={categories} selectedCategory={selectedCategory} setCategory={setCategory}/>
     </NavWrapper>
     
   )
