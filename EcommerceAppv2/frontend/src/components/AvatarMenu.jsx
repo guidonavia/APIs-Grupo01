@@ -30,9 +30,14 @@ const AvatarMenu = ({ isOpen, closeMenu }) => {
             </li>
           </>
         ) : (
-          <li>
-            <button onClick={() => navigate('/login')}>Iniciar Sesión</button>
-          </li>
+          <>
+            <li>
+                <button onClick={handleSell}>Vender Producto</button>
+            </li>
+            <li>
+              <button onClick={() => navigate('/login')}>Iniciar Sesión</button>
+            </li>
+          </>
         )}
       </ul>
     </MenuWrapper>

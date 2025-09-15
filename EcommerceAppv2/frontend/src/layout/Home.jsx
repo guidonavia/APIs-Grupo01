@@ -19,6 +19,7 @@ function GateRoutes() {
   return (
     <Routes>
       <Route path="/" element={<Main />} />
+      <Route path="/login" element={<Login />} />
       <Route path="/checkout" element={<CheckoutPage />} />
       <Route path="/sell" element={<SellPage />} />
     </Routes>
