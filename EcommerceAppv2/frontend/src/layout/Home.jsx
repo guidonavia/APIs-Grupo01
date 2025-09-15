@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { Main, Navigator, Sidebar } from "./index";
 import { useGlobalContext } from "../context/context";
 import CheckoutPage from "../components/CheckoutPage";
@@ -19,7 +19,7 @@ function GateRoutes() {
   return (
     <Routes>
       <Route path="/" element={<Main />} />
-      <Route path="/login" element={<Login />} />
+      <Route path="/login" element={isAuth ? <Navigate to="/" replace /> : <Login />} />
       <Route path="/checkout" element={<CheckoutPage />} />
       <Route path="/sell" element={<SellPage />} />
     </Routes>
