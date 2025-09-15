@@ -4,7 +4,7 @@ import Product from "./Product"
 import { useNavigate } from "react-router-dom";
 
 
-const Main = ({search}) => {
+const Main = ({search, selectedCategory}) => {
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -31,13 +31,18 @@ const Main = ({search}) => {
 
   // Filtrar productos según el término de búsqueda
   console.log("Filtrando con:", search);
-  const filteredProducts = products.filter((product) =>{
+  var filteredProducts = products.filter((product) =>{
     const term = (search || "").toLowerCase();
     return(
       (product?.productName || "").toLowerCase().includes(term) ||
       (product?.category || "").toLowerCase().includes(term)
     );
   });
+
+  filteredProducts =
+    selectedCategory === "All"
+      ? filteredProducts
+      : filteredProducts.filter((p) => p.category === selectedCategory);
 
   if (loading) {
     return <MainWrapper>Cargando productos...</MainWrapper>
