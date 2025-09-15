@@ -10,7 +10,8 @@ import { useState } from "react"
 import { Link } from "react-router-dom"
 import Categories from "./Categories.jsx"
 
-const Navbar = ({onSignInClick, search, setSearch, onLogout, selectedCategory, setCategory }) => {
+
+const Navbar = ({search, setSearch, onLogout, selectedCategory, setCategory }) => {
   const { showSidebar, showCart, hideCart, state } = useGlobalContext()
   const { logout, user } = useAuth()
   const [isAvatarMenuOpen, setAvatarMenuOpen] = useState(false)
@@ -38,8 +39,6 @@ const Navbar = ({onSignInClick, search, setSearch, onLogout, selectedCategory, s
         </div>
 
         <div className="nav-right">
-          {user ? (
-            <>
               <button
                 onClick={() => {
                   if (state.showingCart) {
@@ -67,12 +66,6 @@ const Navbar = ({onSignInClick, search, setSearch, onLogout, selectedCategory, s
               <FloatingCart
                 className={`${state.showingCart ? "active" : ""}`}
               />
-            </>
-          ) : (
-            <button onClick={onSignInClick} className="signin-btn">
-              Iniciar Sesión
-            </button>
-          )}
         </div>
       </nav>
 
