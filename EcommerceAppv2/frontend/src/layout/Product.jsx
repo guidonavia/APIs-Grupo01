@@ -23,11 +23,7 @@ const ProductWrapper = styled.article`
 
   /* --- límites para que no crezca infinitamente --- */
   max-width: 300px;   /* ancho máximo */
-  max-height: 450px;  /* alto máximo */
-  overflow: hidden;   /* oculta lo que exceda */
-  /* Si preferís scroll interno en lugar de ocultar: 
-     overflow-y: auto; 
-  */
+  max-height: 900px;  /* alto máximo */
 
   &:hover {
     transform: translateY(-5px);

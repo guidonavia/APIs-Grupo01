@@ -77,6 +77,9 @@ const ImageCarousel = ({ images }) => {
           images={images}
           imageIndex={imageIndex}
           setImageIndex={setImageIndex}
+          productImages={images}
+          productThumbnails={images}
+          
         />
       )}
     </>

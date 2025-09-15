@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import { Main, Navigator, Sidebar } from "./index"
 import { useGlobalContext } from "../context/context"
 import CheckoutPage from "../components/CheckoutPage"
-//import SellPage from "../components/SellPage"
+import SellPage from "../components/SellPage"
 import { useState } from "react"
 
 const Home = () => {
@@ -17,7 +17,7 @@ const Home = () => {
         <Routes>
           <Route path="/" element={<Main search={search}/>} />
           <Route path="/checkout" element={<CheckoutPage />} />
-          {/* <Route path="/sell" element={<SellPage />} /> */}
+          <Route path="/sell" element={<SellPage />} /> 
         </Routes>
       </div>
     </Router>
