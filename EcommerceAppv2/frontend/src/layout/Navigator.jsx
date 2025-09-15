@@ -9,10 +9,11 @@ import { useAuth } from "../context/AuthContext"
 import { useState } from "react"
 import { Link } from "react-router-dom"
 
-const Navbar = ({ onSignInClick, search, setSearch, onLogout }) => {
+const Navbar = ({onSignInClick, search, setSearch, onLogout }) => {
   const { showSidebar, showCart, hideCart, state } = useGlobalContext()
   const { logout, user } = useAuth()
   const [isAvatarMenuOpen, setAvatarMenuOpen] = useState(false)
+
 
   const toggleAvatarMenu = () => setAvatarMenuOpen((prev) => !prev)
   const closeAvatarMenu = () => setAvatarMenuOpen(false)
@@ -79,6 +80,7 @@ const Navbar = ({ onSignInClick, search, setSearch, onLogout }) => {
         </button>
       )}
     </NavWrapper>
+    
   )
 }
 

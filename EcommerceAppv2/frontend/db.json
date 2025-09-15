@@ -6,6 +6,7 @@
       "productName": "Fall Limited Edition",
       "productDescription": "These low-profile sneakers are your perfect casual wear companion. Featuring a durable rubber outer sole, they'll withstand everything the weather can offer.",
       "productPrice": 250,
+      "category": "Zapatillas",
       "isOnSale": true,
       "salePercent": 0.1,
       "stock": 4,
@@ -15,8 +16,7 @@
           "url": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80",
           "thumbnail": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=200&q=80"
         }
-      ],
-      "category": "Calzado casual"
+      ]
     },
     {
       "id": "2",
@@ -24,6 +24,7 @@
       "productName": "Classic White Runners",
       "productDescription": "A timeless classic. These white runners are made with premium leather and offer ultimate comfort for your day-to-day.",
       "productPrice": 180,
+      "category": "Zapatillas",
       "isOnSale": false,
       "salePercent": 0,
       "stock": 16,
@@ -50,6 +51,60 @@
           "id": 1,
           "url": "blob:http://localhost:5173/e0a65865-88a2-4f94-9cc4-c5bb5c3bb805",
           "thumbnail": "blob:http://localhost:5173/75a95484-c959-458c-adfc-d78cebd2b44f"
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "companyName": "Mountain Gear",
+      "productName": "Trail Blazer Botines",
+      "productDescription": "Botines resistentes al agua, ideales para senderismo y aventuras al aire libre.",
+      "productPrice": 300,
+      "category": "Botines",
+      "isOnSale": true,
+      "salePercent": 0.15,
+      "stock": 10,
+      "images": [
+        {
+          "id": 1,
+          "url": "https://images.unsplash.com/photo-1600185365395-3f2f5e2d3fbb?auto=format&fit=crop&w=800&q=80",
+          "thumbnail": "https://images.unsplash.com/photo-1600185365395-3f2f5e2d3fbb?auto=format&fit=crop&w=200&q=80"
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "companyName": "Urban Style",
+      "productName": "City Explorer Botines",
+      "productDescription": "Elegantes botines urbanos con suela antideslizante, perfectos para la ciudad.",
+      "productPrice": 220,
+      "category": "Botines",
+      "isOnSale": false,
+      "salePercent": 0,
+      "stock": 7,
+      "images": [
+        {
+          "id": 1,
+          "url": "https://images.unsplash.com/photo-1618354695914-b5b0ee7e5e17?auto=format&fit=crop&w=800&q=80",
+          "thumbnail": "https://images.unsplash.com/photo-1618354695914-b5b0ee7e5e17?auto=format&fit=crop&w=200&q=80"
+        }
+      ]
+    },
+    {
+      "id": "6",
+      "companyName": "LeatherWorks",
+      "productName": "Classic Leather Botines",
+      "productDescription": "Botines de cuero genuino con acabado premium y estilo clásico.",
+      "productPrice": 280,
+      "category": "Botines",
+      "isOnSale": true,
+      "salePercent": 0.2,
+      "stock": 5,
+      "images": [
+        {
+          "id": 1,
+          "url": "https://images.unsplash.com/photo-1591012911205-b930fa9f1054?auto=format&fit=crop&w=800&q=80",
+          "thumbnail": "https://images.unsplash.com/photo-1591012911205-b930fa9f1054?auto=format&fit=crop&w=200&q=80"
         }
       ]
     }

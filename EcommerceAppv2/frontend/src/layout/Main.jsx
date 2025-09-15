@@ -1,11 +1,14 @@
 import styled from "styled-components"
 import { useState, useEffect } from "react"
 import Product from "./Product"
+import { useNavigate } from "react-router-dom";
 
-const Main = () => {
+
+const Main = ({search}) => {
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -26,6 +29,16 @@ const Main = () => {
     fetchProducts()
   }, [])
 
+  // Filtrar productos según el término de búsqueda
+  console.log("Filtrando con:", search);
+  const filteredProducts = products.filter((product) =>{
+    const term = (search || "").toLowerCase();
+    return(
+      (product?.productName || "").toLowerCase().includes(term) ||
+      (product?.category || "").toLowerCase().includes(term)
+    );
+  });
+
   if (loading) {
     return <MainWrapper>Cargando productos...</MainWrapper>
   }
@@ -36,7 +49,7 @@ const Main = () => {
 
   return (
     <MainWrapper>
-      {products.map((product) => (
+      {filteredProducts.map((product) => (
         <Product key={product.id} productData={product} />
       ))}
     </MainWrapper>
