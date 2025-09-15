@@ -1,95 +1,98 @@
 import styled from "styled-components"
 import { Logo, Menu, Cart } from "../icons/index"
 import { avatar } from "../assets/imagedata"
+import Search from "./Search.jsx"
 import FloatingCart from "../components/FloatingCart"
-import AvatarMenu from "../components/AvatarMenu" // Importamos el nuevo componente
+import AvatarMenu from "../components/AvatarMenu"
 import { useGlobalContext } from "../context/context"
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from "../context/AuthContext"
 import { useState } from "react"
+import { Link } from "react-router-dom"
 
-const navLinks = ["collections", "men", "women", "about", "contact"]
-
-const Navigator = () => {
+const Navbar = ({onSignInClick, search, setSearch, onLogout }) => {
   const { showSidebar, showCart, hideCart, state } = useGlobalContext()
-  const { logout, user } = useAuth();
+  const { logout, user } = useAuth()
   const [isAvatarMenuOpen, setAvatarMenuOpen] = useState(false)
 
-  const toggleAvatarMenu = () => {
-    setAvatarMenuOpen((prev) => !prev)
-  }
 
-  const closeAvatarMenu = () => {
-    setAvatarMenuOpen(false)
-  }
-
-  // test papi
+  const toggleAvatarMenu = () => setAvatarMenuOpen((prev) => !prev)
+  const closeAvatarMenu = () => setAvatarMenuOpen(false)
 
   return (
-    <NavigatorWrapper>
+    <NavWrapper>
       <nav className="nav-container">
         <div className="nav-left">
           <button onClick={showSidebar} className="menu-btn">
             <Menu />
           </button>
           <div className="logo">
-            <Logo />
+            <Link to="/">
+              <Logo />
+            </Link>
           </div>
-          <ul className="nav-links">
-            {navLinks.map((link, idx) => {
-              return (
-                <li key={idx}>
-                  <a href="#">{link}</a>
-                </li>
-              )
-            })}
-          </ul>
+          <div className="search">
+            <Search search={search} setSearch={setSearch} />
+          </div>
         </div>
+
         <div className="nav-right">
-          <button
-            onClick={() => {
-              if (state.showingCart) {
-                hideCart()
-              } else {
-                showCart()
-              }
-            }}
-            className="cart-btn"
-          >
-            <Cart />
-            {state.totalCartSize > 0 && <span>{state.totalCartSize}</span>}
-          </button>
-          <button className="avatar-btn" onClick={toggleAvatarMenu}>
-            <img src={avatar} alt="avatar" />
-          </button>
-          <AvatarMenu isOpen={isAvatarMenuOpen} closeMenu={closeAvatarMenu} />
-          <FloatingCart className={`${state.showingCart ? "active" : ""}`} />
+          {user ? (
+            <>
+              <button
+                onClick={() => {
+                  if (state.showingCart) {
+                    hideCart()
+                  } else {
+                    showCart()
+                  }
+                }}
+                className="cart-btn"
+              >
+                <Cart />
+                {state.totalCartSize > 0 && <span>{state.totalCartSize}</span>}
+              </button>
+
+              <button className="avatar-btn" onClick={toggleAvatarMenu}>
+                <img src={avatar} alt="avatar" />
+              </button>
+
+              <AvatarMenu
+                isOpen={isAvatarMenuOpen}
+                closeMenu={closeAvatarMenu}
+                onLogout={onLogout}
+              />
+
+              <FloatingCart
+                className={`${state.showingCart ? "active" : ""}`}
+              />
+            </>
+          ) : (
+            <button onClick={onSignInClick} className="signin-btn">
+              Iniciar Sesión
+            </button>
+          )}
         </div>
       </nav>
+
       {user && (
-        <button 
-          onClick={logout}
-          className="logout-button"
-        >
+        <button onClick={logout} className="logout-button">
           Cerrar Sesión
         </button>
       )}
-    </NavigatorWrapper>
+    </NavWrapper>
+    
   )
 }
 
-const NavigatorWrapper = styled.header`
+const NavWrapper = styled.header`
   position: relative;
-  padding: 2.4rem;
-  border-bottom: 1px solid hsl(var(--divider));
-
-  img,
-  svg {
-    display: block;
-  }
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid #ddd;
 
   nav {
     display: flex;
     justify-content: space-between;
+    align-items: center;
   }
 
   .nav-left {
@@ -104,24 +107,39 @@ const NavigatorWrapper = styled.header`
         display: none;
       }
     }
+  }
 
-    .nav-links {
-      display: none;
-    }
+  .search input {
+    padding: 0.9rem 1rem;
+    font-size: 1rem;
+    width: 400px;
   }
 
   .nav-right {
     position: relative;
     display: flex;
     align-items: center;
-    gap: 1.6rem;
+    gap: 2rem;
+
+    .signin-btn {
+      padding: 0.7rem 1rem;
+      background-color: #a1a19c;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
 
     .cart-btn {
       position: relative;
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
 
       svg,
       path {
-        fill: hsl(var(--black));
+        fill: black;
+        stroke: black;
       }
 
       span {
@@ -131,7 +149,7 @@ const NavigatorWrapper = styled.header`
         right: -1rem;
         background-color: hsl(var(--orange));
         font-weight: 700;
-        color: hsl(var(--white));
+        color: white;
         border-radius: 50%;
         padding: 0.3rem 0.8rem;
         font-size: 1.1rem;
@@ -139,63 +157,48 @@ const NavigatorWrapper = styled.header`
     }
 
     .avatar-btn {
-      height: 2.4rem;
-      width: 2.4rem;
+      height: 2.8rem;
+      width: 2.8rem;
       border-radius: 50%;
+      background: none;
+      border: none;
+      cursor: pointer;
+
       img {
         width: 100%;
+        border-radius: 50%;
+      }
+
+      &:hover {
+        outline: 2px solid hsl(var(--orange));
       }
     }
   }
 
   @media only screen and (min-width: 768px) {
-    padding-bottom: 4rem;
-    .nav-left {
-      .nav-links {
-        display: flex;
-        gap: 3.2rem;
-        list-style: none;
-        margin-left: 3rem;
-        a {
-          text-decoration: none;
-          font-size: 1.5rem;
-          text-transform: capitalize;
-          color: hsl(var(--dark-grayish-blue));
-        }
-      }
+    .search input {
+      width: 600px;
     }
 
-    .nav-right {
-      gap: 2.4rem;
-
-      .avatar-btn {
-        height: 3.5rem;
-        width: 3.5rem;
-        &:hover {
-          outline: 2px solid hsl(var(--orange));
-        }
-      }
+    .avatar-btn {
+      height: 3.5rem;
+      width: 3.5rem;
     }
   }
 
   @media only screen and (min-width: 1000px) {
-    padding: 4rem 0 4rem;
     max-width: 80%;
     margin: 0 auto;
 
-    .nav-right {
-      gap: 4.7rem;
-      justify-content: space-between;
-      .avatar-btn {
-        height: 5rem;
-        width: 5rem;
+    .avatar-btn {
+      height: 5rem;
+      width: 5rem;
+    }
 
-        img {
-          width: 100%;
-        }
-      }
+    .search input {
+      width: 800px;
     }
   }
 `
 
-export default Navigator
+export default Navbar
