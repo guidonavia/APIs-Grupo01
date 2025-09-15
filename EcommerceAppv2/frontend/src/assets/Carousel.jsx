@@ -65,12 +65,18 @@ const SlidesWrapper = styled.div`
 
 const Slide = styled.div`
   min-width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   img {
     width: 100%;
-    height: 300px;
-    object-fit: cover;
+    height: auto;       
+    object-fit: contain; 
+    max-height: 80vh;    
   }
 `;
+
 
 const PrevButton = styled.button`
   position: absolute;

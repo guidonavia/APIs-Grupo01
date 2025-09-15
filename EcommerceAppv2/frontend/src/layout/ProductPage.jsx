@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Footer from "./Footer";
+import Navbar from "./Navigator";
 import ProductInfo from "../components/ProductInfo";
 import { useGlobalContext } from "../context/context";
 
@@ -40,6 +41,7 @@ const ProductPage = () => {
   return (
     <>
       <Wrapper>
+        <Navbar />
         <MainSection>
           <ImageGallery>
             <MainImage src={product.images[0]?.url} alt={product.productName} />

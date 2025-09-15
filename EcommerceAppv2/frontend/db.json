@@ -1,7 +1,6 @@
 {
   "products": [
     {
-
       "id": "1",
       "companyName": "Sneaker Company",
       "productName": "Fall Limited Edition",
@@ -20,7 +19,6 @@
       ]
     },
     {
-
       "id": "2",
       "companyName": "Urban Kicks",
       "productName": "Classic White Runners",
@@ -48,7 +46,7 @@
       "category": "Zapatillas",
       "isOnSale": false,
       "salePercent": 0,
-      "stock": 1,
+      "stock": 0,
       "images": [
         {
           "id": 1,
@@ -110,7 +108,25 @@
           "thumbnail": "https://images.unsplash.com/photo-1591012911205-b930fa9f1054?auto=format&fit=crop&w=200&q=80"
         }
       ]
-
+    },
+    {
+      "id": "3",
+      "companyName": "Nike",
+      "productName": "Zapas",
+      "productDescription": "Super zapas",
+      "productPrice": 350,
+      "category": "Zapatillas",
+      "isOnSale": false,
+      "salePercent": 0,
+      "stock": 10,
+      "images": [
+        {
+          "id": 1,
+          "url": "blob:http://localhost:5173/bf627660-38df-4feb-a050-60de68fc8d93",
+          "thumbnail": "blob:http://localhost:5173/47696841-dcf8-4296-adda-7279a4970cd3"
+        }
+      ],
+      "usuarioId": "1"
     }
   ]
 }
