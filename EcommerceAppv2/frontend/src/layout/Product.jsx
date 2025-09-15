@@ -21,10 +21,18 @@ const ProductWrapper = styled.article`
   flex-direction: column;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 
+  /* --- límites para que no crezca infinitamente --- */
+  max-width: 300px;   /* ancho máximo */
+  max-height: 450px;  /* alto máximo */
+  overflow: hidden;   /* oculta lo que exceda */
+  /* Si preferís scroll interno en lugar de ocultar: 
+     overflow-y: auto; 
+  */
+
   &:hover {
     transform: translateY(-5px);
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
   }
-`
+`;
 
 export default Product
