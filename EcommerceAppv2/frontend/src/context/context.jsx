@@ -6,7 +6,10 @@ import {
   HIDE_SIDEBAR,
   READ_SCREENWIDTH,
   ADD_TO_CART,
-  REMOVE_ITEM, // 1. Importamos la acción
+  REMOVE_ITEM,
+  // --- IMPORTAMOS NUEVAS ACCIONES ---
+  INCREASE_CART_ITEM,
+  DECREASE_CART_ITEM,
   SHOW_CART,
   HIDE_CART,
   SHOW_OVERLAY,
@@ -18,10 +21,17 @@ const AppContext = createContext()
 const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, defaultState)
 
-  // --- ¡AQUÍ ESTÁ LA CORRECCIÓN! ---
-  // 2. Definimos la función removeItem que despacha la acción al reducer.
   const removeItem = (id) => {
     dispatch({ type: REMOVE_ITEM, payload: id })
+  }
+
+  // --- NUEVAS FUNCIONES ---
+  const increaseCartItem = (id) => {
+    dispatch({ type: INCREASE_CART_ITEM, payload: id })
+  }
+
+  const decreaseCartItem = (id) => {
+    dispatch({ type: DECREASE_CART_ITEM, payload: id })
   }
 
   const addToCart = (amount, item) => {
@@ -67,8 +77,10 @@ const AppProvider = ({ children }) => {
         showSidebar,
         hideSidebar,
         addToCart,
-        // 3. Añadimos removeItem al objeto 'value' para que esté disponible globalmente.
         removeItem,
+        // --- AÑADIMOS LAS FUNCIONES AL CONTEXTO ---
+        increaseCartItem,
+        decreaseCartItem,
         showCart,
         hideCart,
         showImageOverlay,

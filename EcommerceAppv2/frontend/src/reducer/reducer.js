@@ -43,8 +43,30 @@ const reducer = (state, action) => {
         totalCartSize: newTotalSize,
       }
     }
-    case "UPDATE_CART":
-      return { ...state }
+    // --- NUEVA LÓGICA ---
+    case "INCREASE_CART_ITEM": {
+      const updatedCart = state.cart.map((item) => {
+        if (item.id === action.payload) {
+          // Aquí podrías añadir una comprobación contra el stock si quisieras
+          return { ...item, amount: item.amount + 1 }
+        }
+        return item
+      })
+      const newTotalSize = updatedCart.reduce((total, item) => total + item.amount, 0)
+      return { ...state, cart: updatedCart, totalCartSize: newTotalSize }
+    }
+    case "DECREASE_CART_ITEM": {
+      let tempCart = state.cart.map((item) => {
+        if (item.id === action.payload) {
+          return { ...item, amount: item.amount - 1 }
+        }
+        return item
+      })
+      // Si la cantidad llega a 0, filtramos el producto fuera del carrito.
+      const updatedCart = tempCart.filter((item) => item.amount > 0)
+      const newTotalSize = updatedCart.reduce((total, item) => total + item.amount, 0)
+      return { ...state, cart: updatedCart, totalCartSize: newTotalSize }
+    }
     case "REMOVE_ITEM": {
       // --- ¡AQUÍ ESTÁ LA CORRECCIÓN! ---
       // Filtramos el carrito buscando la propiedad 'id', no 'productId'.
