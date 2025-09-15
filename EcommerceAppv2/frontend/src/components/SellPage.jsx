@@ -18,6 +18,7 @@ const SellPage = () => {
 
   const [actualizando, setActualizando] = useState(false); // Estado de actualización
   const [productoEditandoId, setProductoEditandoId] = useState(null); // ID del producto en edición
+  const [usuario,setUsuario] = useState();
 
   const [producto, setProducto] = useState({
     id: "",
@@ -36,17 +37,33 @@ const SellPage = () => {
 
   // Cargar productos desde json-server al montar el componente
   useEffect(() => {
+    const userFromStorage = JSON.parse(localStorage.getItem("user"));
+    setUsuario(userFromStorage);
+    setProducto((prev) => ({
+      ...prev,
+      usuarioId: userFromStorage?.id || "",
+    }));
+  }, []);
+ 
+  // Cargar productos desde json-server al montar el componente
+  useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch("http://localhost:3002/products");
         const result = await response.json();
-        setProductos(result);
+        // Filtrar productos por usuarioId
+        const productosFiltrados = result.filter(
+          (prod) => prod.usuarioId === usuario?.id
+        );
+        setProductos(productosFiltrados);
       } catch (error) {
         console.error("Error al cargar los productos:", error);
       }
     };
-    fetchData();
-  }, []);
+    if (usuario) {
+      fetchData();
+    }
+  }, [usuario]);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -55,13 +72,6 @@ const SellPage = () => {
       [name]: type === "checkbox" ? checked : value,
     });
   };
-
-  // const handleFileChange = (e) => {
-  //   setProducto({
-  //     ...producto,
-  //     imagen: URL.createObjectURL(e.target.files[0]),
-  //   });
-  // };
 
   const handleImagenesChange = (e) => {
     const files = Array.from(e.target.files).slice(0, 5);
@@ -73,6 +83,7 @@ const SellPage = () => {
     e.preventDefault();
     // Validación básica
     if (
+      !usuario ||
       !producto.companyName ||
       !producto.productName ||
       !producto.productDescription ||
@@ -102,6 +113,7 @@ const SellPage = () => {
       salePercent: Number(producto.salePercent),
       stock: Number(producto.stock),
       images: imagesArr,
+      usuarioId: usuario.id,
     };
 
     if (actualizando) {
