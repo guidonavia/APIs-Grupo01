@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import Navbar from "../layout/Navigator";
 
 const CATEGORIAS = [
   "Zapatillas",
@@ -241,6 +242,7 @@ const SellPage = () => {
 
   return (
     <SellPageWrapper>
+      <Navbar />
       <h1>
         {actualizando ? "Actualizar producto" : "Publicar nuevo producto"}
       </h1>
@@ -478,6 +480,14 @@ const SellPageWrapper = styled.div`
   padding: 2rem;
   font-family: "Inter", sans-serif;
   color: #222;
+
+  > header {
+    padding: 1.5rem 2rem;  
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-left: -1rem;
+    margin-right: 0;
+  }
 
   h1 {
     font-size: 2rem;

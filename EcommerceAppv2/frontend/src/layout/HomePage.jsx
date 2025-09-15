@@ -25,9 +25,21 @@ export default HomePage
 const PageWrapper = styled.div`
   display: flex;
   flex-direction: column;
-`
 
-const SectionTitle = styled.h2`
-  margin: 2rem 0 1rem;
-  padding-left: 2rem;
-`
+  .carousel {
+    width: 100%;
+    height: 400px; /* ajusta según diseño */
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+    }
+  }
+`;
+
