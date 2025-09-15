@@ -3,9 +3,11 @@ import { useGlobalContext } from "../context/context"
 import Button from "./Button"
 import { useNavigate } from "react-router-dom"
 import { useEffect } from "react"
+import { Plus, Minus } from "../icons" // Importamos los iconos
 
 const CheckoutPage = () => {
-  const { state, removeItem } = useGlobalContext()
+  // Obtenemos las nuevas funciones del contexto
+  const { state, removeItem, increaseCartItem, decreaseCartItem } = useGlobalContext()
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -74,11 +76,16 @@ const CheckoutPage = () => {
           <h3>Resumen del Pedido</h3>
           {state.cart.map((item) => (
             <div key={item.id} className="cart-item">
-              <img src={item.images[0].url} alt={item.productName} />
+              <img src={item.images[0].thumbnail || item.images[0].url} alt={item.productName} />
               <div className="item-details">
                 <p>{item.productName}</p>
-                <p>Cantidad: {item.amount}</p>
-                <p>
+                {/* --- CONTROLES DE CANTIDAD --- */}
+                <div className="quantity-controls">
+                  <button onClick={() => decreaseCartItem(item.id)}><Minus /></button>
+                  <span>{item.amount}</span>
+                  <button onClick={() => increaseCartItem(item.id)}><Plus /></button>
+                </div>
+                <p className="unit-price">
                   Precio Unitario: $
                   {(item.isOnSale
                     ? item.productPrice * (1 - item.salePercent)
@@ -86,6 +93,8 @@ const CheckoutPage = () => {
                   ).toFixed(2)}
                 </p>
               </div>
+              {/* Botón para eliminar el item por completo */}
+              <button className="remove-btn" onClick={() => removeItem(item.id)}>Eliminar</button>
             </div>
           ))}
           <div className="total">
@@ -122,6 +131,7 @@ const CheckoutWrapper = styled.div`
 
   .cart-item {
     display: flex;
+    align-items: center; // Centramos verticalmente
     gap: 1.5rem;
     padding: 1.5rem 0;
     border-bottom: 1px solid hsl(var(--divider));
@@ -138,6 +148,7 @@ const CheckoutWrapper = styled.div`
     }
 
     .item-details {
+      flex-grow: 1; // Hacemos que ocupe el espacio disponible
       p {
         font-size: 1.4rem;
         color: hsl(var(--dark-grayish-blue));
@@ -146,6 +157,40 @@ const CheckoutWrapper = styled.div`
       p:first-child {
         font-weight: 700;
         color: hsl(var(--black));
+      }
+    }
+
+    /* --- NUEVOS ESTILOS --- */
+    .quantity-controls {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin: 0.8rem 0;
+
+      button {
+        color: hsl(var(--orange));
+        display: grid;
+        place-items: center;
+        &:hover {
+          opacity: 0.7;
+        }
+      }
+
+      span {
+        font-weight: 700;
+      }
+    }
+
+    .remove-btn {
+      margin-left: auto; // Empuja el botón a la derecha
+      background: none;
+      border: none;
+      color: hsl(var(--dark-grayish-blue));
+      font-size: 1.2rem;
+      cursor: pointer;
+      &:hover {
+        color: hsl(var(--orange));
+        text-decoration: underline;
       }
     }
   }
