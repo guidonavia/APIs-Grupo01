@@ -1,6 +1,7 @@
 {
   "products": [
     {
+
       "id": "1",
       "companyName": "Sneaker Company",
       "productName": "Fall Limited Edition",
@@ -19,6 +20,7 @@
       ]
     },
     {
+
       "id": "2",
       "companyName": "Urban Kicks",
       "productName": "Classic White Runners",
@@ -27,30 +29,31 @@
       "category": "Zapatillas",
       "isOnSale": false,
       "salePercent": 0,
-      "stock": 1,
+      "stock": 15,
       "images": [
         {
           "id": 1,
           "url": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=800&q=80",
           "thumbnail": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=200&q=80"
         }
-      ]
+      ],
+      "usuarioId": "1"
     },
     {
       "id": "3",
-      "companyName": "Freelance",
-      "productName": "producto prueba",
-      "productDescription": "hhhh",
-      "productPrice": 100,
+      "companyName": "prueba",
+      "productName": "prueba",
+      "productDescription": "descripcion",
+      "productPrice": 123,
       "category": "Zapatillas",
       "isOnSale": false,
       "salePercent": 0,
-      "stock": 0,
+      "stock": 1,
       "images": [
         {
           "id": 1,
-          "url": "blob:http://localhost:5173/e0a65865-88a2-4f94-9cc4-c5bb5c3bb805",
-          "thumbnail": "blob:http://localhost:5173/75a95484-c959-458c-adfc-d78cebd2b44f"
+          "url": "blob:http://localhost:5173/2f48a8a8-3423-45af-a5af-d396ebbdeff3",
+          "thumbnail": "blob:http://localhost:5173/c08505ac-4410-4b9a-9800-664e1af78d40"
         }
       ]
     },
@@ -107,6 +110,7 @@
           "thumbnail": "https://images.unsplash.com/photo-1591012911205-b930fa9f1054?auto=format&fit=crop&w=200&q=80"
         }
       ]
+
     }
   ]
 }
