@@ -3,11 +3,14 @@ import { useState, useEffect } from "react"
 import Product from "./Product"
 import { useNavigate } from "react-router-dom";
 
+import { useNavigate } from "react-router-dom";
 
-const Main = ({search}) => {
+
+const Main = ({search, selectedCategory}) => {
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const navigate = useNavigate();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -39,6 +42,21 @@ const Main = ({search}) => {
     );
   });
 
+  // Filtrar productos según el término de búsqueda
+  console.log("Filtrando con:", search);
+  var filteredProducts = products.filter((product) =>{
+    const term = (search || "").toLowerCase();
+    return(
+      (product?.productName || "").toLowerCase().includes(term) ||
+      (product?.category || "").toLowerCase().includes(term)
+    );
+  });
+
+  filteredProducts =
+    selectedCategory === "All"
+      ? filteredProducts
+      : filteredProducts.filter((p) => p.category === selectedCategory);
+
   if (loading) {
     return <MainWrapper>Cargando productos...</MainWrapper>
   }
@@ -49,6 +67,7 @@ const Main = ({search}) => {
 
   return (
     <MainWrapper>
+      {filteredProducts.map((product) => (
       {filteredProducts.map((product) => (
         <Product key={product.id} productData={product} />
       ))}

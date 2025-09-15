@@ -2,23 +2,30 @@ import styled from "styled-components"
 import { Logo, Menu, Cart } from "../icons/index"
 import { avatar } from "../assets/imagedata"
 import Search from "./Search.jsx"
+import Search from "./Search.jsx"
 import FloatingCart from "../components/FloatingCart"
+import AvatarMenu from "../components/AvatarMenu"
 import AvatarMenu from "../components/AvatarMenu"
 import { useGlobalContext } from "../context/context"
 import { useAuth } from "../context/AuthContext"
+import { useAuth } from "../context/AuthContext"
 import { useState } from "react"
 import { Link } from "react-router-dom"
+import Categories from "./Categories.jsx"
 
-const Navbar = ({onSignInClick, search, setSearch, onLogout }) => {
+
+const Navbar = ({search, setSearch, onLogout, selectedCategory, setCategory }) => {
   const { showSidebar, showCart, hideCart, state } = useGlobalContext()
   const { logout, user } = useAuth()
   const [isAvatarMenuOpen, setAvatarMenuOpen] = useState(false)
+  const categories = ["All", "Zapatillas", "Botines"];
 
 
   const toggleAvatarMenu = () => setAvatarMenuOpen((prev) => !prev)
   const closeAvatarMenu = () => setAvatarMenuOpen(false)
 
   return (
+    <NavWrapper>
     <NavWrapper>
       <nav className="nav-container">
         <div className="nav-left">
@@ -32,12 +39,17 @@ const Navbar = ({onSignInClick, search, setSearch, onLogout }) => {
           </div>
           <div className="search">
             <Search search={search} setSearch={setSearch} />
+            <Link to="/">
+              <Logo />
+            </Link>
+          </div>
+          <div className="search">
+            <Search search={search} setSearch={setSearch} />
           </div>
         </div>
 
+
         <div className="nav-right">
-          {user ? (
-            <>
               <button
                 onClick={() => {
                   if (state.showingCart) {
@@ -65,33 +77,33 @@ const Navbar = ({onSignInClick, search, setSearch, onLogout }) => {
               <FloatingCart
                 className={`${state.showingCart ? "active" : ""}`}
               />
-            </>
-          ) : (
-            <button onClick={onSignInClick} className="signin-btn">
-              Iniciar Sesión
-            </button>
-          )}
         </div>
       </nav>
+
 
       {user && (
         <button onClick={logout} className="logout-button">
           Cerrar Sesión
         </button>
       )}
+      <Categories categories={categories} selectedCategory={selectedCategory} setCategory={setCategory}/>
     </NavWrapper>
     
   )
 }
 
 const NavWrapper = styled.header`
+const NavWrapper = styled.header`
   position: relative;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid #ddd;
   padding: 1.5rem 2rem;
   border-bottom: 1px solid #ddd;
 
   nav {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     align-items: center;
   }
 
@@ -115,10 +127,25 @@ const NavWrapper = styled.header`
     width: 400px;
   }
 
+  .search input {
+    padding: 0.9rem 1rem;
+    font-size: 1rem;
+    width: 400px;
+  }
+
   .nav-right {
     position: relative;
     display: flex;
     align-items: center;
+    gap: 2rem;
+
+    .signin-btn {
+      padding: 0.7rem 1rem;
+      background-color: #a1a19c;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
     gap: 2rem;
 
     .signin-btn {
@@ -135,9 +162,15 @@ const NavWrapper = styled.header`
       border: none;
       padding: 0;
       cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
 
       svg,
       path {
+        fill: black;
+        stroke: black;
         fill: black;
         stroke: black;
       }
@@ -150,6 +183,7 @@ const NavWrapper = styled.header`
         background-color: hsl(var(--orange));
         font-weight: 700;
         color: white;
+        color: white;
         border-radius: 50%;
         padding: 0.3rem 0.8rem;
         font-size: 1.1rem;
@@ -159,13 +193,24 @@ const NavWrapper = styled.header`
     .avatar-btn {
       height: 2.8rem;
       width: 2.8rem;
+      height: 2.8rem;
+      width: 2.8rem;
       border-radius: 50%;
+      background: none;
+      border: none;
+      cursor: pointer;
+
       background: none;
       border: none;
       cursor: pointer;
 
       img {
         width: 100%;
+        border-radius: 50%;
+      }
+
+      &:hover {
+        outline: 2px solid hsl(var(--orange));
         border-radius: 50%;
       }
 
@@ -179,7 +224,13 @@ const NavWrapper = styled.header`
     .search input {
       width: 600px;
     }
+    .search input {
+      width: 600px;
+    }
 
+    .avatar-btn {
+      height: 3.5rem;
+      width: 3.5rem;
     .avatar-btn {
       height: 3.5rem;
       width: 3.5rem;
@@ -197,8 +248,17 @@ const NavWrapper = styled.header`
 
     .search input {
       width: 800px;
+    .avatar-btn {
+      height: 5rem;
+      width: 5rem;
+    }
+
+    .search input {
+      width: 800px;
     }
   }
 `
+
+export default Navbar
 
 export default Navbar

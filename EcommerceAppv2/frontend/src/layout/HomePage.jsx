@@ -8,12 +8,13 @@ import Navbar from "./Navigator"
 
 const HomePage = () => {
     const [search, setSearch] = useState("")
+    const [selectedCategory, setCategory] = useState("All");
 
   return (
     <PageWrapper>
-       <Navbar search={search} setSearch={setSearch} />
+       <Navbar search={search} setSearch={setSearch} selectedCategory={selectedCategory} setCategory={setCategory} />
        <Carousel />
-       <Main search={search} />
+       <Main search={search} selectedCategory={selectedCategory} />
        <Footer />
     </PageWrapper>
   )
