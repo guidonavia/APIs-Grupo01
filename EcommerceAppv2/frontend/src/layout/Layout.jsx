@@ -9,6 +9,16 @@ const Layout = ({
   setSearch,
   selectedCategory,
   setCategory,
+  priceMin,
+  setPriceMin,
+  priceMax,
+  setPriceMax,
+  color,
+  setColor,
+  size,
+  setSize,
+  gender,
+  setGender,
 }) => {
   return (
     <>
@@ -17,6 +27,16 @@ const Layout = ({
         setSearch={setSearch}
         selectedCategory={selectedCategory}
         setCategory={setCategory}
+        priceMin={priceMin}
+        setPriceMin={setPriceMin}
+        priceMax={priceMax}
+        setPriceMax={setPriceMax}
+        color={color}
+        setColor={setColor}
+        size={size}
+        setSize={setSize}
+        gender={gender}
+        setGender={setGender}
       />
       <Sidebar />
       <main>{children}</main>

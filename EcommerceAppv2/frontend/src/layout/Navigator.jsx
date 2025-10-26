@@ -16,6 +16,16 @@ const Navbar = ({
   onLogout,
   selectedCategory,
   setCategory,
+  priceMin,
+  setPriceMin,
+  priceMax,
+  setPriceMax,
+  color,
+  setColor,
+  size,
+  setSize,
+  gender,
+  setGender,
 }) => {
   const { showSidebar, showCart, hideCart, state } = useGlobalContext();
   const { logout, user } = useAuth();
@@ -80,6 +90,16 @@ const Navbar = ({
         categories={categories}
         selectedCategory={selectedCategory}
         setCategory={setCategory}
+        priceMin={priceMin}
+        setPriceMin={setPriceMin}
+        priceMax={priceMax}
+        setPriceMax={setPriceMax}
+        color={color}
+        setColor={setColor}
+        size={size}
+        setSize={setSize}
+        gender={gender}
+        setGender={setGender}
       />
     </NavWrapper>
   );

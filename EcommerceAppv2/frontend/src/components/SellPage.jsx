@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import Navbar from "../layout/Navigator";
 
 const CATEGORIAS = [
   "Zapatillas",
@@ -19,7 +18,7 @@ const SellPage = () => {
 
   const [actualizando, setActualizando] = useState(false); // Estado de actualización
   const [productoEditandoId, setProductoEditandoId] = useState(null); // ID del producto en edición
-  const [usuario,setUsuario] = useState();
+  const [usuario, setUsuario] = useState();
 
   const [producto, setProducto] = useState({
     id: "",
@@ -45,7 +44,7 @@ const SellPage = () => {
       usuarioId: userFromStorage?.id || "",
     }));
   }, []);
- 
+
   // Cargar productos desde json-server al montar el componente
   useEffect(() => {
     const fetchData = async () => {
@@ -242,7 +241,6 @@ const SellPage = () => {
 
   return (
     <SellPageWrapper>
-      <Navbar />
       <h1>
         {actualizando ? "Actualizar producto" : "Publicar nuevo producto"}
       </h1>
@@ -482,7 +480,7 @@ const SellPageWrapper = styled.div`
   color: #222;
 
   > header {
-    padding: 1.5rem 2rem;  
+    padding: 1.5rem 2rem;
     max-width: 1200px;
     margin: 0 auto;
     margin-left: -1rem;

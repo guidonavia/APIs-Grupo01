@@ -10,7 +10,7 @@ import { useState } from "react";
 
 const PROTECTED_PATHS = ["/checkout", "/sell"];
 
-function GateRoutes({ search, selectedCategory, setCategory }) {
+function GateRoutes({ search, selectedCategory, setCategory, filters }) {
   const { user } = useAuth();
   const isAuth = !!user;
   const { pathname } = useLocation();
@@ -28,6 +28,7 @@ function GateRoutes({ search, selectedCategory, setCategory }) {
             search={search}
             selectedCategory={selectedCategory}
             setCategory={setCategory}
+            filters={filters}
           />
         }
       />
@@ -45,6 +46,14 @@ function GateRoutes({ search, selectedCategory, setCategory }) {
 export default function App() {
   const [search, setSearch] = useState("");
   const [selectedCategory, setCategory] = useState("All");
+  // Filters
+  const [priceMin, setPriceMin] = useState(0);
+  const [priceMax, setPriceMax] = useState(1000);
+  const [color, setColor] = useState("");
+  const [size, setSize] = useState("");
+  const [gender, setGender] = useState("");
+
+  const filters = { priceMin, priceMax, color, size, gender };
 
   return (
     <div className="App">
@@ -53,11 +62,22 @@ export default function App() {
         setSearch={setSearch}
         selectedCategory={selectedCategory}
         setCategory={setCategory}
+        priceMin={priceMin}
+        setPriceMin={setPriceMin}
+        priceMax={priceMax}
+        setPriceMax={setPriceMax}
+        color={color}
+        setColor={setColor}
+        size={size}
+        setSize={setSize}
+        gender={gender}
+        setGender={setGender}
       >
         <GateRoutes
           search={search}
           selectedCategory={selectedCategory}
           setCategory={setCategory}
+          filters={filters}
         />
       </Layout>
     </div>

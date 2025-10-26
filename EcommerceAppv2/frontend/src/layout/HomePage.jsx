@@ -3,11 +3,15 @@ import styled from "styled-components";
 import Carousel from "../assets/Carousel";
 import Main from "./Products";
 
-const HomePage = ({ search, selectedCategory }) => {
+const HomePage = ({ search, selectedCategory, filters }) => {
   return (
     <PageWrapper>
       <Carousel />
-      <Main search={search} selectedCategory={selectedCategory} />
+      <Main
+        search={search}
+        selectedCategory={selectedCategory}
+        filters={filters}
+      />
     </PageWrapper>
   );
 };

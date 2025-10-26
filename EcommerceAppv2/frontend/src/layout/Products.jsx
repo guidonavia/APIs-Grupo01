@@ -1,53 +1,88 @@
-import styled from "styled-components"
-import { useState, useEffect } from "react"
-import Product from "./ProductCard"
+import styled from "styled-components";
+import { useState, useEffect } from "react";
+import Product from "./ProductCard";
 
-
-const Main = ({search, selectedCategory}) => {
-  const [products, setProducts] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+const Main = ({ search, selectedCategory, filters }) => {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch("http://localhost:3002/products")
+        const response = await fetch("http://localhost:3002/products");
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`)
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
-        const data = await response.json()
-        setProducts(data)
+        const data = await response.json();
+        setProducts(data);
       } catch (e) {
-        setError(e.message)
+        setError(e.message);
       } finally {
-        setLoading(false)
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  // Filtrar productos según el término de búsqueda y filtros
+  console.log("Filtrando con:", search, filters);
+  var filteredProducts = products.filter((product) => {
+    const term = (search || "").toLowerCase();
+    const matchesTerm =
+      (product?.productName || "").toLowerCase().includes(term) ||
+      (product?.category || "").toLowerCase().includes(term);
+
+    if (!matchesTerm) return false;
+
+    // category
+    if (selectedCategory && selectedCategory !== "All") {
+      if (product.category !== selectedCategory) return false;
+    }
+
+    // price
+    if (filters) {
+      const price = Number(product.productPrice ?? product.price ?? 0);
+      if (typeof filters.priceMin === "number" && price < filters.priceMin)
+        return false;
+      if (typeof filters.priceMax === "number" && price > filters.priceMax)
+        return false;
+
+      // color
+      if (filters.color) {
+        if (
+          !product.color ||
+          product.color.toLowerCase() !== filters.color.toLowerCase()
+        )
+          return false;
+      }
+
+      // size
+      if (filters.size) {
+        if (!product.size || String(product.size) !== String(filters.size))
+          return false;
+      }
+
+      // gender
+      if (filters.gender) {
+        if (
+          !product.gender ||
+          product.gender.toLowerCase() !== filters.gender.toLowerCase()
+        )
+          return false;
       }
     }
 
-    fetchProducts()
-  }, [])
-
-  // Filtrar productos según el término de búsqueda
-  console.log("Filtrando con:", search);
-  var filteredProducts = products.filter((product) =>{
-    const term = (search || "").toLowerCase();
-    return(
-      (product?.productName || "").toLowerCase().includes(term) ||
-      (product?.category || "").toLowerCase().includes(term)
-    );
+    return true;
   });
 
-  filteredProducts =
-    selectedCategory === "All"
-      ? filteredProducts
-      : filteredProducts.filter((p) => p.category === selectedCategory);
-
-  if (loading) {  
-    return <MainWrapper>Cargando productos...</MainWrapper>
+  if (loading) {
+    return <MainWrapper>Cargando productos...</MainWrapper>;
   }
 
   if (error) {
-    return <MainWrapper>Error al cargar productos: {error}</MainWrapper>
+    return <MainWrapper>Error al cargar productos: {error}</MainWrapper>;
   }
 
   return (
@@ -56,8 +91,8 @@ const Main = ({search, selectedCategory}) => {
         <Product key={product.id} productData={product} />
       ))}
     </MainWrapper>
-  )
-}
+  );
+};
 
 // --- ESTILOS MEJORADOS ---
 const MainWrapper = styled.main`
@@ -68,6 +103,6 @@ const MainWrapper = styled.main`
   /* Crea una grilla responsive: se ajusta automáticamente y cada columna tiene un mínimo de 300px */
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 3rem; /* Espacio entre las tarjetas */
-`
+`;
 
-export default Main
+export default Main;
