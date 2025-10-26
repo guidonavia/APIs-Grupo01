@@ -1,25 +1,29 @@
-import styled from "styled-components"
-import { Logo, Menu, Cart } from "../icons/index"
-import { avatar } from "../assets/imagedata"
-import Search from "./Search.jsx"
-import FloatingCart from "../components/FloatingCart"
-import AvatarMenu from "../components/AvatarMenu"
-import { useGlobalContext } from "../context/context"
-import { useAuth } from "../context/AuthContext"
-import { useState } from "react"
-import { Link } from "react-router-dom"
-import Categories from "./Categories.jsx"
+import styled from "styled-components";
+import { Logo, Menu, Cart } from "../icons/index";
+import { avatar } from "../assets/imagedata";
+import Search from "./Search.jsx";
+import FloatingCart from "../components/FloatingCart";
+import AvatarMenu from "../components/AvatarMenu";
+import { useGlobalContext } from "../context/context";
+import { useAuth } from "../context/AuthContext";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import Categories from "./Categories.jsx";
 
-
-const Navbar = ({search, setSearch, onLogout, selectedCategory, setCategory }) => {
-  const { showSidebar, showCart, hideCart, state } = useGlobalContext()
-  const { logout, user } = useAuth()
-  const [isAvatarMenuOpen, setAvatarMenuOpen] = useState(false)
+const Navbar = ({
+  search,
+  setSearch,
+  onLogout,
+  selectedCategory,
+  setCategory,
+}) => {
+  const { showSidebar, showCart, hideCart, state } = useGlobalContext();
+  const { logout, user } = useAuth();
+  const [isAvatarMenuOpen, setAvatarMenuOpen] = useState(false);
   const categories = ["All", "Zapatillas", "Botines"];
 
-
-  const toggleAvatarMenu = () => setAvatarMenuOpen((prev) => !prev)
-  const closeAvatarMenu = () => setAvatarMenuOpen(false)
+  const toggleAvatarMenu = () => setAvatarMenuOpen((prev) => !prev);
+  const closeAvatarMenu = () => setAvatarMenuOpen(false);
 
   return (
     <NavWrapper>
@@ -39,33 +43,31 @@ const Navbar = ({search, setSearch, onLogout, selectedCategory, setCategory }) =
         </div>
 
         <div className="nav-right">
-              <button
-                onClick={() => {
-                  if (state.showingCart) {
-                    hideCart()
-                  } else {
-                    showCart()
-                  }
-                }}
-                className="cart-btn"
-              >
-                <Cart />
-                {state.totalCartSize > 0 && <span>{state.totalCartSize}</span>}
-              </button>
+          <button
+            onClick={() => {
+              if (state.showingCart) {
+                hideCart();
+              } else {
+                showCart();
+              }
+            }}
+            className="cart-btn"
+          >
+            <Cart />
+            {state.totalCartSize > 0 && <span>{state.totalCartSize}</span>}
+          </button>
 
-              <button className="avatar-btn" onClick={toggleAvatarMenu}>
-                <img src={avatar} alt="avatar" />
-              </button>
+          <button className="avatar-btn" onClick={toggleAvatarMenu}>
+            <img src={avatar} alt="avatar" />
+          </button>
 
-              <AvatarMenu
-                isOpen={isAvatarMenuOpen}
-                closeMenu={closeAvatarMenu}
-                onLogout={onLogout}
-              />
+          <AvatarMenu
+            isOpen={isAvatarMenuOpen}
+            closeMenu={closeAvatarMenu}
+            onLogout={onLogout}
+          />
 
-              <FloatingCart
-                className={`${state.showingCart ? "active" : ""}`}
-              />
+          <FloatingCart className={`${state.showingCart ? "active" : ""}`} />
         </div>
       </nav>
 
@@ -74,16 +76,21 @@ const Navbar = ({search, setSearch, onLogout, selectedCategory, setCategory }) =
           Cerrar Sesión
         </button>
       )}
-      <Categories categories={categories} selectedCategory={selectedCategory} setCategory={setCategory}/>
+      <Categories
+        categories={categories}
+        selectedCategory={selectedCategory}
+        setCategory={setCategory}
+      />
     </NavWrapper>
-    
-  )
-}
+  );
+};
 
 const NavWrapper = styled.header`
   position: relative;
-  padding: 1.5rem 2rem;
-  border-bottom: 1px solid #ddd;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  background: linear-gradient(90deg, #fff, #fff);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
 
   nav {
     display: flex;
@@ -106,9 +113,10 @@ const NavWrapper = styled.header`
   }
 
   .search input {
-    padding: 0.9rem 1rem;
+    /* search is styled by Search component; default sizing here */
+    padding: 0;
     font-size: 1rem;
-    width: 400px;
+    width: auto;
   }
 
   .nav-right {
@@ -195,6 +203,6 @@ const NavWrapper = styled.header`
       width: 800px;
     }
   }
-`
+`;
 
-export default Navbar
+export default Navbar;
