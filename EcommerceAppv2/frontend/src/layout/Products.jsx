@@ -1,14 +1,12 @@
 import styled from "styled-components"
 import { useState, useEffect } from "react"
-import Product from "./Product"
-import { useNavigate } from "react-router-dom";
+import Product from "./ProductCard"
 
 
 const Main = ({search, selectedCategory}) => {
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -44,7 +42,7 @@ const Main = ({search, selectedCategory}) => {
       ? filteredProducts
       : filteredProducts.filter((p) => p.category === selectedCategory);
 
-  if (loading) {
+  if (loading) {  
     return <MainWrapper>Cargando productos...</MainWrapper>
   }
 

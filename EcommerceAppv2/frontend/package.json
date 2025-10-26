@@ -3,6 +3,14 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "dependencies": {
+    "@splidejs/react-splide": "^0.7.12",
+    "prop-types": "^15.8.1",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "react-router-dom": "^7.8.2",
+    "styled-components": "^6.1.19"
+  },
   "scripts": {
     "dev": "vite",
     "api": "json-server --watch db.json --port 3002",
@@ -11,14 +19,6 @@
     "preview": "vite preview",
     "server": "json-server --watch db-users.json --port 3001",
     "start": "concurrently \"npm run dev\" \"npm run server\" \"npm run api\""
-  },
-  "dependencies": {
-    "@splidejs/react-splide": "^0.7.12",
-    "prop-types": "^15.8.1",
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1",
-    "react-router-dom": "^7.8.2",
-    "styled-components": "^6.1.19"
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",

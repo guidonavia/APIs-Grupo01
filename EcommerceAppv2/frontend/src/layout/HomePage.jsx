@@ -1,26 +1,18 @@
-import { useState } from "react"
-import styled from "styled-components"
-import Carousel from "../assets/Carousel"
-import Main from "./Main"
-import Footer from "./Footer"
-import Navbar from "./Navigator"
+import React from "react";
+import styled from "styled-components";
+import Carousel from "../assets/Carousel";
+import Main from "./Products";
 
-
-const HomePage = () => {
-    const [search, setSearch] = useState("")
-    const [selectedCategory, setCategory] = useState("All");
-
+const HomePage = ({ search, selectedCategory }) => {
   return (
     <PageWrapper>
-       <Navbar search={search} setSearch={setSearch} selectedCategory={selectedCategory} setCategory={setCategory} />
-       <Carousel />
-       <Main search={search} selectedCategory={selectedCategory} />
-       <Footer />
+      <Carousel />
+      <Main search={search} selectedCategory={selectedCategory} />
     </PageWrapper>
-  )
-}
+  );
+};
 
-export default HomePage
+export default HomePage;
 
 const PageWrapper = styled.div`
   display: flex;
@@ -42,4 +34,3 @@ const PageWrapper = styled.div`
     }
   }
 `;
-

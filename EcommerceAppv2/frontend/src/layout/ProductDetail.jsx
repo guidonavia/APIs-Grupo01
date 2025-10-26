@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import Footer from "./Footer";
-import Navbar from "./Navigator";
+// Footer and Navbar are provided by Layout
 import ProductInfo from "../components/ProductInfo";
-import { useGlobalContext } from "../context/context";
 
 const ProductPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { addToCart, state } = useGlobalContext();
   const [product, setProduct] = useState(null);
   const [mainImage, setMainImage] = useState("");
   const [relatedProducts, setRelatedProducts] = useState([]);
@@ -41,7 +38,6 @@ const ProductPage = () => {
   return (
     <>
       <Wrapper>
-        <Navbar />
         <MainSection>
           <ImageGallery>
             <MainImage src={product.images[0]?.url} alt={product.productName} />
@@ -59,7 +55,6 @@ const ProductPage = () => {
           </ImageGallery>
 
           {product && <ProductInfo product={product} />}
-
         </MainSection>
 
         <BottomSection>
@@ -77,8 +72,12 @@ const ProductPage = () => {
                     <span className="price">${product.productPrice}</span>
                     {product.discount && (
                       <>
-                        <span className="discount">{product.salePercent}% OFF</span>
-                        <span className="original-price">${product.productPrice}</span>
+                        <span className="discount">
+                          {product.salePercent}% OFF
+                        </span>
+                        <span className="original-price">
+                          ${product.productPrice}
+                        </span>
                       </>
                     )}
                   </div>
@@ -88,7 +87,6 @@ const ProductPage = () => {
           </Related>
         </BottomSection>
       </Wrapper>
-      <Footer />
     </>
   );
 };
@@ -129,13 +127,10 @@ const Thumb = styled.img`
   width: 80px;
   height: 80px;
   object-fit: cover;
-  border: 2px solid
-    ${(props) => (props.active ? "hsl(26, 100%, 55%)" : "#ccc")};
+  border: 2px solid ${(props) => (props.active ? "hsl(26, 100%, 55%)" : "#ccc")};
   border-radius: 5px;
   cursor: pointer;
 `;
-
-
 
 const BottomSection = styled.div`
   margin-top: 2rem;
