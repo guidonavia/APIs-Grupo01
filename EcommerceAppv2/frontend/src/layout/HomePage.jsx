@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Carousel from "../assets/Carousel";
 import Main from "./Products";
 
-const HomePage = ({ search, selectedCategory, filters }) => {
+const HomePage = ({ search, selectedCategory, filters, setResultsCount }) => {
   return (
     <PageWrapper>
       <Carousel />
@@ -11,6 +11,7 @@ const HomePage = ({ search, selectedCategory, filters }) => {
         search={search}
         selectedCategory={selectedCategory}
         filters={filters}
+        setResultsCount={setResultsCount}
       />
     </PageWrapper>
   );

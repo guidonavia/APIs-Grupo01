@@ -19,6 +19,7 @@ const Layout = ({
   setSize,
   gender,
   setGender,
+  resultsCount,
 }) => {
   return (
     <>
@@ -37,6 +38,7 @@ const Layout = ({
         setSize={setSize}
         gender={gender}
         setGender={setGender}
+        resultsCount={resultsCount}
       />
       <Sidebar />
       <main>{children}</main>

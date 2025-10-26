@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useState, useEffect } from "react";
 import Product from "./ProductCard";
 
-const Main = ({ search, selectedCategory, filters }) => {
+const Main = ({ search, selectedCategory, filters, setResultsCount }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -76,6 +76,16 @@ const Main = ({ search, selectedCategory, filters }) => {
 
     return true;
   });
+
+  // report results count to parent if requested
+  if (typeof setResultsCount === "function") {
+    // best-effort update; ignore errors silently
+    try {
+      setResultsCount(filteredProducts.length);
+    } catch {
+      /* noop */
+    }
+  }
 
   if (loading) {
     return <MainWrapper>Cargando productos...</MainWrapper>;

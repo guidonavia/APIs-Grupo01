@@ -26,6 +26,7 @@ const Navbar = ({
   setSize,
   gender,
   setGender,
+  resultsCount,
 }) => {
   const { showSidebar, showCart, hideCart, state } = useGlobalContext();
   const { logout, user } = useAuth();
@@ -49,6 +50,9 @@ const Navbar = ({
           </div>
           <div className="search">
             <Search search={search} setSearch={setSearch} />
+            {typeof resultsCount === "number" && (
+              <ResultBadge>{resultsCount} resultados</ResultBadge>
+            )}
           </div>
         </div>
 
@@ -223,6 +227,17 @@ const NavWrapper = styled.header`
       width: 800px;
     }
   }
+`;
+
+const ResultBadge = styled.span`
+  display: inline-block;
+  margin-left: 0.8rem;
+  background: linear-gradient(90deg, hsl(25 90% 55%), hsl(15 90% 45%));
+  color: white;
+  padding: 0.35rem 0.6rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.9rem;
 `;
 
 export default Navbar;

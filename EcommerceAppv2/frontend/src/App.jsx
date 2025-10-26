@@ -10,7 +10,7 @@ import { useState } from "react";
 
 const PROTECTED_PATHS = ["/checkout", "/sell"];
 
-function GateRoutes({ search, selectedCategory, setCategory, filters }) {
+function GateRoutes({ search, selectedCategory, setCategory, filters, setResultsCount }) {
   const { user } = useAuth();
   const isAuth = !!user;
   const { pathname } = useLocation();
@@ -29,6 +29,7 @@ function GateRoutes({ search, selectedCategory, setCategory, filters }) {
             selectedCategory={selectedCategory}
             setCategory={setCategory}
             filters={filters}
+            setResultsCount={setResultsCount}
           />
         }
       />
