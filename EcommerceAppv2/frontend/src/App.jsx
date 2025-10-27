@@ -37,7 +37,7 @@ function GateRoutes({ search, selectedCategory, setCategory, filters, setResults
         path="/login"
         element={isAuth ? <Navigate to="/" replace /> : <Login />}
       />
-      <Route path="/product/:id" element={<ProductPage />} />
+      <Route path="/products/:id" element={<ProductPage />} />
       <Route path="/checkout" element={<CheckoutPage />} />
       <Route path="/sell" element={<SellPage />} />
     </Routes>

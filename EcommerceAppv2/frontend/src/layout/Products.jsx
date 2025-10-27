@@ -1,11 +1,13 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 import Product from "./ProductCard";
+import { useLocation } from "react-router-dom";
 
 const Main = ({ search, selectedCategory, filters, setResultsCount }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const location = useLocation();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -24,7 +26,7 @@ const Main = ({ search, selectedCategory, filters, setResultsCount }) => {
     };
 
     fetchProducts();
-  }, []);
+  }, [location]);
 
   // Filtrar productos según el término de búsqueda y filtros
   console.log("Filtrando con:", search, filters);
