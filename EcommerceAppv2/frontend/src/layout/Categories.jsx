@@ -9,38 +9,34 @@ const Categories = ({
   priceMin,
   setPriceMin,
   priceMax,
-  setPriceMax,
-  color,
-  setColor,
-  size,
-  setSize,
-  gender,
-  setGender,
+  setPriceMax
 }) => {
   const resetFilters = () => {
-    setCategory("All");
-    setPriceMin(0);
-    setPriceMax(1000);
-    setColor("");
-    setSize("");
-    setGender("");
+  setCategory("All");
+  setPriceMin(0);
+  setPriceMax(1000);
   };
+
+  const min = typeof priceMin === 'number' && !isNaN(priceMin) ? priceMin : 0;
+  const max = typeof priceMax === 'number' && !isNaN(priceMax) ? priceMax : 1000;
+  const values = [Math.min(min, max), Math.max(min, max)];
 
   return (
     <Container>
       <Section>
-        <Label>Categorías</Label>
-        <CategoryGroup>
-          {categories.map((cat) => (
-            <CategoryButton
-              key={cat}
-              $active={selectedCategory === cat}
-              onClick={() => setCategory(cat)}
-            >
-              {cat}
-            </CategoryButton>
-          ))}
-        </CategoryGroup>
+        <Label>Categoría</Label>
+        <Select
+          value={selectedCategory}
+          onChange={e => setCategory(e.target.value)}
+        >
+          <option value="All">Todas</option>
+          <option value="Zapatillas">Zapatillas</option>
+          <option value="Ropa deportiva">Ropa deportiva</option>
+          <option value="Accesorios">Accesorios</option>
+          <option value="Calzado casual">Calzado casual</option>
+          <option value="Indumentaria">Indumentaria</option>
+          <option value="Equipamiento">Equipamiento</option>
+        </Select>
       </Section>
 
       <Divider />
@@ -52,7 +48,7 @@ const Categories = ({
             step={10}
             min={0}
             max={2000}
-            values={[priceMin, priceMax]}
+            values={values}
             onChange={([min, max]) => {
               setPriceMin(min);
               setPriceMax(max);
@@ -73,50 +69,6 @@ const Categories = ({
 
       <Divider />
 
-      <Section>
-        <Label>Color</Label>
-        <Select value={color} onChange={(e) => setColor(e.target.value)}>
-          <option value="">Todos</option>
-          <option value="black">Negro</option>
-          <option value="white">Blanco</option>
-          <option value="red">Rojo</option>
-          <option value="blue">Azul</option>
-        </Select>
-      </Section>
-
-      <Section>
-        <Label>Talle</Label>
-        <Select value={size} onChange={(e) => setSize(e.target.value)}>
-          <option value="">Todos</option>
-          {[36, 37, 38, 39, 40, 41].map((n) => (
-            <option key={n} value={n}>
-              {n}
-            </option>
-          ))}
-        </Select>
-      </Section>
-
-      <Section>
-        <Label>Género</Label>
-        <GenderGroup>
-          {[
-            { label: "Todos", value: "" },
-            { label: "Mujer", value: "female" },
-            { label: "Hombre", value: "male" },
-          ].map((g) => (
-            <GenderButton
-              key={g.value}
-              $active={gender === g.value}
-              onClick={() => setGender(g.value)}
-            >
-              {g.label}
-            </GenderButton>
-          ))}
-        </GenderGroup>
-      </Section>
-
-      <Divider />
-
       <ClearButton onClick={resetFilters}>Limpiar filtros</ClearButton>
     </Container>
   );
@@ -124,33 +76,33 @@ const Categories = ({
 
 export default Categories;
 
-//
-// 💅 ESTILOS
-//
-
 const Container = styled.div`
   display: flex;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  gap: 1.5rem;
+  align-items: center;
+  gap: 1.2rem;
   background: #fff;
-  padding: 1.5rem 2rem;
-  border-radius: 16px;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
-  margin-bottom: 1.5rem;
-  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  border-radius: 14px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+  margin-bottom: 1rem;
+  justify-content: center;
+  min-height: 64px;
+  flex-wrap: wrap;
 
   @media (max-width: 900px) {
     flex-direction: column;
     align-items: stretch;
+    gap: 1rem;
+    min-height: unset;
   }
 `;
 
 const Section = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
-  min-width: 160px;
+  gap: 0.3rem;
+  min-width: 100px;
+  justify-content: center;
 `;
 
 const Label = styled.h4`
@@ -162,19 +114,15 @@ const Label = styled.h4`
 
 const Divider = styled.div`
   width: 1px;
-  height: 80px;
-  background: rgba(0, 0, 0, 0.08);
+  height: 40px;
+  background: rgba(0, 0, 0, 0.07);
+  margin: 0 0.4rem;
 
   @media (max-width: 900px) {
     width: 100%;
     height: 1px;
+    margin: 0.8rem 0;
   }
-`;
-
-const CategoryGroup = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
 `;
 
 const CategoryButton = styled.button`
@@ -198,7 +146,8 @@ const CategoryButton = styled.button`
 const PriceFilter = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
+  gap: 0.3rem;
+  min-width: 180px;
 `;
 
 const Track = styled.div`

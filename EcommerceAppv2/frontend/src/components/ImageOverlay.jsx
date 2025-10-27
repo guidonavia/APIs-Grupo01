@@ -21,28 +21,32 @@ const ImageOverlay = ({
         <button className="close-btn" onClick={hideImageOverlay}>
           <Close />
         </button>
-        <Splide
-          options={{ autoWidth: false, pagination: false, type: "loop" }}
-          ref={overlayRef}
-          onMove={() => {
-            setImageIndex(overlayRef.current.splide.index)
-            carouselRef.current.go(overlayRef.current.splide.index)
-          }}
-        >
-          {productImages.map((image, idx) => {
-            const { url, alt } = image
-            return (
-              <SplideSlide key={idx}>
-                <button>
-                  <img src={url} alt={alt} />
-                </button>
-              </SplideSlide>
-            )
-          })}
-        </Splide>
+        {Array.isArray(productImages) && productImages.length > 0 ? (
+          <Splide
+            options={{ autoWidth: false, pagination: false, type: "loop" }}
+            ref={overlayRef}
+            onMove={() => {
+              setImageIndex(overlayRef.current.splide.index)
+              carouselRef.current.go(overlayRef.current.splide.index)
+            }}
+          >
+            {productImages.map((image, idx) => {
+              const { url, alt } = image
+              return (
+                <SplideSlide key={idx}>
+                  <button>
+                    <img src={url} alt={alt} />
+                  </button>
+                </SplideSlide>
+              )
+            })}
+          </Splide>
+        ) : (
+          <p>No hay imágenes disponibles.</p>
+        )}
         <div className="thumbnails">
-          {productThumbnails.map((thumbnail, idx) => {
-            return (
+          {Array.isArray(productThumbnails) && productThumbnails.length > 0 ? (
+            productThumbnails.map((thumbnail, idx) => (
               <button
                 className={`thumb-btn ${imageIndex === idx ? "active" : ""}`}
                 onClick={() => {
@@ -53,8 +57,10 @@ const ImageOverlay = ({
               >
                 <img src={thumbnail.url} alt={thumbnail.alt} />
               </button>
-            )
-          })}
+            ))
+          ) : (
+            <p>No hay miniaturas.</p>
+          )}
         </div>
       </div>
     </OverlayWrapper>

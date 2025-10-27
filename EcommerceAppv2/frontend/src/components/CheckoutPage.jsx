@@ -1,7 +1,6 @@
 import styled from "styled-components"
 import { useGlobalContext } from "../context/context"
 import Button from "./Button"
-import Navbar from "../layout/Navigator"
 import { useNavigate } from "react-router-dom"
 import { useEffect } from "react"
 import { Plus, Minus } from "../icons" // Importamos los iconos
@@ -71,7 +70,6 @@ const CheckoutPage = () => {
 
   return (
     <CheckoutWrapper>
-      <Navbar />
       <h2>Checkout</h2>
       <div className="checkout-container">
         <div className="order-summary">

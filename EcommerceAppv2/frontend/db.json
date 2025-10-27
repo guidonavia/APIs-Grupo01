@@ -1,24 +1,6 @@
 {
   "products": [
     {
-      "id": "1",
-      "companyName": "Sneaker Company",
-      "productName": "Fall Limited Edition",
-      "productDescription": "These low-profile sneakers are your perfect casual wear companion. Featuring a durable rubber outer sole, they'll withstand everything the weather can offer.",
-      "productPrice": 250,
-      "category": "Zapatillas",
-      "isOnSale": true,
-      "salePercent": 0.1,
-      "stock": 4,
-      "images": [
-        {
-          "id": 1,
-          "url": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80",
-          "thumbnail": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=200&q=80"
-        }
-      ]
-    },
-    {
       "id": "2",
       "companyName": "Urban Kicks",
       "productName": "Classic White Runners",
@@ -27,7 +9,7 @@
       "category": "Zapatillas",
       "isOnSale": false,
       "salePercent": 0,
-      "stock": 15,
+      "stock": 12,
       "images": [
         {
           "id": 1,
@@ -110,7 +92,7 @@
       ]
     },
     {
-      "id": "3",
+      "id": "7",
       "companyName": "Nike",
       "productName": "Zapas",
       "productDescription": "Super zapas",
@@ -127,6 +109,38 @@
         }
       ],
       "usuarioId": "1"
+    },
+    {
+      "id": "1",
+      "companyName": "miley srl",
+      "productName": "zapatillas miley",
+      "productDescription": "descripcion",
+      "productPrice": 10,
+      "category": "Zapatillas",
+      "isOnSale": false,
+      "salePercent": 0,
+      "stock": 999,
+      "images": [
+        {
+          "id": 1,
+          "url": "blob:http://localhost:5173/518b6716-d692-498d-adec-857cab691a87",
+          "thumbnail": "blob:http://localhost:5173/de3958c2-60b6-442f-9528-0e2ab5b79b27"
+        }
+      ],
+      "usuarioId": "efc6"
+    },
+    {
+      "id": "2",
+      "companyName": "miley srl",
+      "productName": "zapatillas miley prueba con los bepi",
+      "productDescription": "prueba",
+      "productPrice": 100,
+      "category": "Accesorios",
+      "isOnSale": false,
+      "salePercent": 0,
+      "stock": 10,
+      "images": [],
+      "usuarioId": "efc6"
     }
   ]
 }
