@@ -1,25 +1,24 @@
 import { useEffect, useContext, createContext, useReducer } from "react"
-import reducer from "../reducer/reducer"
-import { defaultState } from "../reducer/defaultState"
+import reducer from "../../../reducer/reducer"
+import { defaultState } from "../../../reducer/defaultState"
 import {
   SHOW_SIDEBAR,
   HIDE_SIDEBAR,
   READ_SCREENWIDTH,
   ADD_TO_CART,
   REMOVE_ITEM,
-  // --- IMPORTAMOS NUEVAS ACCIONES ---
   INCREASE_CART_ITEM,
   DECREASE_CART_ITEM,
   SHOW_CART,
   HIDE_CART,
   SHOW_OVERLAY,
   HIDE_OVERLAY,
-} from "../reducer/actions"
-import { APP_CONFIG } from "../shared/constants"
+} from "../../../reducer/actions"
+import { APP_CONFIG } from "../../../shared/constants"
 
-const AppContext = createContext()
+const CartContext = createContext()
 
-const AppProvider = ({ children }) => {
+export const CartProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, defaultState)
 
   // Persist cart to localStorage whenever it changes
@@ -35,7 +34,6 @@ const AppProvider = ({ children }) => {
     dispatch({ type: REMOVE_ITEM, payload: id })
   }
 
-  // --- NUEVAS FUNCIONES ---
   const increaseCartItem = (id) => {
     dispatch({ type: INCREASE_CART_ITEM, payload: id })
   }
@@ -81,14 +79,13 @@ const AppProvider = ({ children }) => {
   }, [])
 
   return (
-    <AppContext.Provider
+    <CartContext.Provider
       value={{
         state,
         showSidebar,
         hideSidebar,
         addToCart,
         removeItem,
-        // --- AÑADIMOS LAS FUNCIONES AL CONTEXTO ---
         increaseCartItem,
         decreaseCartItem,
         showCart,
@@ -98,12 +95,18 @@ const AppProvider = ({ children }) => {
       }}
     >
       {children}
-    </AppContext.Provider>
+    </CartContext.Provider>
   )
 }
 
-const useGlobalContext = () => {
-  return useContext(AppContext)
+export const useCart = () => {
+  const context = useContext(CartContext)
+  if (!context) {
+    throw new Error('useCart debe usarse dentro de CartProvider')
+  }
+  return context
 }
 
-export { useGlobalContext, AppProvider }
+// Legacy export for backward compatibility
+export const useGlobalContext = useCart
+
