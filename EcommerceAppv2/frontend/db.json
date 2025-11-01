@@ -21,7 +21,7 @@
     },
     {
       "id": "3",
-      "companyName": "prueba",
+      "companyName": "Imagent",
       "productName": "prueba",
       "productDescription": "descripcion",
       "productPrice": 123,
@@ -32,8 +32,8 @@
       "images": [
         {
           "id": 1,
-          "url": "blob:http://localhost:5173/2f48a8a8-3423-45af-a5af-d396ebbdeff3",
-          "thumbnail": "blob:http://localhost:5173/c08505ac-4410-4b9a-9800-664e1af78d40"
+          "url": "blob:https://www.digitalsport.com.ar/files/products/628bbc0db7150-534243-500x500.jpg",
+          "thumbnail": "blob:https://www.digitalsport.com.ar/files/products/628bbc0db7150-534243-500x500.jpg"
         }
       ]
     },
@@ -50,8 +50,8 @@
       "images": [
         {
           "id": 1,
-          "url": "https://images.unsplash.com/photo-1600185365395-3f2f5e2d3fbb?auto=format&fit=crop&w=800&q=80",
-          "thumbnail": "https://images.unsplash.com/photo-1600185365395-3f2f5e2d3fbb?auto=format&fit=crop&w=200&q=80"
+          "url": "https://www.digitalsport.com.ar/files/products/628bbc0db7150-534243-500x500.jpg",
+          "thumbnail": "https://www.digitalsport.com.ar/files/products/628bbc0db7150-534243-500x500.jpg"
         }
       ]
     },

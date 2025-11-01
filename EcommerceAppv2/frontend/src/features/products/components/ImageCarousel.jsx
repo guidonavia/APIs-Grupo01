@@ -67,23 +67,16 @@ const ImageCarousel = ({ images }) => {
         >
           {validImages.map((image, idx) => (
             <SplideSlide key={image.id || idx}>
-              <img 
-                src={image.url} 
-                alt={`Product image ${idx + 1}`}
-                onError={() => handleImageError(image.id || idx, image.url)}
-                style={{ display: imageErrors[image.id || idx] ? 'none' : 'block' }}
-              />
-              {imageErrors[image.id || idx] && (
-                <div style={{ 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  justifyContent: 'center', 
-                  height: '100%',
-                  color: '#999',
-                  fontSize: '1.4rem'
-                }}>
-                  Imagen no disponible
-                </div>
+              {imageErrors[image.id || idx] ? (
+                <ErrorContainer>
+                  <ErrorMessage>Imagen no disponible</ErrorMessage>
+                </ErrorContainer>
+              ) : (
+                <img 
+                  src={image.url} 
+                  alt={`Product image ${idx + 1}`}
+                  onError={() => handleImageError(image.id || idx, image.url)}
+                />
               )}
             </SplideSlide>
           ))}
@@ -99,12 +92,15 @@ const ImageCarousel = ({ images }) => {
                 carouselRef.current.go(idx)
               }}
             >
-              <img 
-                src={image.thumbnail || image.url} 
-                alt={`Product thumbnail ${idx + 1}`}
-                onError={() => handleImageError(image.id || idx, image.thumbnail || image.url)}
-                style={{ display: imageErrors[image.id || idx] ? 'none' : 'block' }}
-              />
+              {imageErrors[image.id || idx] ? (
+                <ThumbnailPlaceholder>N/A</ThumbnailPlaceholder>
+              ) : (
+                <img 
+                  src={image.thumbnail || image.url} 
+                  alt={`Product thumbnail ${idx + 1}`}
+                  onError={() => handleImageError(image.id || idx, image.thumbnail || image.url)}
+                />
+              )}
             </button>
           ))}
         </div>
@@ -172,6 +168,35 @@ const CarouselWrapper = styled.section`
       }
     }
   }
+`
+
+const ErrorContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(240, 240, 240, 0.8);
+  min-height: 300px;
+`
+
+const ErrorMessage = styled.div`
+  color: #999;
+  font-size: 1.4rem;
+  text-align: center;
+  padding: 2rem;
+`
+
+const ThumbnailPlaceholder = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f0f0;
+  color: #999;
+  font-size: 0.9rem;
+  border-radius: 0.8rem;
 `
 
 export default ImageCarousel

@@ -55,26 +55,17 @@ const ImageOverlay = ({
           >
             {productImages.map((image, idx) => (
               <SplideSlide key={image.id || idx}>
-                <button>
+                {imageErrors[image.id || idx] ? (
+                  <ErrorContainer>
+                    <ErrorMessage>Imagen no disponible</ErrorMessage>
+                  </ErrorContainer>
+                ) : (
                   <img 
                     src={image.url} 
                     alt={image.alt}
                     onError={() => handleImageError(image.id || idx, image.url)}
-                    style={{ display: imageErrors[image.id || idx] ? 'none' : 'block' }}
                   />
-                  {imageErrors[image.id || idx] && (
-                    <div style={{ 
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      justifyContent: 'center', 
-                      height: '100%',
-                      color: '#fff',
-                      fontSize: '1.6rem'
-                    }}>
-                      Imagen no disponible
-                    </div>
-                  )}
-                </button>
+                )}
               </SplideSlide>
             ))}
           </Splide>
@@ -92,12 +83,15 @@ const ImageOverlay = ({
                 }}
                 key={thumbnail.id || idx}
               >
-                <img 
-                  src={thumbnail.url} 
-                  alt={thumbnail.alt}
-                  onError={() => handleImageError(thumbnail.id || idx, thumbnail.url)}
-                  style={{ display: imageErrors[thumbnail.id || idx] ? 'none' : 'block' }}
-                />
+                {imageErrors[thumbnail.id || idx] ? (
+                  <ThumbnailPlaceholder>N/A</ThumbnailPlaceholder>
+                ) : (
+                  <img 
+                    src={thumbnail.url} 
+                    alt={thumbnail.alt}
+                    onError={() => handleImageError(thumbnail.id || idx, thumbnail.url)}
+                  />
+                )}
               </button>
             ))
           ) : (
@@ -175,6 +169,8 @@ const OverlayWrapper = styled.section`
     img {
       display: block;
       width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     .thumbnails {
@@ -208,6 +204,33 @@ const OverlayWrapper = styled.section`
       }
     }
   }
+`
+
+const ErrorContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+`
+
+const ErrorMessage = styled.div`
+  color: #fff;
+  font-size: 1.6rem;
+  text-align: center;
+  padding: 2rem;
+`
+
+const ThumbnailPlaceholder = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f0f0;
+  color: #999;
+  font-size: 1rem;
 `
 
 export default ImageOverlay
