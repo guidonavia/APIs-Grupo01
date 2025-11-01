@@ -9,16 +9,17 @@ const ProductFilters = ({
   priceMin,
   setPriceMin,
   priceMax,
-  setPriceMax
+  setPriceMax,
 }) => {
   const resetFilters = () => {
-  setCategory("All");
-  setPriceMin(0);
-  setPriceMax(1000);
+    setCategory("All");
+    setPriceMin(0);
+    setPriceMax(1000);
   };
 
-  const min = typeof priceMin === 'number' && !isNaN(priceMin) ? priceMin : 0;
-  const max = typeof priceMax === 'number' && !isNaN(priceMax) ? priceMax : 1000;
+  const min = typeof priceMin === "number" && !isNaN(priceMin) ? priceMin : 0;
+  const max =
+    typeof priceMax === "number" && !isNaN(priceMax) ? priceMax : 1000;
   const values = [Math.min(min, max), Math.max(min, max)];
 
   return (
@@ -27,15 +28,24 @@ const ProductFilters = ({
         <Label>Categoría</Label>
         <Select
           value={selectedCategory}
-          onChange={e => setCategory(e.target.value)}
+          onChange={(e) => setCategory(e.target.value)}
         >
-          <option value="All">Todas</option>
-          <option value="Zapatillas">Zapatillas</option>
-          <option value="Ropa deportiva">Ropa deportiva</option>
-          <option value="Accesorios">Accesorios</option>
-          <option value="Calzado casual">Calzado casual</option>
-          <option value="Indumentaria">Indumentaria</option>
-          <option value="Equipamiento">Equipamiento</option>
+          {(categories && categories.length
+            ? categories
+            : [
+                "All",
+                "Zapatillas",
+                "Ropa deportiva",
+                "Accesorios",
+                "Calzado casual",
+                "Indumentaria",
+                "Equipamiento",
+              ]
+          ).map((cat, i) => (
+            <option key={cat + i} value={cat}>
+              {cat === "All" ? "Todas" : cat}
+            </option>
+          ))}
         </Select>
       </Section>
 
@@ -53,13 +63,22 @@ const ProductFilters = ({
               setPriceMin(min);
               setPriceMax(max);
             }}
-            renderTrack={({ props, children }) => (
-              <Track {...props}>
-                <TrackFill left={priceMin / 20} right={priceMax / 20} />
-                {children}
-              </Track>
-            )}
-            renderThumb={({ props }) => <Thumb {...props} />}
+            renderTrack={({ props, children }) => {
+              const { key, style, ...rest } = props;
+              return (
+                <Track key={key} {...rest} style={style}>
+                  <TrackFill
+                    $left={(priceMin || 0) / 20}
+                    $right={(priceMax || 0) / 20}
+                  />
+                  {children}
+                </Track>
+              );
+            }}
+            renderThumb={({ props }) => {
+              const { key, style, ...rest } = props;
+              return <Thumb key={key} {...rest} style={style} />;
+            }}
           />
           <PriceLabel>
             ${priceMin} - ${priceMax}
@@ -141,8 +160,8 @@ const Track = styled.div`
 const TrackFill = styled.div`
   position: absolute;
   height: 8px;
-  left: ${({ left }) => left}%;
-  right: ${({ right }) => 100 - right}%;
+  left: ${({ $left }) => $left}%;
+  right: ${({ $right }) => 100 - $right}%;
   background: linear-gradient(90deg, #ff7a18, #ff4a00);
   border-radius: 999px;
 `;
@@ -187,10 +206,9 @@ const ClearButton = styled.button`
   transition: all 0.2s ease;
 
   &:hover {
-    background: linear-gradient(90deg,#ff7a18,#ff4a00);
+    background: linear-gradient(90deg, #ff7a18, #ff4a00);
     color: #fff;
   }
 `;
 
 export default ProductFilters;
-

@@ -1,7 +1,7 @@
 import styled from "styled-components"
 import ProductControls from "../ProductControls/ProductControls"
 
-const ProductInfo = ({ product }) => {
+const ProductInfo = ({ product, showCounter }) => {
   const {
     companyName,
     productName,
@@ -29,7 +29,8 @@ const ProductInfo = ({ product }) => {
           )}
         </div>
       </div>
-      <ProductControls product={product} />
+      {showCounter && <ProductControls product={product} />}
+      
     </InfoWrapper>
   )
 }

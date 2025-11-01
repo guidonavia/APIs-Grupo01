@@ -113,7 +113,7 @@ const ProductPage = () => {
             </Thumbnails>
           </ImageGallery>
 
-          {product && <ProductInfo product={product} />}
+          {product && <ProductInfo product={product} showCounter={true} />}
         </MainSection>
 
         <BottomSection>

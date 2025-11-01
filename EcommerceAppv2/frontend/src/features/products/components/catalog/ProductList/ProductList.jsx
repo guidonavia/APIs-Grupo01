@@ -4,7 +4,12 @@ import ProductCard from "../ProductCard/ProductCard";
 import { useLocation } from "react-router-dom";
 import { API_CONFIG } from "../../../../../shared/constants";
 
-const ProductList = ({ search, selectedCategory, filters, setResultsCount }) => {
+const ProductList = ({
+  search,
+  selectedCategory,
+  filters,
+  setResultsCount,
+}) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -91,8 +96,8 @@ const ProductList = ({ search, selectedCategory, filters, setResultsCount }) => 
 
   return (
     <MainWrapper>
-      {filteredProducts.map((product) => (
-        <ProductCard key={product.id} productData={product} />
+      {filteredProducts.map((product, idx) => (
+        <ProductCard key={product.id ?? idx} productData={product} />
       ))}
     </MainWrapper>
   );
@@ -108,4 +113,3 @@ const MainWrapper = styled.main`
 `;
 
 export default ProductList;
-

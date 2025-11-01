@@ -24,7 +24,7 @@ const Carousel = () => {
 
   return (
     <CarouselWrapper>
-      <SlidesWrapper current={current}>
+      <SlidesWrapper $current={current}>
         {images.map((img, idx) => (
           <Slide key={idx}>
             <img src={img} alt={`Slide ${idx}`} />
@@ -60,7 +60,7 @@ const CarouselWrapper = styled.div`
 const SlidesWrapper = styled.div`
   display: flex;
   transition: transform 0.5s ease-in-out;
-  transform: translateX(${(props) => -props.current * 100}%);
+  transform: translateX(${(props) => -props.$current * 100}%);
 `;
 
 const Slide = styled.div`
@@ -71,12 +71,11 @@ const Slide = styled.div`
 
   img {
     width: 100%;
-    height: auto;       
-    object-fit: contain; 
-    max-height: 80vh;    
+    height: auto;
+    object-fit: contain;
+    max-height: 80vh;
   }
 `;
-
 
 const PrevButton = styled.button`
   position: absolute;

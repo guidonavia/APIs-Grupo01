@@ -5,8 +5,7 @@ import ProductSearch from "../../../features/products/components/catalog/Product
 import CartDrawer from "../../../features/cart/components/CartDrawer/CartDrawer";
 import AvatarMenu from "../../../features/user/components/profile/AvatarMenu";
 import { useCart } from "../../../features/cart/context/CartContext";
-import { useAuth } from "../../../features/user/context/AuthContext";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import ProductFilters from "../../../features/products/components/catalog/ProductFilters/ProductFilters";
 
@@ -19,15 +18,16 @@ const Navbar = ({
   setPriceMin,
   priceMax,
   setPriceMax,
-  color,
-  setColor,
-  size,
-  setSize,
-  gender,
-  setGender,
   resultsCount,
 }) => {
   const { showSidebar, showCart, hideCart, state } = useCart();
+  const hideTimer = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      if (hideTimer.current) clearTimeout(hideTimer.current);
+    };
+  }, []);
   const [isAvatarMenuOpen, setAvatarMenuOpen] = useState(false);
   const categories = ["All", "Zapatillas", "Botines"];
 
@@ -56,12 +56,16 @@ const Navbar = ({
 
         <div className="nav-right">
           <button
-            onClick={() => {
-              if (state.showingCart) {
-                hideCart();
-              } else {
-                showCart();
+            onMouseEnter={() => {
+              if (hideTimer.current) {
+                clearTimeout(hideTimer.current);
+                hideTimer.current = null;
               }
+              showCart();
+            }}
+            onMouseLeave={() => {
+              // delay hiding to allow moving into the drawer without flicker
+              hideTimer.current = setTimeout(() => hideCart(), 250);
             }}
             className="cart-btn"
           >
@@ -73,15 +77,24 @@ const Navbar = ({
             <img src={avatar} alt="avatar" />
           </button>
 
-          <AvatarMenu
-            isOpen={isAvatarMenuOpen}
-            closeMenu={closeAvatarMenu}
-          />
+          <AvatarMenu isOpen={isAvatarMenuOpen} closeMenu={closeAvatarMenu} />
 
-          <CartDrawer className={`${state.showingCart ? "active" : ""}`} />
+          <CartDrawer
+            className={`${state.showingCart ? "active" : ""}`}
+            onMouseEnter={() => {
+              if (hideTimer.current) {
+                clearTimeout(hideTimer.current);
+                hideTimer.current = null;
+              }
+              showCart();
+            }}
+            onMouseLeave={() => {
+              hideTimer.current = setTimeout(() => hideCart(), 200);
+            }}
+          />
         </div>
       </nav>
-      
+
       <ProductFilters
         categories={categories}
         selectedCategory={selectedCategory}
@@ -227,4 +240,3 @@ const ResultBadge = styled.span`
 `;
 
 export default Navbar;
-

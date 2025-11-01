@@ -1,15 +1,15 @@
-import { useNavigate } from "react-router-dom"
-import styled from "styled-components"
-import CartItem from "../CartItem/CartItem"
-import Button from "../../../../shared/components/ui/Button"
-import { useCart } from "../../context/CartContext"
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import CartItem from "../CartItem/CartItem";
+import Button from "../../../../shared/components/ui/Button";
+import { useCart } from "../../context/CartContext";
 
-const CartDrawer = ({ className }) => {
-  const { state } = useCart()
-  const navigate = useNavigate()
-  
+const CartDrawer = ({ className, ...rest }) => {
+  const { state } = useCart();
+  const navigate = useNavigate();
+
   return (
-    <CartDrawerWrapper className={className}>
+    <CartDrawerWrapper className={className} {...rest}>
       <header>
         <p>Cart</p>
       </header>
@@ -17,20 +17,18 @@ const CartDrawer = ({ className }) => {
       <ul className="cart-items">
         {state.cart.length > 0 ? (
           state.cart.map((cartItem) => {
-            return <CartItem key={cartItem.id} {...cartItem} />
+            return <CartItem key={cartItem.id} {...cartItem} />;
           })
         ) : (
           <p className="empty">Carrito Vacio</p>
         )}
         {state.cart.length > 0 && (
-          <Button func={() => navigate("/checkout")}>
-            Checkout
-          </Button>
+          <Button func={() => navigate("/checkout")}>Checkout</Button>
         )}
       </ul>
     </CartDrawerWrapper>
-  )
-}
+  );
+};
 
 const CartDrawerWrapper = styled.div`
   display: none;
@@ -79,7 +77,6 @@ const CartDrawerWrapper = styled.div`
       color: hsl(var(--dark-grayish-blue));
     }
   }
-`
+`;
 
-export default CartDrawer
-
+export default CartDrawer;

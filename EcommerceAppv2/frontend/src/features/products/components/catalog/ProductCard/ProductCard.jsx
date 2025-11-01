@@ -1,21 +1,23 @@
-import styled from "styled-components"
-import ImageCarousel from "../../ImageCarousel"
-import ProductInfo from "../ProductInfo/ProductInfo"
-import { useNavigate } from "react-router-dom"
+import styled from "styled-components";
+import ImageCarousel from "../../ImageCarousel";
+import ProductInfo from "../ProductInfo/ProductInfo";
+import ProductControls from "../ProductControls/ProductControls";
+import { Link } from "react-router-dom";
 
 const ProductCard = ({ productData }) => {
-  const navigate = useNavigate();
-  
   return (
     <ProductWrapper>
-      <ImageCarousel images={productData.images} />
-      <ProductInfo product={productData} />
-      <button className="btn-verMas" onClick={() => navigate(`/products/${productData.id}`)}>
-      Ver Producto
-      </button>
+      <Link
+        to={`/products/${productData.id}`}
+        style={{ textDecoration: "none", color: "inherit" }}
+      >
+        <ImageCarousel images={productData.images} />
+        <ProductInfo product={productData} showCounter={false} />
+        
+      </Link>
     </ProductWrapper>
-  )
-}
+  );
+};
 
 const ProductWrapper = styled.article`
   background-color: #fff;
@@ -45,9 +47,8 @@ const ProductWrapper = styled.article`
 
     &:hover {
       background-color: #b35f00ff;
+    }
   }
-}
-`
+`;
 
-export default ProductCard
-
+export default ProductCard;

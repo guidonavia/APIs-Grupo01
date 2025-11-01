@@ -1,78 +1,74 @@
-import styled from "styled-components"
-import { useState, useCallback } from "react"
-import PropTypes from "prop-types"
-import { Plus, Minus, Cart } from "../../../../../shared/components/ui"
-import Button from "../../../../../shared/components/ui/Button"
-import { useCart } from "../../../../cart/context/CartContext"
-import { APP_CONFIG, ARIA_LABELS, VALIDATION_MESSAGES } from "../../../../../shared/constants"
+import styled from "styled-components";
+import { useState, useCallback } from "react";
+import PropTypes from "prop-types";
+import { Plus, Minus, Cart } from "../../../../../shared/components/ui";
+import Button from "../../../../../shared/components/ui/Button";
+import { useCart } from "../../../../cart/context/CartContext";
+import {
+  APP_CONFIG,
+  ARIA_LABELS,
+  VALIDATION_MESSAGES,
+} from "../../../../../shared/constants";
 
-/**
- * ProductControls - Manages quantity selection and cart addition for a product
- * Features:
- * - Local quantity state management
- * - Validation with min/max constraints
- * - Accessibility support (ARIA labels, keyboard navigation)
- * - Disabled states for better UX
- * @param {Object} product - Product object to add to cart
- */
 const ProductControls = ({ product }) => {
-  const { addToCart } = useCart()
-  const [quantity, setQuantity] = useState(APP_CONFIG.MIN_QUANTITY)
-  const [error, setError] = useState(null)
-  const [isAdding, setIsAdding] = useState(false)
+  const { addToCart } = useCart();
+  const [quantity, setQuantity] = useState(APP_CONFIG.MIN_QUANTITY);
+  const [error, setError] = useState(null);
+  const [isAdding, setIsAdding] = useState(false);
 
-  const handleIncrease = useCallback(() => {
-    setError(null)
+  // Single adjust function reduces number of callbacks created
+  const adjustQuantity = useCallback((delta, e) => {
+    // optional event passed when called from onClick/onKeyDown
+    if (e && e.stopPropagation) e.stopPropagation();
+    setError(null);
     setQuantity((prev) => {
-      if (prev >= APP_CONFIG.MAX_QUANTITY) {
-        setError(VALIDATION_MESSAGES.MAX_QUANTITY_ERROR)
-        return prev
+      const next = prev + delta;
+      if (next <= APP_CONFIG.MIN_QUANTITY) return APP_CONFIG.MIN_QUANTITY;
+      if (next >= APP_CONFIG.MAX_QUANTITY) {
+        setError(VALIDATION_MESSAGES.MAX_QUANTITY_ERROR);
+        return APP_CONFIG.MAX_QUANTITY;
       }
-      return prev + 1
-    })
-  }, [])
+      return next;
+    });
+  }, []);
 
-  const handleDecrease = useCallback(() => {
-    setError(null)
-    setQuantity((prev) => (prev > APP_CONFIG.MIN_QUANTITY ? prev - 1 : APP_CONFIG.MIN_QUANTITY))
-  }, [])
-
-  const handleKeyDown = useCallback((event, action) => {
+  const handleKeyDown = (event, delta) => {
+    if (event) event.stopPropagation();
     if (event.key === "Enter" || event.key === " ") {
-      event.preventDefault()
-      action()
+      event.preventDefault();
+      adjustQuantity(delta);
     }
-  }, [])
+  };
 
-  const handleAddToCart = useCallback(async () => {
+  const handleAddToCart = async () => {
     if (quantity <= APP_CONFIG.MIN_QUANTITY) {
-      setError(VALIDATION_MESSAGES.MIN_QUANTITY_ERROR)
-      return
+      setError(VALIDATION_MESSAGES.MIN_QUANTITY_ERROR);
+      return;
     }
 
-    setIsAdding(true)
-    setError(null)
+    setIsAdding(true);
+    setError(null);
 
     try {
-      addToCart(quantity, product)
-      setQuantity(APP_CONFIG.MIN_QUANTITY)
-      setTimeout(() => setIsAdding(false), 300)
-    } catch (err) {
-      setError("Failed to add product to cart. Please try again.")
-      setIsAdding(false)
+      await addToCart(quantity, product);
+      setQuantity(APP_CONFIG.MIN_QUANTITY);
+      setTimeout(() => setIsAdding(false), 300);
+    } catch {
+      setError("Failed to add product to cart. Please try again.");
+      setIsAdding(false);
     }
-  }, [quantity, product, addToCart])
+  };
 
-  const isDecreaseDisabled = quantity <= APP_CONFIG.MIN_QUANTITY
-  const isIncreaseDisabled = quantity >= APP_CONFIG.MAX_QUANTITY
-  const isAddToCartDisabled = quantity <= APP_CONFIG.MIN_QUANTITY || isAdding
+  const isDecreaseDisabled = quantity <= APP_CONFIG.MIN_QUANTITY;
+  const isIncreaseDisabled = quantity >= APP_CONFIG.MAX_QUANTITY;
+  const isAddToCartDisabled = quantity <= APP_CONFIG.MIN_QUANTITY || isAdding;
 
   return (
     <ControlsWrapper>
       <div className="inner-controls">
         <button
-          onClick={handleDecrease}
-          onKeyDown={(e) => handleKeyDown(e, handleDecrease)}
+          onClick={(e) => adjustQuantity(-1, e)}
+          onKeyDown={(e) => handleKeyDown(e, -1)}
           disabled={isDecreaseDisabled}
           aria-label={ARIA_LABELS.DECREASE_QUANTITY}
           aria-disabled={isDecreaseDisabled}
@@ -80,16 +76,16 @@ const ProductControls = ({ product }) => {
         >
           <Minus />
         </button>
-        <span 
-          className="amount" 
-          role="status" 
+        <span
+          className="amount"
+          role="status"
           aria-label={`${ARIA_LABELS.QUANTITY_INPUT}: ${quantity}`}
         >
           {quantity}
         </span>
         <button
-          onClick={handleIncrease}
-          onKeyDown={(e) => handleKeyDown(e, handleIncrease)}
+          onClick={(e) => adjustQuantity(1, e)}
+          onKeyDown={(e) => handleKeyDown(e, 1)}
           disabled={isIncreaseDisabled}
           aria-label={ARIA_LABELS.INCREASE_QUANTITY}
           aria-disabled={isIncreaseDisabled}
@@ -98,7 +94,11 @@ const ProductControls = ({ product }) => {
           <Plus />
         </button>
       </div>
-      {error && <div className="error-message" role="alert">{error}</div>}
+      {error && (
+        <div className="error-message" role="alert">
+          {error}
+        </div>
+      )}
       <Button
         className="cart"
         func={handleAddToCart}
@@ -110,8 +110,8 @@ const ProductControls = ({ product }) => {
         {isAdding ? "Agregando..." : "Añadir al carrito"}
       </Button>
     </ControlsWrapper>
-  )
-}
+  );
+};
 
 ProductControls.propTypes = {
   product: PropTypes.shape({
@@ -120,7 +120,7 @@ ProductControls.propTypes = {
     productPrice: PropTypes.number.isRequired,
     images: PropTypes.arrayOf(PropTypes.object),
   }).isRequired,
-}
+};
 
 const ControlsWrapper = styled.div`
   display: flex;
@@ -139,7 +139,7 @@ const ControlsWrapper = styled.div`
       color: hsl(var(--orange));
       transition: opacity 0.2s ease, transform 0.1s ease;
       cursor: pointer;
-      
+
       &:hover:not(.disabled) {
         opacity: 0.7;
       }
@@ -192,7 +192,6 @@ const ControlsWrapper = styled.div`
       padding: 1.2rem 2rem;
     }
   }
-`
+`;
 
-export default ProductControls
-
+export default ProductControls;
