@@ -1,51 +1,27 @@
-import React from "react";
-import Navigator from "./Navigator";
-import Sidebar from "./Sidebar";
+import { Outlet, useLocation } from "react-router-dom";
+import Navbar from "./Navigator";
 import Footer from "./Footer";
 
-const Layout = ({
-  children,
-  search,
-  setSearch,
-  selectedCategory,
-  setCategory,
-  priceMin,
-  setPriceMin,
-  priceMax,
-  setPriceMax,
-  color,
-  setColor,
-  size,
-  setSize,
-  gender,
-  setGender,
-  resultsCount,
-}) => {
+export default function Layout(props) {
+  const { pathname } = useLocation();
+
+  // Hide filters on login or register if needed
+  const hideFilters = ["/login", "/register"].includes(pathname);
+
   return (
     <>
-      <Navigator
-        search={search}
-        setSearch={setSearch}
-        selectedCategory={selectedCategory}
-        setCategory={setCategory}
-        priceMin={priceMin}
-        setPriceMin={setPriceMin}
-        priceMax={priceMax}
-        setPriceMax={setPriceMax}
-        color={color}
-        setColor={setColor}
-        size={size}
-        setSize={setSize}
-        gender={gender}
-        setGender={setGender}
-        resultsCount={resultsCount}
-      />
-      <Sidebar />
-      <main>{children}</main>
-      <Footer />
+      {/* Navbar + filters */}
+      {!hideFilters && <Navbar {...props} />}
+
+      {/* Where child routes (like HomePage, CheckoutPage...) get rendered */}
+      <main>
+        <Outlet />
+      </main>
+
+      {/* Footer */}
+      {!hideFilters && <Footer />}
     </>
   );
-};
+}
 
-export default Layout;
 

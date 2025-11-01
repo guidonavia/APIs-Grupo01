@@ -1,9 +1,17 @@
 import styled from "styled-components"
 import { useNavigate } from "react-router-dom"
+import { useAuth } from "../../context/AuthContext";
 import PropTypes from "prop-types"
 
 const AvatarMenu = ({ isOpen, closeMenu }) => {
   const navigate = useNavigate()
+  const { logout} = useAuth();
+
+  const handleLogout = () => {
+    closeMenu() 
+    logout()
+    navigate("/login")
+  }
 
   const handleSellClick = () => {
     closeMenu() 
@@ -15,6 +23,7 @@ const AvatarMenu = ({ isOpen, closeMenu }) => {
       <ul>
         <li>
           <button onClick={handleSellClick}>Vender</button>
+          <button onClick={handleLogout}>Cerrar Sesion</button>
         </li>
       </ul>
     </MenuWrapper>

@@ -3,7 +3,7 @@ import { Logo, Menu, Cart } from "../ui";
 import { avatar } from "../../../assets/imagedata";
 import ProductSearch from "../../../features/products/components/catalog/ProductSearch/ProductSearch";
 import CartDrawer from "../../../features/cart/components/CartDrawer/CartDrawer";
-import AvatarMenu from "../../../features/profile/components/AvatarMenu/AvatarMenu";
+import AvatarMenu from "../../../features/user/components/profile/AvatarMenu";
 import { useCart } from "../../../features/cart/context/CartContext";
 import { useAuth } from "../../../features/user/context/AuthContext";
 import { useState } from "react";
@@ -28,7 +28,6 @@ const Navbar = ({
   resultsCount,
 }) => {
   const { showSidebar, showCart, hideCart, state } = useCart();
-  const { logout, user } = useAuth();
   const [isAvatarMenuOpen, setAvatarMenuOpen] = useState(false);
   const categories = ["All", "Zapatillas", "Botines"];
 
@@ -82,12 +81,7 @@ const Navbar = ({
           <CartDrawer className={`${state.showingCart ? "active" : ""}`} />
         </div>
       </nav>
-
-      {user && (
-        <button onClick={logout} className="logout-button">
-          Cerrar Sesión
-        </button>
-      )}
+      
       <ProductFilters
         categories={categories}
         selectedCategory={selectedCategory}
