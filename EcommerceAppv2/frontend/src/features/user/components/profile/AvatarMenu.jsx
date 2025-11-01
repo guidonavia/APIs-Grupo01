@@ -13,21 +13,32 @@ const AvatarMenu = ({ isOpen, closeMenu }) => {
     navigate("/login")
   }
 
+
+  const handleProfileClick = () => {
+    closeMenu();
+    navigate("/profile");
+  };
+
   const handleSellClick = () => {
-    closeMenu() 
-    navigate("/sell")
-  }
+    closeMenu();
+    navigate("/sell");
+  };
 
   return (
     <MenuWrapper className={`${isOpen ? "active" : ""}`}>
       <ul>
         <li>
+          <button onClick={handleProfileClick}>Mi perfil</button>
+        </li>
+        <li>
           <button onClick={handleSellClick}>Vender</button>
+        </li>
+        <li>
           <button onClick={handleLogout}>Cerrar Sesion</button>
         </li>
       </ul>
     </MenuWrapper>
-  )
+  );
 }
 
 const MenuWrapper = styled.div`

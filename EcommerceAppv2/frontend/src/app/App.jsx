@@ -7,6 +7,7 @@ import ProductPage from "../features/products/pages/ProductDetail";
 import { useAuth } from "../features/user/context/AuthContext";
 import Layout from "../shared/components/layout/Layout";
 import { useState } from "react";
+import ProfilePage from "../features/profile/components/ProfilePage";
 
 export default function App() {
   const { user } = useAuth();
@@ -79,6 +80,11 @@ export default function App() {
           <Route
             path="/sell"
             element={isAuth ? <SellPage /> : <Navigate to="/login" replace />}
+          />
+          {/* MI PERFIL */}
+          <Route
+            path="/profile"
+            element={isAuth ? <ProfilePage /> : <Navigate to="/login" replace />}
           />
         </Route>
       </Routes>
