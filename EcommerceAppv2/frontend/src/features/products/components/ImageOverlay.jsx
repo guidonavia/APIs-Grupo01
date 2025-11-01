@@ -1,3 +1,4 @@
+import { useState } from "react"
 import styled from "styled-components"
 import { Close } from "../../../shared/components/ui"
 import { Splide, SplideSlide } from "@splidejs/react-splide"
@@ -12,13 +13,28 @@ const ImageOverlay = ({
   setImageIndex,
 }) => {
   const { hideImageOverlay } = useCart()
+  const [imageErrors, setImageErrors] = useState({})
 
   if (!images || !Array.isArray(images) || images.length === 0) {
     return null
   }
 
-  const productImages = images.map(img => ({ url: img.url, alt: img.alt || "Product image" }))
-  const productThumbnails = images.map(img => ({ url: img.thumbnail || img.url, alt: img.alt || "Product thumbnail" }))
+  const handleImageError = (imageId, imageUrl) => {
+    if (imageUrl?.startsWith('blob:')) {
+      setImageErrors(prev => ({ ...prev, [imageId]: true }))
+    }
+  }
+
+  const productImages = images.map((img, idx) => ({ 
+    id: img.id || idx,
+    url: img.url, 
+    alt: img.alt || "Product image" 
+  }))
+  const productThumbnails = images.map((img, idx) => ({ 
+    id: img.id || idx,
+    url: img.thumbnail || img.url, 
+    alt: img.alt || "Product thumbnail" 
+  }))
 
   return (
     <OverlayWrapper>
@@ -38,9 +54,26 @@ const ImageOverlay = ({
             }}
           >
             {productImages.map((image, idx) => (
-              <SplideSlide key={idx}>
+              <SplideSlide key={image.id || idx}>
                 <button>
-                  <img src={image.url} alt={image.alt} />
+                  <img 
+                    src={image.url} 
+                    alt={image.alt}
+                    onError={() => handleImageError(image.id || idx, image.url)}
+                    style={{ display: imageErrors[image.id || idx] ? 'none' : 'block' }}
+                  />
+                  {imageErrors[image.id || idx] && (
+                    <div style={{ 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      justifyContent: 'center', 
+                      height: '100%',
+                      color: '#fff',
+                      fontSize: '1.6rem'
+                    }}>
+                      Imagen no disponible
+                    </div>
+                  )}
                 </button>
               </SplideSlide>
             ))}
@@ -57,9 +90,14 @@ const ImageOverlay = ({
                     carouselRef.current.go(idx)
                   }
                 }}
-                key={idx}
+                key={thumbnail.id || idx}
               >
-                <img src={thumbnail.url} alt={thumbnail.alt} />
+                <img 
+                  src={thumbnail.url} 
+                  alt={thumbnail.alt}
+                  onError={() => handleImageError(thumbnail.id || idx, thumbnail.url)}
+                  style={{ display: imageErrors[thumbnail.id || idx] ? 'none' : 'block' }}
+                />
               </button>
             ))
           ) : (

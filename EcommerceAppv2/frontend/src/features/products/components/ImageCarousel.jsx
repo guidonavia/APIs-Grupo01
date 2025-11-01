@@ -7,6 +7,7 @@ import styled from "styled-components"
 
 const ImageCarousel = ({ images }) => {
   const [imageIndex, setImageIndex] = useState(0)
+  const [imageErrors, setImageErrors] = useState({})
   const {
     state: { screenWidth, showingOverlay },
     showImageOverlay,
@@ -15,7 +16,26 @@ const ImageCarousel = ({ images }) => {
   const carouselRef = useRef(null)
   const overlayRef = useRef(null)
 
-  if (!images || images.length === 0) {
+  const handleImageError = (imageId, imageUrl) => {
+    // Check if it's a blob URL that failed
+    if (imageUrl?.startsWith('blob:')) {
+      setImageErrors(prev => ({ ...prev, [imageId]: true }))
+    }
+  }
+
+  // Filter out images with blob URLs that we know are invalid
+  const validImages = images?.filter((img, idx) => {
+    const imageId = img.id || idx
+    if (imageErrors[imageId]) return false
+    // Check if it's a blob URL - these are often invalid after page reload
+    if (typeof img.url === 'string' && img.url.startsWith('blob:')) {
+      // We'll still try to render it, but handle errors
+      return true
+    }
+    return true
+  }) || []
+
+  if (!images || images.length === 0 || validImages.length === 0) {
     return <div className="placeholder">Cargando imagen...</div>
   }
 
@@ -45,15 +65,32 @@ const ImageCarousel = ({ images }) => {
           ref={carouselRef}
           onMove={() => setImageIndex(carouselRef.current.splide.index)}
         >
-          {images.map((image, idx) => (
+          {validImages.map((image, idx) => (
             <SplideSlide key={image.id || idx}>
-              <img src={image.url} alt={`Product image ${idx + 1}`} />
+              <img 
+                src={image.url} 
+                alt={`Product image ${idx + 1}`}
+                onError={() => handleImageError(image.id || idx, image.url)}
+                style={{ display: imageErrors[image.id || idx] ? 'none' : 'block' }}
+              />
+              {imageErrors[image.id || idx] && (
+                <div style={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center', 
+                  height: '100%',
+                  color: '#999',
+                  fontSize: '1.4rem'
+                }}>
+                  Imagen no disponible
+                </div>
+              )}
             </SplideSlide>
           ))}
         </Splide>
         
         <div className="thumbnails">
-          {images.length > 1 && images.map((image, idx) => (
+          {validImages.length > 1 && validImages.map((image, idx) => (
             <button
               className={`thumb-btn ${imageIndex === idx ? "active" : ""}`}
               key={image.id || idx}
@@ -62,7 +99,12 @@ const ImageCarousel = ({ images }) => {
                 carouselRef.current.go(idx)
               }}
             >
-              <img src={image.thumbnail} alt={`Product thumbnail ${idx + 1}`} />
+              <img 
+                src={image.thumbnail || image.url} 
+                alt={`Product thumbnail ${idx + 1}`}
+                onError={() => handleImageError(image.id || idx, image.thumbnail || image.url)}
+                style={{ display: imageErrors[image.id || idx] ? 'none' : 'block' }}
+              />
             </button>
           ))}
         </div>
@@ -71,7 +113,7 @@ const ImageCarousel = ({ images }) => {
         <ImageOverlay
           carouselRef={carouselRef}
           overlayRef={overlayRef}
-          images={images}
+          images={validImages}
           imageIndex={imageIndex}
           setImageIndex={setImageIndex}
         />
