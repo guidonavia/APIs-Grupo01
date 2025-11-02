@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { API_CONFIG } from "../../../shared/constants";
+import { productService } from "../services/productService";
 import ProductForm from "../components/management/ProductForm/ProductForm";
 import ProductTable from "../components/management/ProductTable/ProductTable";
 
@@ -39,9 +39,8 @@ const SellPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(API_CONFIG.PRODUCTS_API);
-        const result = await response.json();
-        const productosFiltrados = result.filter(
+        const result = await productService.getAllProducts();
+        const productosFiltrados = (result || []).filter(
           (prod) => prod.usuarioId === usuario?.id
         );
         setProductos(productosFiltrados);
@@ -54,7 +53,7 @@ const SellPage = () => {
     }
   }, [usuario]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (
       !usuario ||
@@ -90,49 +89,34 @@ const SellPage = () => {
     };
 
     if (actualizando) {
-      fetch(`${API_CONFIG.PRODUCTS_API}/${producto.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(productoFinal),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          const productosActualizados = productos.map((prod) =>
-            prod.id === data.id ? data : prod
-          );
-          setProductos(productosActualizados);
-          resetForm();
-        })
-        .catch((error) =>
-          console.error("Error al actualizar el producto:", error)
+      try {
+        const data = await productService.updateProduct(producto.id, productoFinal);
+        const productosActualizados = productos.map((prod) =>
+          prod.id === data.id ? data : prod
         );
+        setProductos(productosActualizados);
+        resetForm();
+      } catch (error) {
+        console.error("Error al actualizar el producto:", error);
+      }
       setActualizando(false);
     } else {
-      const productoConId = {
-        ...productoFinal,
-        id:
-          productos.length === 0
-            ? "1"
-            : (parseInt(productos[productos.length - 1].id) + 1).toString(),
-      };
+      try {
+        // let backend assign id if it does so; otherwise keep current logic
+        const productoConId = {
+          ...productoFinal,
+          id:
+            productos.length === 0
+              ? "1"
+              : (parseInt(productos[productos.length - 1].id) + 1).toString(),
+        };
 
-      fetch(API_CONFIG.PRODUCTS_API, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(productoConId),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          setProductos([...productos, data]);
-          resetForm();
-        })
-        .catch((error) =>
-          console.error("Error al agregar el producto:", error)
-        );
+        const data = await productService.createProduct(productoConId);
+        setProductos([...productos, data]);
+        resetForm();
+      } catch (error) {
+        console.error("Error al agregar el producto:", error);
+      }
     }
   };
 
@@ -157,18 +141,17 @@ const SellPage = () => {
     setMostrarPopup(true);
   };
 
-  const confirmarEliminar = () => {
-    fetch(`${API_CONFIG.PRODUCTS_API}/${productoAEliminar.id}`, {
-      method: "DELETE",
-    })
-      .then(() => {
-        setProductos(productos.filter((p) => p.id !== productoAEliminar.id));
-        setProductoAEliminar(null);
-        setTimeout(() => {
-          setMostrarPopup(false);
-        }, 1000);
-      })
-      .catch((error) => console.error("Error al eliminar el producto:", error));
+  const confirmarEliminar = async () => {
+    try {
+      await productService.deleteProduct(productoAEliminar.id);
+      setProductos(productos.filter((p) => p.id !== productoAEliminar.id));
+      setProductoAEliminar(null);
+      setTimeout(() => {
+        setMostrarPopup(false);
+      }, 1000);
+    } catch (error) {
+      console.error("Error al eliminar el producto:", error);
+    }
   };
 
   const cancelarEliminar = () => {

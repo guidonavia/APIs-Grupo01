@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useState, useEffect } from "react";
 import ProductCard from "../ProductCard/ProductCard";
 import { useLocation } from "react-router-dom";
-import { API_CONFIG } from "../../../../../shared/constants";
+import { productService } from "../../../services/productService";
 
 const ProductList = ({
   search,
@@ -18,12 +18,8 @@ const ProductList = ({
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch(API_CONFIG.PRODUCTS_API);
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        setProducts(data);
+        const data = await productService.getAllProducts();
+        setProducts(data || []);
       } catch (e) {
         setError(e.message);
       } finally {

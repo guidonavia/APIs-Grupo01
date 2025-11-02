@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { API_CONFIG } from "../../../../../shared/constants";
 
 const CATEGORIAS = [
   "Zapatillas",

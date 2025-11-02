@@ -4,6 +4,7 @@ import Button from "../../../shared/components/ui/Button"
 import { useNavigate } from "react-router-dom"
 import { useEffect } from "react"
 import { Plus, Minus } from "../../../shared/components/ui"
+import { productService } from "../../products/services/productService";
 
 const CheckoutPage = () => {
   // Obtenemos las nuevas funciones del contexto
@@ -30,9 +31,9 @@ const CheckoutPage = () => {
 
   const handleCheckout = async () => {
     try {
+      // Verify stock availability using backend products API
       for (const item of state.cart) {
-        const response = await fetch(`http://localhost:3002/products/${item.id}`)
-        const productInDB = await response.json()
+        const productInDB = await productService.getProductById(item.id);
 
         if (productInDB.stock < item.amount) {
           alert(`Lo sentimos, solo quedan ${productInDB.stock} unidades de "${item.productName}".`)
@@ -40,16 +41,11 @@ const CheckoutPage = () => {
         }
       }
 
+      // Update stock for each item
       for (const item of state.cart) {
-        const response = await fetch(`http://localhost:3002/products/${item.id}`)
-        const productInDB = await response.json()
-        const newStock = productInDB.stock - item.amount
-
-        await fetch(`http://localhost:3002/products/${item.id}`, {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ stock: newStock }),
-        })
+        const productInDB = await productService.getProductById(item.id);
+        const newStock = productInDB.stock - item.amount;
+        await productService.updateProduct(item.id, { ...productInDB, stock: newStock });
       }
 
       state.cart.forEach((item) => {

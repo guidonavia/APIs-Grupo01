@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import ProductInfo from "../components/catalog/ProductInfo/ProductInfo";
-import { API_CONFIG } from "../../../shared/constants";
+import { productService } from "../services/productService";
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -15,51 +15,40 @@ const ProductPage = () => {
   const [loadingRelated, setLoadingRelated] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
-    setError(null);
-    
-    fetch(`${API_CONFIG.PRODUCTS_API}/${id}`)
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error(`Failed to fetch product: ${res.statusText}`);
-        }
-        return res.json();
-      })
-      .then((data) => {
+    const loadProduct = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const data = await productService.getProductById(id);
         setProduct(data);
         setMainImage(data.images?.[0]?.url || "");
-      })
-      .catch((err) => {
+      } catch (err) {
         setError(err.message || "Failed to load product");
         console.error("Error fetching product:", err);
-      })
-      .finally(() => {
+      } finally {
         setLoading(false);
-      });
+      }
+    };
+
+    loadProduct();
   }, [id]);
 
   useEffect(() => {
     if (product?.category) {
       setLoadingRelated(true);
-      fetch(API_CONFIG.PRODUCTS_API)
-        .then((res) => {
-          if (!res.ok) {
-            throw new Error("Failed to fetch related products");
-          }
-          return res.json();
-        })
-        .then((allProducts) => {
+      (async () => {
+        try {
+          const allProducts = await productService.getAllProducts();
           const filtered = allProducts.filter(
             (p) => p.category === product.category && p.id !== product.id
           );
           setRelatedProducts(filtered);
-        })
-        .catch((err) => {
+        } catch (err) {
           console.error("Error fetching related products:", err);
-        })
-        .finally(() => {
+        } finally {
           setLoadingRelated(false);
-        });
+        }
+      })();
     }
   }, [product]);
 

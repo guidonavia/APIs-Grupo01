@@ -2,6 +2,8 @@ import styled from "styled-components"
 import ProductControls from "../ProductControls/ProductControls"
 
 const ProductInfo = ({ product, showCounter }) => {
+  if (!product) return null
+
   const {
     companyName,
     productName,
@@ -11,7 +13,12 @@ const ProductInfo = ({ product, showCounter }) => {
     salePercent,
   } = product
 
-  const finalPrice = isOnSale ? productPrice * (1 - salePercent) : productPrice
+  // Defensive parsing: accept productPrice or price, ensure numbers
+  const rawPrice = productPrice ?? product?.price ?? 0
+  const priceNum = Number(rawPrice) || 0
+  const salePct = typeof salePercent === 'number' ? salePercent : Number(salePercent) || 0
+
+  const finalPrice = isOnSale ? priceNum * (1 - salePct) : priceNum
 
   return (
     <InfoWrapper>
@@ -22,10 +29,10 @@ const ProductInfo = ({ product, showCounter }) => {
         <div className="price-wrapper">
           <span className="final-price">${finalPrice.toFixed(2)}</span>
           {isOnSale && (
-            <span className="sale-percent">{salePercent * 100}%</span>
+            <span className="sale-percent">{(salePct * 100).toFixed(0)}%</span>
           )}
           {isOnSale && (
-            <span className="original-price">${productPrice.toFixed(2)}</span>
+            <span className="original-price">${priceNum.toFixed(2)}</span>
           )}
         </div>
       </div>
