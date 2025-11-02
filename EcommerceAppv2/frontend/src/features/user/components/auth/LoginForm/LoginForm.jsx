@@ -15,9 +15,14 @@ const LoginForm = () => {
     e.preventDefault();
     setError('');
     
-    const result = await login(email, password);
-    if (!result.success) {
-      setError(result.message);
+    try {
+      const result = await login(email, password);
+      if (!result.success) {
+        setError(result.message || 'Error al iniciar sesión');
+      }
+      // You might want to redirect here on successful login
+    } catch (err) {
+      setError(err.message || 'Error al iniciar sesión');
     }
   };
 

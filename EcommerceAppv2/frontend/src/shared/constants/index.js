@@ -8,9 +8,17 @@ export const APP_CONFIG = {
 
 // API Configuration
 export const API_CONFIG = {
-  PRODUCTS_API: 'http://localhost:3002/products',
-  USERS_API: 'http://localhost:3001',
-  BASE_URL: 'http://localhost:3002',
+  SERVER_URL: 'http://localhost:8080',
+  API_BASE_PATH: '/api',
+  ENDPOINTS: {
+    PRODUCTS: '/productos',
+    AUTH: {
+      BASE: '/auth',
+      LOGIN: '/auth/login',
+      REGISTER: '/auth/register'
+    }
+  },
+  CLIENT_URL: 'http://localhost:5173'
 }
 
 // ARIA Labels for Accessibility

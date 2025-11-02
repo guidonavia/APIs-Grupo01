@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import { API_CONFIG } from '../../../shared/constants';
+import { authService } from '../services/authService';
 
 const AuthContext = createContext(null);
 
@@ -19,63 +19,26 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await fetch(`${API_CONFIG.USERS_API}/users?email=${email}`);
-      
-      if (!response.ok) {
-        throw new Error('Error en la petición');
-      }
-      
-      const users = await response.json();
-      const foundUser = users.find(u => u.password === password);
-      
-      if (foundUser) {
-        setUser(foundUser);
-        return { success: true };
-      } else {
-        return { success: false, message: 'Credenciales inválidas' };
-      }
+      const result = await authService.login(email, password);
+      setUser(result.user);
+      return { success: true };
     } catch (error) {
-      return { success: false, message: 'Error en el servidor' };
+      return { success: false, message: error.message || 'Error en el servidor' };
     }
   };
 
   const logout = () => {
+    authService.logout();
     setUser(null);
   };
 
-  const register = async (name, email, password) => {
+  const register = async (name, lastName, email, password) => {
     try {
-      // Valido si el usuario a registrar ya existe
-      const checkResponse = await fetch(`${API_CONFIG.USERS_API}/users?email=${email}`);
-      const existingUsers = await checkResponse.json();
-      
-      // Si existe, retorno un aviso
-      if (existingUsers.length > 0) {
-        return { success: false, message: 'El email ya está registrado' };
-      }
-
-      // Create new user
-      const response = await fetch(`${API_CONFIG.USERS_API}/users`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name,
-          email,
-          password,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Error en el registro');
-      }
-
-      const newUser = await response.json();
-      setUser(newUser);
+      const result = await authService.register(name, lastName, email, password);
+      setUser(result.user);
       return { success: true };
     } catch (error) {
-      return { success: false, message: 'Error en el servidor' };
+      return { success: false, message: error.message || 'Error en el servidor' };
     }
   };
 
