@@ -31,6 +31,12 @@ export const productService = {
     const response = await api.delete(`${API_CONFIG.ENDPOINTS.PRODUCTS}/${id}`);
     return response.data;
   }
+  ,
+  // Get all categories
+  getAllCategories: async () => {
+    const response = await api.get('/categorias');
+    return response.data;
+  }
 };
 
 export default productService;

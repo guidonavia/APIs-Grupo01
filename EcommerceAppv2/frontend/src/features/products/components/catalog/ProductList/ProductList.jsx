@@ -1,9 +1,12 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 import productService from "../../../services/productService";
+import ProductCard from "../ProductCard/ProductCard";
+import api from "../../../../../config/axios";
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -11,17 +14,53 @@ const ProductList = () => {
     const fetchProducts = async () => {
       try {
         const data = await productService.getAllProducts();
-        console.log("Fetched products:", data); // Log para depuración
-        setProducts(data || []);
+        // Normalize product shape for shared components
+        const normalized = (data || []).map((p) => {
+          const images = p.images
+            ? p.images
+            : p.fotos
+            ? p.fotos.map((f) => (typeof f === "string" ? { url: f } : f))
+            : [];
+
+          return {
+            ...p,
+            images,
+            productName: p.productName || p.nombre || p.title || "",
+            productDescription: p.productDescription || p.descripcion || p.description || "",
+            productPrice: p.productPrice ?? p.precio ?? p.price ?? 0,
+            companyName: p.companyName || p.company || p.marca || p.categoriaNombre || "",
+          };
+        });
+
+        setProducts(normalized);
       } catch (e) {
-        setError(e.message);
+        setError(e.message || String(e));
       } finally {
         setLoading(false);
       }
     };
 
+    const fetchCategories = async () => {
+      try {
+        const data = await productService.getAllCategories();
+        setCategories(Array.isArray(data) ? data : []);
+      } catch (e) {
+        // fallback: empty
+        setCategories([]);
+      }
+    };
+
     fetchProducts();
+    fetchCategories();
   }, []);
+
+  // Helper to get category name from id
+  const getCategoryName = (id) => {
+    const cat = categories.find(
+      (c) => c.id === id || c._id === id || c.nombre === id || c.name === id
+    );
+    return cat ? cat.nombre || cat.name || String(id) : String(id);
+  };
 
   if (loading) return <p>Cargando productos...</p>;
   if (error) return <p>Error al cargar productos: {error}</p>;
@@ -30,69 +69,26 @@ const ProductList = () => {
   return (
     <CardWrapper>
       {products.map((product) => (
-        <ProductCard key={product.id}>
-          <ImageWrapper>
-            <img
-              src={product.fotos?.[0] || "placeholder.jpg"}
-              alt={product.nombre}
-            />
-          </ImageWrapper>
-          <h3>{product.nombre}</h3>
-          <strong>Descripcion:</strong><p>{product.descripcion}</p>
-          <p>
-            <strong>Precio:</strong> ${product.precio}
-          </p>
-          <p>
-            <strong>Stock:</strong> {product.stock}
-          </p>
-          <p>
-            <strong>Categoría:</strong> {product.categoriaId}
-          </p>
-        </ProductCard>
+        <ProductCard
+          key={product.id || product._id}
+          productData={{
+            ...product,
+            categoryName: getCategoryName(
+              product.categoriaId || product.categoryId || product.category
+            ),
+          }}
+        />
       ))}
     </CardWrapper>
   );
 };
+
 
 const CardWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
   padding: 2rem;
-`;
-
-const ProductCard = styled.div`
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 1.5rem;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
-  text-align: center;
-
-  h3 {
-    margin-bottom: 1rem;
-    font-size: 1.5rem;
-    color: #333;
-  }
-
-  p {
-    margin: 0.5rem 0;
-    color: #555;
-  }
-
-  strong {
-    color: #000;
-  }
-`;
-
-const ImageWrapper = styled.div`
-  margin-bottom: 1rem;
-  img {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-    object-fit: cover;
-  }
 `;
 
 export default ProductList;

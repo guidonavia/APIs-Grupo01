@@ -8,6 +8,7 @@ import { useCart } from "../../../features/cart/context/CartContext";
 import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import ProductFilters from "../../../features/products/components/catalog/ProductFilters/ProductFilters";
+import api from "../../../config/axios";
 
 const Navbar = ({
   search,
@@ -29,7 +30,24 @@ const Navbar = ({
     };
   }, []);
   const [isAvatarMenuOpen, setAvatarMenuOpen] = useState(false);
-  const categories = ["All", "Zapatillas", "Botines"];
+  const [categories, setCategories] = useState(["All"]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await api.get('/categorias');
+        const data = res.data;
+        if (Array.isArray(data)) {
+          const names = data.map((c) => c.nombre || c.name).filter(Boolean);
+          setCategories(["All", ...names]);
+        }
+      } catch (e) {
+        // keep default categories on error
+        setCategories(["All"]);
+      }
+    };
+    fetchCategories();
+  }, []);
 
   const toggleAvatarMenu = () => setAvatarMenuOpen((prev) => !prev);
   const closeAvatarMenu = () => setAvatarMenuOpen(false);

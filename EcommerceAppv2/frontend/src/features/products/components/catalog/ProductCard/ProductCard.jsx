@@ -13,42 +13,39 @@ const ProductCard = ({ productData }) => {
       >
         <ImageCarousel images={productData.images} />
         <ProductInfo product={productData} showCounter={false} />
-        
+        <CategoryTag>{productData.categoryName}</CategoryTag>
       </Link>
     </ProductWrapper>
   );
 };
 
+
 const ProductWrapper = styled.article`
-  background-color: #fff;
-  border-radius: 15px;
+  background: #fff;
+  border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.10);
   display: flex;
   flex-direction: column;
   max-width: 410px;
   max-height: 900px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.2s, box-shadow 0.2s;
 
   &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.14);
   }
-  .btn-verMas {
-    margin: 1rem;
-    padding: 0.6rem 1.2rem;
-    background-color: #ff9500ff;
-    color: white;
-    font-weight: bold;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: background-color 0.2s;
+`;
 
-    &:hover {
-      background-color: #b35f00ff;
-    }
-  }
+const CategoryTag = styled.div`
+  background: linear-gradient(90deg, hsl(25, 90%, 55%), hsl(15, 90%, 45%));
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 0 0 10px 10px;
+  padding: 0.5rem 1rem;
+  text-align: center;
+  margin-top: 0.5rem;
 `;
 
 export default ProductCard;
