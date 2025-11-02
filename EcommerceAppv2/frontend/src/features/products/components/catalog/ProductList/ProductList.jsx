@@ -2,9 +2,8 @@ import styled from "styled-components";
 import { useState, useEffect } from "react";
 import productService from "../../../services/productService";
 import ProductCard from "../ProductCard/ProductCard";
-import api from "../../../../../config/axios";
 
-const ProductList = () => {
+const ProductList = ({ search = "", selectedCategory = "All", filters = {}, setResultsCount }) => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -28,7 +27,7 @@ const ProductList = () => {
             productName: p.productName || p.nombre || p.title || "",
             productDescription: p.productDescription || p.descripcion || p.description || "",
             productPrice: p.productPrice ?? p.precio ?? p.price ?? 0,
-            companyName: p.companyName || p.company || p.marca || p.categoriaNombre || "",
+            categoriaId: p.categoriaId ?? p.categoryId ?? p.category ?? null,
           };
         });
 
@@ -62,20 +61,54 @@ const ProductList = () => {
     return cat ? cat.nombre || cat.name || String(id) : String(id);
   };
 
+  // Apply search / category / price filters
+  const DEFAULT_MAX_PRICE = 500000;
+  const priceMin = typeof filters?.priceMin === 'number' ? filters.priceMin : 0;
+  const priceMax = typeof filters?.priceMax === 'number' ? filters.priceMax : DEFAULT_MAX_PRICE;
+
+  const filteredProducts = products.filter((product) => {
+    // search
+    const q = (search || "").trim().toLowerCase();
+    if (q) {
+      const inName = (product.productName || "").toLowerCase().includes(q);
+      const inCompany = (product.companyName || "").toLowerCase().includes(q);
+      const inDesc = (product.productDescription || "").toLowerCase().includes(q);
+      if (!inName && !inCompany && !inDesc) return false;
+    }
+
+    // category
+    if (selectedCategory && selectedCategory !== "All" && selectedCategory !== "Todas") {
+      const prodCat = getCategoryName(product.categoriaId);
+      if (!prodCat) return false;
+      if (prodCat !== selectedCategory) return false;
+    }
+
+    // price range
+    const price = Number(product.productPrice) || 0;
+    if (price < priceMin || price > priceMax) return false;
+
+    return true;
+  });
+
+  // update the parent with results count if provided
+  useEffect(() => {
+    if (typeof setResultsCount === 'function') setResultsCount(filteredProducts.length);
+  }, [filteredProducts.length]);
+
   if (loading) return <p>Cargando productos...</p>;
   if (error) return <p>Error al cargar productos: {error}</p>;
   if (!products.length) return <p>No hay productos disponibles.</p>;
 
+  if (!filteredProducts.length) return <p>No hay productos que coincidan con los filtros.</p>;
+
   return (
     <CardWrapper>
-      {products.map((product) => (
+      {filteredProducts.map((product) => (
         <ProductCard
           key={product.id || product._id}
           productData={{
             ...product,
-            categoryName: getCategoryName(
-              product.categoriaId || product.categoryId || product.category
-            ),
+            categoryName: getCategoryName(product.categoriaId),
           }}
         />
       ))}

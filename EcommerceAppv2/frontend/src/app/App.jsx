@@ -17,12 +17,11 @@ export default function App() {
   const [search, setSearch] = useState("");
   const [selectedCategory, setCategory] = useState("All");
   const [priceMin, setPriceMin] = useState(0);
-  const [priceMax, setPriceMax] = useState(1000);
-  const [color, setColor] = useState("");
-  const [size, setSize] = useState("");
-  const [gender, setGender] = useState("");
+  const [priceMax, setPriceMax] = useState(500000);
 
-  const filters = { priceMin, priceMax, color, size, gender };
+  const filters = { priceMin, priceMax};
+
+  const [resultsCount, setResultsCount] = useState(0);
 
   return (
     <div className="App">
@@ -45,12 +44,8 @@ export default function App() {
               setPriceMin={setPriceMin}
               priceMax={priceMax}
               setPriceMax={setPriceMax}
-              color={color}
-              setColor={setColor}
-              size={size}
-              setSize={setSize}
-              gender={gender}
-              setGender={setGender}
+              resultsCount={resultsCount}
+              setResultsCount={setResultsCount}
             />
           }
         >

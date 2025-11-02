@@ -11,24 +11,26 @@ const ProductFilters = ({
   priceMax,
   setPriceMax,
 }) => {
+  const MAX_PRICE = 500000;
+
   const resetFilters = () => {
     setCategory("All");
     setPriceMin(0);
-    setPriceMax(1000);
+    setPriceMax(MAX_PRICE);
   };
 
   const min = typeof priceMin === "number" && !isNaN(priceMin) ? priceMin : 0;
   const max =
-    typeof priceMax === "number" && !isNaN(priceMax) ? priceMax : 1000;
+    typeof priceMax === "number" && !isNaN(priceMax) ? priceMax : MAX_PRICE;
   const values = [Math.min(min, max), Math.max(min, max)];
 
   const currentMin =
     typeof priceMin === "number" && !isNaN(priceMin) ? priceMin : 0;
   const currentMax =
-    typeof priceMax === "number" && !isNaN(priceMax) ? priceMax : 1000;
+    typeof priceMax === "number" && !isNaN(priceMax) ? priceMax : MAX_PRICE;
   const currentCategory = selectedCategory || "All";
   const filtersChanged =
-    currentCategory !== "All" || currentMin !== 0 || currentMax !== 1000;
+    currentCategory !== "All" || currentMin !== 0 || currentMax !== MAX_PRICE;
 
   const [open, setOpen] = useState(false);
   const panelRef = useRef(null);
@@ -110,22 +112,21 @@ const ProductFilters = ({
         <Label>Precio</Label>
         <PriceFilter>
           <Range
-            step={10}
+            step={100}
             min={0}
-            max={2000}
+            max={MAX_PRICE}
             values={values}
-            onChange={([min, max]) => {
-              setPriceMin(min);
-              setPriceMax(max);
+            onChange={([minVal, maxVal]) => {
+              setPriceMin(minVal);
+              setPriceMax(maxVal);
             }}
             renderTrack={({ props, children }) => {
               const { key, style, ...rest } = props;
+              const leftPct = ((priceMin || 0) / MAX_PRICE) * 100;
+              const rightPct = ((priceMax || 0) / MAX_PRICE) * 100;
               return (
                 <Track key={key} {...rest} style={style}>
-                  <TrackFill
-                    $left={(priceMin || 0) / 20}
-                    $right={(priceMax || 0) / 20}
-                  />
+                  <TrackFill $left={leftPct} $right={rightPct} />
                   {children}
                 </Track>
               );
