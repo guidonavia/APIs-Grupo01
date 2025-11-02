@@ -20,6 +20,9 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       const result = await authService.login(email, password);
+      if (result.token) {
+        localStorage.setItem('token', result.token); // Save token to localStorage
+      }
       setUser(result.user);
       return { success: true };
     } catch (error) {
@@ -29,12 +32,16 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     authService.logout();
+    localStorage.removeItem('token'); // Remove token from localStorage
     setUser(null);
   };
 
   const register = async (name, lastName, email, password) => {
     try {
       const result = await authService.register(name, lastName, email, password);
+      if (result.token) {
+        localStorage.setItem('token', result.token); // Save token to localStorage
+      }
       setUser(result.user);
       return { success: true };
     } catch (error) {

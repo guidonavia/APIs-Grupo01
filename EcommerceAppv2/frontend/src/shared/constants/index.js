@@ -21,6 +21,9 @@ export const API_CONFIG = {
   CLIENT_URL: 'http://localhost:5173'
 }
 
+// URL base del backend
+export const API_BASE_URL = "http://localhost:8080/api";
+
 // ARIA Labels for Accessibility
 export const ARIA_LABELS = {
   INCREASE_QUANTITY: 'Increase quantity',

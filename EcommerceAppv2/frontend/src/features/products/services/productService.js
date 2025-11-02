@@ -32,3 +32,5 @@ export const productService = {
     return response.data;
   }
 };
+
+export default productService;
