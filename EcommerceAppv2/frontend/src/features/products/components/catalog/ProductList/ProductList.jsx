@@ -13,6 +13,7 @@ const ProductList = ({ search = "", selectedCategory = "All", filters = {}, setR
     const fetchProducts = async () => {
       try {
         const data = await productService.getAllProducts();
+        console.log("Fetched products:", data);
         // Normalize product shape for shared components
         const normalized = (data || []).map((p) => {
           const images = p.images

@@ -13,16 +13,16 @@ const SellPage = () => {
   const [usuario, setUsuario] = useState();
 
   const [producto, setProducto] = useState({
-    id: "",
-    companyName: "",
-    productName: "",
-    productDescription: "",
-    productPrice: "",
-    category: "",
-    isOnSale: false,
-    salePercent: 0,
+    //id: "",
+    //companyName: "",
+    nombre: "",
+    descripcion: "",
+    precio: "",
+    categoriaId: 0,
+    //isOnSale: false,
+    //salePercent: 0,
     stock: 0,
-    images: [],
+    fotos: [],
   });
 
   const [imagenes, setImagenes] = useState([]);
@@ -55,13 +55,14 @@ const SellPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
     if (
       !usuario ||
-      !producto.companyName ||
-      !producto.productName ||
-      !producto.productDescription ||
-      !producto.productPrice ||
-      !producto.category ||
+     // !producto.companyName ||
+      !producto.nombre ||
+      !producto.descripcion ||
+      !producto.precio ||
+      !producto.categoriaId ||
       !producto.stock
     ) {
       alert("Por favor, completa todos los campos obligatorios.");
@@ -81,11 +82,9 @@ const SellPage = () => {
 
     const productoFinal = {
       ...producto,
-      productPrice: Number(producto.productPrice),
-      salePercent: Number(producto.salePercent),
+      precio: Number(producto.precio),
       stock: Number(producto.stock),
-      images: imagesArr,
-      usuarioId: usuario.id,
+      fotos: ["placeholder.jpg"], //TODO: fromano - falta mandar las imagenes REALES al backend
     };
 
     if (actualizando) {
@@ -102,16 +101,8 @@ const SellPage = () => {
       setActualizando(false);
     } else {
       try {
-        // let backend assign id if it does so; otherwise keep current logic
-        const productoConId = {
-          ...productoFinal,
-          id:
-            productos.length === 0
-              ? "1"
-              : (parseInt(productos[productos.length - 1].id) + 1).toString(),
-        };
-
-        const data = await productService.createProduct(productoConId);
+        console.log("Creating product with data:", productoFinal);
+        const data = await productService.createProduct(productoFinal);
         setProductos([...productos, data]);
         resetForm();
       } catch (error) {
@@ -120,7 +111,7 @@ const SellPage = () => {
     }
   };
 
-  const resetForm = () => {
+ /* const resetForm = () => {
     setProducto({
       id: "",
       companyName: "",
@@ -134,7 +125,9 @@ const SellPage = () => {
       images: [],
     });
     setImagenes([]);
-  };
+  }; */
+
+  const resetForm = () => {};
 
   const handleEliminarClick = (producto) => {
     setProductoAEliminar(producto);

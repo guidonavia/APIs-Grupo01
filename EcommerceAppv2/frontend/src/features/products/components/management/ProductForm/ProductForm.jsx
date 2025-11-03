@@ -1,15 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
-const CATEGORIAS = [
-  "Zapatillas",
-  "Ropa deportiva",
-  "Accesorios",
-  "Calzado casual",
-  "Indumentaria",
-  "Equipamiento",
-  "Otro",
-];
 
 const ProductForm = ({ 
   producto, 
@@ -40,21 +31,11 @@ const ProductForm = ({
       </h2>
       <Form onSubmit={onSubmit}>
         <Label>
-          Nombre de la empresa
-          <Input
-            type="text"
-            name="companyName"
-            value={producto.companyName}
-            onChange={handleInputChange}
-            placeholder="Ej: Sneaker Company"
-          />
-        </Label>
-        <Label>
           Nombre del producto
           <Input
             type="text"
-            name="productName"
-            value={producto.productName}
+            name="nombre"
+            value={producto.nombre}
             onChange={handleInputChange}
             placeholder="Ej: Fall Limited Edition"
           />
@@ -62,8 +43,8 @@ const ProductForm = ({
         <Label>
           Descripción
           <TextArea
-            name="productDescription"
-            value={producto.productDescription}
+            name="descripcion"
+            value={producto.descripcion}
             onChange={handleInputChange}
             rows={3}
           />
@@ -72,28 +53,23 @@ const ProductForm = ({
           Precio
           <Input
             type="number"
-            name="productPrice"
-            value={producto.productPrice}
+            name="precio"
+            value={producto.precio}
             onChange={handleInputChange}
             min="1"
             placeholder="Precio"
           />
         </Label>
         <Label>
-          Categoría
-          <Select
-            name="category"
-            value={producto.category}
+          Id de categoria
+          <Input
+            type="number"
+            name="categoriaId"
+            value={producto.categoriaId}
             onChange={handleInputChange}
-            required
-          >
-            <option value="">Selecciona una categoría</option>
-            {CATEGORIAS.map((cat) => (
-              <option key={cat} value={cat}>
-                {cat}
-              </option>
-            ))}
-          </Select>
+            min="1"
+            placeholder="Id de categoria"
+          />
         </Label>
         <Label>
           ¿Está en oferta?
@@ -104,21 +80,6 @@ const ProductForm = ({
             onChange={handleInputChange}
           />
         </Label>
-        {producto.isOnSale && (
-          <Label>
-            Porcentaje de oferta (0 a 1)
-            <Input
-              type="number"
-              name="salePercent"
-              value={producto.salePercent}
-              onChange={handleInputChange}
-              min="0"
-              max="1"
-              step="0.01"
-              placeholder="Ej: 0.5 para 50%"
-            />
-          </Label>
-        )}
         <Label>
           Stock disponible
           <Input
