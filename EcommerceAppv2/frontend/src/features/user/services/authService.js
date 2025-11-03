@@ -46,7 +46,6 @@ export const authService = {
 
       // Create user object combining email and decoded token info
       const user = {
-        id: decodedToken?.id || null, // Agregar el campo `id` desde el token decodificado
         email,
         roles: decodedToken?.roles || 'ROLE_USER',
         sub: decodedToken?.sub || email,

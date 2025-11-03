@@ -1,5 +1,5 @@
-import api from '../../../config/axios';
-import { API_CONFIG } from '../../../shared/constants';
+import api from "../../../config/axios";
+import { API_CONFIG } from "../../../shared/constants";
 
 export const productService = {
   // Get all products
@@ -22,7 +22,10 @@ export const productService = {
 
   // Update a product
   updateProduct: async (id, productData) => {
-    const response = await api.put(`${API_CONFIG.ENDPOINTS.PRODUCTS}/${id}`, productData);
+    const response = await api.put(
+      `${API_CONFIG.ENDPOINTS.PRODUCTS}/${id}`,
+      productData
+    );
     return response.data;
   },
 
@@ -31,16 +34,18 @@ export const productService = {
     const response = await api.delete(`${API_CONFIG.ENDPOINTS.PRODUCTS}/${id}`);
     return response.data;
   },
-  getAllCategories: async () => {
-    const response = await api.get('/categorias');
-    return response.data;
-  }
-  ,
   // Get all categories
   getAllCategories: async () => {
-    const response = await api.get('/categorias');
+    const response = await api.get("/categorias");
     return response.data;
-  }
+  },
+
+  // Create a checkout / sale record in the backend. Payload should be:
+  // { usuarioId: number, items: [{ productoId: number, cantidad: number }] }
+  checkout: async (payload) => {
+    const response = await api.post("/checkout", payload);
+    return response.data;
+  },
 };
 
 export default productService;
