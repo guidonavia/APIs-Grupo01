@@ -6,9 +6,8 @@ import { useCart } from "../../../../cart/context/CartContext";
 import CartDrawer from "../../../../cart/components/CartDrawer/CartDrawer";
 import ProductCard from "../ProductCard/ProductCard";
 
-const ProductList = ({ search = "", selectedCategory = "All", filters = {}, setResultsCount }) => {
+const ProductList = ({ search = "", selectedCategory = undefined, selectedcategoria = undefined, filters = {}, setResultsCount }) => {
   const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -59,20 +58,7 @@ const ProductList = ({ search = "", selectedCategory = "All", filters = {}, setR
     fetchCategories();
   }, []);
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const data = await productService.getAllCategories();
-        console.log("Fetched categories:", data); // Log para depuración
-        setCategories(data || []);
-      } catch (e) {
-        setError(e.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchCategories();
-  }, []);
+  // NOTE: categories are fetched in the effect above together with products.
 
   const handleAddToCart = (product) => {
     addToCart(product);
@@ -93,6 +79,8 @@ const ProductList = ({ search = "", selectedCategory = "All", filters = {}, setR
   const priceMin = typeof filters?.priceMin === 'number' ? filters.priceMin : 0;
   const priceMax = typeof filters?.priceMax === 'number' ? filters.priceMax : DEFAULT_MAX_PRICE;
 
+  const activeCategory = selectedCategory || selectedcategoria || "All";
+
   const filteredProducts = products.filter((product) => {
     // search
     const q = (search || "").trim().toLowerCase();
@@ -104,10 +92,10 @@ const ProductList = ({ search = "", selectedCategory = "All", filters = {}, setR
     }
 
     // category
-    if (selectedCategory && selectedCategory !== "All" && selectedCategory !== "Todas") {
+    if (activeCategory && activeCategory !== "All" && activeCategory !== "Todas") {
       const prodCat = getCategoryName(product.categoriaId);
       if (!prodCat) return false;
-      if (prodCat !== selectedCategory) return false;
+      if (prodCat !== activeCategory) return false;
     }
 
     // price range
@@ -133,26 +121,43 @@ const ProductList = ({ search = "", selectedCategory = "All", filters = {}, setR
       {showPopup && <Popup>Producto agregado al carrito</Popup>}
       <CartDrawer />
       <CardWrapper>
-        {products.map((product) => {
-          const categoria = categories.find((cat) => cat.id === product.categoriaId);
+        {filteredProducts.map((product) => {
+          const categoria = categories.find((cat) => cat.id === product.categoriaId || cat._id === product.categoriaId);
+
+          // Prefer normalized fields (productName, productDescription, productPrice, images)
+          const name = product.productName || product.nombre || product.title || "Sin nombre";
+          const description = product.productDescription || product.descripcion || product.description || "";
+          const price = product.productPrice ?? product.precio ?? product.price ?? 0;
+
+          // Robust image selection: try normalized images (objects with url), then fotos (strings or objects), then fallback
+          const firstImage = (product.images && product.images[0]) || (product.fotos && product.fotos[0]);
+          const imgSrc = firstImage
+            ? typeof firstImage === "string"
+              ? firstImage
+              : firstImage.url || firstImage.src || firstImage.path || JSON.stringify(firstImage)
+            : "placeholder.jpg";
+
+          const keyId = product.id || product._id || `${name}-${Math.random()}`;
+
           return (
-            <ProductCard key={product.id} onClick={() => navigate(`/productos/${product.id}`)}>
+            <CardContainer key={keyId} onClick={() => navigate(`/productos/${product.id || product._id}`)}>
               <ImageWrapper>
-                <img src={product.fotos?.[0] || "placeholder.jpg"} alt={product.nombre} />
+                <img src={imgSrc} alt={name} />
               </ImageWrapper>
-              <h3>{product.nombre}</h3>
-              <strong>Descripcion:</strong><p>{product.descripcion}</p>
+              <h3>{name}</h3>
+              <strong>Descripcion:</strong>
+              <p>{description}</p>
               <p>
-                <strong>Precio:</strong> ${product.precio}
+                <strong>Precio:</strong> ${price}
               </p>
               <p>
-                <strong>Stock:</strong> {product.stock}
+                <strong>Stock:</strong> {product.stock ?? product.cantidad ?? "-"}
               </p>
               <p>
-                <strong>Categoría:</strong> {categoria ? categoria.nombre : "Sin categoría"}
+                <strong>Categoría:</strong> {categoria ? categoria.nombre || categoria.name : "Sin categoría"}
               </p>
               <Button onClick={(e) => { e.stopPropagation(); handleAddToCart(product); }}>Agregar</Button>
-            </ProductCard>
+            </CardContainer>
           );
         })}
       </CardWrapper>
@@ -198,7 +203,7 @@ const CardWrapper = styled.div`
   padding: 2rem;
 `;
 
-const ProductCard = styled.div`
+const CardContainer = styled.div`
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 1.5rem;

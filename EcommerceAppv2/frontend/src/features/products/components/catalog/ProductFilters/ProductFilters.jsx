@@ -63,7 +63,7 @@ const ProductFilters = ({
       <Section>
         <Label>Categoría</Label>
         <CategoriesWrapper ref={panelRef}>
-          <categoriaButton
+          <CategoriaButton
             onClick={() => setOpen((s) => !s)}
             aria-expanded={open}
             aria-haspopup="menu"
@@ -74,12 +74,12 @@ const ProductFilters = ({
                 : selectedcategoria || "Categorías"}
             </span>
             <Chevron>{open ? "▴" : "▾"}</Chevron>
-          </categoriaButton>
+          </CategoriaButton>
 
           <DropdownPanel $open={open} role="menu">
-            <categoriaList>
+            <CategoriaList>
               {cats.map((cat, i) => (
-                <categoriaItem
+                <CategoriaItem
                   key={cat + i}
                   onClick={() => {
                     setcategoria(cat);
@@ -88,9 +88,9 @@ const ProductFilters = ({
                   $active={selectedcategoria === cat}
                 >
                   {cat === "All" ? "Todas" : cat}
-                </categoriaItem>
+                </CategoriaItem>
               ))}
-            </categoriaList>
+            </CategoriaList>
           </DropdownPanel>
           <MobileSelect
             value={selectedcategoria}
@@ -245,7 +245,7 @@ const CategoriesWrapper = styled.div`
   display: inline-block;
 `;
 
-const categoriaButton = styled.button`
+const CategoriaButton = styled.button`
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
@@ -300,7 +300,7 @@ const DropdownPanel = styled.div`
 `;
 
 
-const categoriaList = styled.ul`
+const CategoriaList = styled.ul`
   list-style: none;
   margin: 0;
   padding: 0.25rem 0;
@@ -309,7 +309,7 @@ const categoriaList = styled.ul`
   gap: 0.1rem;
 `;
 
-const categoriaItem = styled.li`
+const CategoriaItem = styled.li`
   padding: 0.58rem 0.9rem;
   border-radius: 6px;
   cursor: pointer;
