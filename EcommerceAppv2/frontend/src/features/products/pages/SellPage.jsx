@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import productService from "../../products/services/productService";
+//import authService from "../../auth/services/authService";
 
 const SellPage = () => {
-  
   const [producto, setProducto] = useState({
     nombre: "",
     precio: "",
@@ -14,6 +14,9 @@ const SellPage = () => {
   });
   const [imagenes, setImagenes] = useState([]);
   const [categorias, setCategorias] = useState([]);
+  const [productos, setProductos] = useState([]);
+  const [actualizando, setActualizando] = useState(false);
+  const [productoIdActual, setProductoIdActual] = useState(null);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -25,6 +28,18 @@ const SellPage = () => {
       }
     };
     fetchCategories();
+  }, []);
+
+  useEffect(() => {
+    const fetchProductos = async () => {
+      try {
+        const data = await productService.getAllProducts();
+        setProductos(data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+    fetchProductos();
   }, []);
 
   const handleInputChange = (e) => {
@@ -44,6 +59,38 @@ const SellPage = () => {
     });
   };
 
+  const handleUpdateProduct = (productId) => {
+    // Buscar el producto en el estado `productos`
+    const productData = productos.find((producto) => producto.id === productId);
+
+    if (!productData) {
+      console.error("Producto no encontrado con el ID:", productId);
+      alert("El producto seleccionado no existe.");
+      return;
+    }
+
+    // Obtener el ID del usuario desde el servicio de autenticación
+    //const userId = authService.getUserId();
+    const userId = 4;
+
+    // Activar modo de edición
+    setActualizando(true);
+    setProductoIdActual(productId);
+
+    // Cargar los datos en el formulario, incluyendo el creador
+    setProducto({
+      nombre: productData.nombre,
+      precio: productData.precio,
+      descripcion: productData.descripcion,
+      stock: productData.stock,
+      fotos: productData.fotos,
+      categoriaId: productData.categoria?.id || "", // Manejar caso de categoría inexistente
+     
+    });
+
+    alert("Producto cargado en el formulario para actualizar");
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -52,28 +99,59 @@ const SellPage = () => {
         return;
       }
 
-      // Transformar las fotos a URLs absolutas (simulación de subida)
-      const uploadedFotos = producto.fotos.map((foto, index) => {
-        return `https://example.com/uploads/producto-${Date.now()}-${index}.jpg`;
-      });
-
       const formattedProducto = {
         nombre: producto.nombre,
-        precio: parseFloat(producto.precio), // Asegurar que sea decimal
+        precio: parseFloat(producto.precio),
         descripcion: producto.descripcion,
         stock: parseInt(producto.stock, 10),
-        fotos: producto.fotos, // Usar URLs absolutas
-        categoria: {
-          id: parseInt(producto.categoriaId, 10),
-        }
+        fotos: producto.fotos,
+        categoriaId: parseInt(producto.categoriaId, 10),
       };
 
-      await productService.createProduct(formattedProducto);
-      alert("Producto creado exitosamente");
+      
+      if (actualizando) {
+        // Actualizar producto existente
+        console.log("Actualizando producto con datos:", formattedProducto);
+        console.log("ID del producto a actualizar:", productoIdActual);
+        await productService.updateProduct(productoIdActual, formattedProducto);
+        alert("Producto actualizado exitosamente");
+      } else {
+        const formattedProducto = {
+          nombre: producto.nombre,
+          precio: parseFloat(producto.precio),
+          descripcion: producto.descripcion,
+          stock: parseInt(producto.stock, 10),
+          fotos: producto.fotos,
+          categoria: { id: parseInt(producto.categoriaId, 10) },
+        };
+        await productService.createProduct(formattedProducto);
+        alert("Producto creado exitosamente");
+      }
+
+      // Resetear formulario y estado
+      setProducto({
+        nombre: "",
+        precio: "",
+        descripcion: "",
+        stock: "",
+        fotos: [],
+        categoriaId: "",
+      });
+      setActualizando(false);
+      setProductoIdActual(null);
     } catch (error) {
-      console.error("Error creando el producto:", error);
+      console.error("Error al guardar el producto:", error);
     }
-  }
+  };
+
+  const handleDeleteProduct = async (productId) => {
+    try {
+      await productService.deleteProduct(productId);
+      alert('Producto eliminado correctamente');
+    } catch (error) {
+      console.error('Error al eliminar el producto:', error);
+    }
+  };
 
   return (
     <FormWrapper>
@@ -145,8 +223,26 @@ const SellPage = () => {
             onChange={handleImagenesChange}
           />
         </Label>
-        <Button type="submit">Crear producto</Button>
+        <Button type="submit">{actualizando ? "Actualizar producto" : "Crear producto"}</Button>
       </Form>
+
+      <h2>Productos creados</h2>
+      <ProductList>
+        {productos.map((producto) => (
+          
+          <ProductCard key={producto.id}>
+
+            <img src={producto.fotos[0]} alt={producto.nombre} />
+            <h3>{producto.nombre}</h3>
+            <p>Precio: ${producto.precio}</p>
+            <p>Stock: {producto.stock}</p>
+            <ButtonGroup>
+              <Button onClick={() => handleUpdateProduct(producto.id)}>Actualizar Producto</Button>
+              <Button onClick={() => handleDeleteProduct(producto.id)}>Eliminar Producto</Button>
+          </ButtonGroup>
+          </ProductCard>
+        ))}
+      </ProductList>
     </FormWrapper>
   );
 };
@@ -232,6 +328,45 @@ const Button = styled.button`
   &:hover {
     transform: scale(1.02);
     opacity: 0.95;
+  }
+`;
+
+const ButtonGroup = styled.div`
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  justify-content: center;
+`;
+
+const ProductList = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 2rem;
+`;
+
+const ProductCard = styled.div`
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+
+  img {
+    max-width: 100%;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+  }
+
+  h3 {
+    font-size: 1.2rem;
+    margin: 0.5rem 0;
+  }
+
+  p {
+    font-size: 1rem;
+    color: #555;
   }
 `;
 
