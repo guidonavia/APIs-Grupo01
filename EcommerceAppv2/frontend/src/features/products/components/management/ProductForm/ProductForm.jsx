@@ -2,13 +2,11 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 const CATEGORIAS = [
-  "Zapatillas",
-  "Ropa deportiva",
-  "Accesorios",
-  "Calzado casual",
-  "Indumentaria",
-  "Equipamiento",
-  "Otro",
+  1,
+  2,
+  3,
+  4,
+  5
 ];
 
 const ProductForm = ({ 
@@ -40,21 +38,11 @@ const ProductForm = ({
       </h2>
       <Form onSubmit={onSubmit}>
         <Label>
-          Nombre de la empresa
-          <Input
-            type="text"
-            name="companyName"
-            value={producto.companyName}
-            onChange={handleInputChange}
-            placeholder="Ej: Sneaker Company"
-          />
-        </Label>
-        <Label>
           Nombre del producto
           <Input
             type="text"
-            name="productName"
-            value={producto.productName}
+            name="nombre"
+            value={producto.nombre}
             onChange={handleInputChange}
             placeholder="Ej: Fall Limited Edition"
           />
@@ -62,8 +50,8 @@ const ProductForm = ({
         <Label>
           Descripción
           <TextArea
-            name="productDescription"
-            value={producto.productDescription}
+            name="descripcion"
+            value={producto.descripcion}
             onChange={handleInputChange}
             rows={3}
           />
@@ -72,8 +60,8 @@ const ProductForm = ({
           Precio
           <Input
             type="number"
-            name="productPrice"
-            value={producto.productPrice}
+            name="precio"
+            value={producto.precio}
             onChange={handleInputChange}
             min="1"
             placeholder="Precio"
@@ -82,8 +70,8 @@ const ProductForm = ({
         <Label>
           Categoría
           <Select
-            name="category"
-            value={producto.category}
+            name="categoria"
+            value={producto.categoria}
             onChange={handleInputChange}
             required
           >

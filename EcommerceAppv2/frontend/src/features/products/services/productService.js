@@ -30,6 +30,10 @@ export const productService = {
   deleteProduct: async (id) => {
     const response = await api.delete(`${API_CONFIG.ENDPOINTS.PRODUCTS}/${id}`);
     return response.data;
+  },
+  getAllCategories: async () => {
+    const response = await api.get('/categorias');
+    return response.data;
   }
 };
 

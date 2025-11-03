@@ -5,7 +5,7 @@ import { useCart } from "../../../features/cart/context/CartContext";
 import ImageOverlay from "./ImageOverlay";
 import styled from "styled-components";
 
-const ImageCarousel = ({ images }) => {
+const ImageCarousel = ({ fotos }) => {
   const [imageIndex, setImageIndex] = useState(0);
   const [imageErrors, setImageErrors] = useState({});
   const {
@@ -22,9 +22,9 @@ const ImageCarousel = ({ images }) => {
     }
   };
 
-  // Filter out images with blob URLs that we know are invalid
-  const validImages =
-    images?.filter((img, idx) => {
+  // Filter out fotos with blob URLs that we know are invalid
+  const validfotos =
+    fotos?.filter((img, idx) => {
       const imageId = img.id || idx;
       if (imageErrors[imageId]) return false;
       // Check if it's a blob URL - these are often invalid after page reload
@@ -35,7 +35,7 @@ const ImageCarousel = ({ images }) => {
       return true;
     }) || [];
 
-  if (!images || images.length === 0 || validImages.length === 0) {
+  if (!fotos || fotos.length === 0 || validfotos.length === 0) {
     return <PlaceholderSkeleton> Cargando imagen... </PlaceholderSkeleton>;
   }
 
@@ -65,7 +65,7 @@ const ImageCarousel = ({ images }) => {
           ref={carouselRef}
           onMove={() => setImageIndex(carouselRef.current.splide.index)}
         >
-          {validImages.map((image, idx) => (
+          {validfotos.map((image, idx) => (
             <SplideSlide key={image.id || idx}>
               {imageErrors[image.id || idx] ? (
                 <ErrorContainer>
@@ -83,8 +83,8 @@ const ImageCarousel = ({ images }) => {
         </Splide>
 
         <div className="thumbnails">
-          {validImages.length > 1 &&
-            validImages.map((image, idx) => (
+          {validfotos.length > 1 &&
+            validfotos.map((image, idx) => (
               <button
                 className={`thumb-btn ${imageIndex === idx ? "active" : ""}`}
                 key={image.id || idx}
@@ -115,7 +115,7 @@ const ImageCarousel = ({ images }) => {
         <ImageOverlay
           carouselRef={carouselRef}
           overlayRef={overlayRef}
-          images={validImages}
+          fotos={validfotos}
           imageIndex={imageIndex}
           setImageIndex={setImageIndex}
         />

@@ -12,8 +12,8 @@ import ProductFilters from "../../../features/products/components/catalog/Produc
 const Navbar = ({
   search,
   setSearch,
-  selectedCategory,
-  setCategory,
+  selectedcategoria,
+  setcategoria,
   priceMin,
   setPriceMin,
   priceMax,
@@ -97,8 +97,8 @@ const Navbar = ({
 
       <ProductFilters
         categories={categories}
-        selectedCategory={selectedCategory}
-        setCategory={setCategory}
+        selectedcategoria={selectedcategoria}
+        setcategoria={setcategoria}
         priceMin={priceMin}
         setPriceMin={setPriceMin}
         priceMax={priceMax}

@@ -15,7 +15,7 @@ export default function App() {
 
   // State for filters, search, etc.
   const [search, setSearch] = useState("");
-  const [selectedCategory, setCategory] = useState("All");
+  const [selectedcategoria, setcategoria] = useState("All");
   const [priceMin, setPriceMin] = useState(0);
   const [priceMax, setPriceMax] = useState(1000);
   const [color, setColor] = useState("");
@@ -39,8 +39,8 @@ export default function App() {
             <Layout
               search={search}
               setSearch={setSearch}
-              selectedCategory={selectedCategory}
-              setCategory={setCategory}
+              selectedcategoria={selectedcategoria}
+              setcategoria={setcategoria}
               priceMin={priceMin}
               setPriceMin={setPriceMin}
               priceMax={priceMax}
@@ -60,15 +60,15 @@ export default function App() {
             element={
               <HomePage
                 search={search}
-                selectedCategory={selectedCategory}
-                setCategory={setCategory}
+                selectedcategoria={selectedcategoria}
+                setcategoria={setcategoria}
                 filters={filters}
               />
             }
           />
 
           {/* PRODUCT DETAIL */}
-          <Route path="/products/:id" element={<ProductPage />} />
+          <Route path="/productos/:id" element={<ProductPage />} />
 
           {/* PROTECTED ROUTES */}
           <Route

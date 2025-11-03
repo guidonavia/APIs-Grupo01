@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
-const images = [
+const fotos = [
   "/banner/primera.jpg",
   "/banner/segunda.jpg",
   "/banner/tercera.jpg",
@@ -9,7 +9,7 @@ const images = [
 
 const Carousel = () => {
   const [current, setCurrent] = useState(0);
-  const length = images.length;
+  const length = fotos.length;
 
   // Auto-slide every 3 seconds
   useEffect(() => {
@@ -25,7 +25,7 @@ const Carousel = () => {
   return (
     <CarouselWrapper>
       <SlidesWrapper $current={current}>
-        {images.map((img, idx) => (
+        {fotos.map((img, idx) => (
           <Slide key={idx}>
             <img src={img} alt={`Slide ${idx}`} />
           </Slide>
@@ -36,7 +36,7 @@ const Carousel = () => {
       <NextButton onClick={nextSlide}>&#10095;</NextButton>
 
       <Dots>
-        {images.map((_, idx) => (
+        {fotos.map((_, idx) => (
           <Dot
             key={idx}
             $active={idx === current}

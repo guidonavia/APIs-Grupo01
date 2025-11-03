@@ -116,9 +116,9 @@ const ProductControls = ({ product }) => {
 ProductControls.propTypes = {
   product: PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-    productName: PropTypes.string.isRequired,
-    productPrice: PropTypes.number.isRequired,
-    images: PropTypes.arrayOf(PropTypes.object),
+    nombre: PropTypes.string.isRequired,
+    precio: PropTypes.number.isRequired,
+    fotos: PropTypes.arrayOf(PropTypes.object),
   }).isRequired,
 };
 

@@ -6,15 +6,15 @@ const ProductInfo = ({ product, showCounter }) => {
 
   const {
     companyName,
-    productName,
-    productDescription,
-    productPrice,
+    nombre,
+    descripcion,
+    precio,
     isOnSale,
     salePercent,
   } = product
 
-  // Defensive parsing: accept productPrice or price, ensure numbers
-  const rawPrice = productPrice ?? product?.price ?? 0
+  // Defensive parsing: accept precio or price, ensure numbers
+  const rawPrice = precio ?? product?.price ?? 0
   const priceNum = Number(rawPrice) || 0
   const salePct = typeof salePercent === 'number' ? salePercent : Number(salePercent) || 0
 
@@ -24,8 +24,8 @@ const ProductInfo = ({ product, showCounter }) => {
     <InfoWrapper>
       <div className="inner-info">
         <span className="company-name">{companyName}</span>
-        <h1 className="product-name">{productName}</h1>
-        <p className="product-description">{productDescription}</p>
+        <h1 className="product-name">{nombre}</h1>
+        <p className="product-description">{descripcion}</p>
         <div className="price-wrapper">
           <span className="final-price">${finalPrice.toFixed(2)}</span>
           {isOnSale && (

@@ -5,9 +5,9 @@ import { ARIA_LABELS } from "../../../../shared/constants"
 
 const CartItem = ({
   id,
-  images,
-  productName,
-  productPrice,
+  fotos,
+  nombre,
+  precio,
   amount,
   isOnSale,
   salePercent,
@@ -15,18 +15,18 @@ const CartItem = ({
   const { removeItem } = useCart()
 
   const finalUnitPrice = isOnSale
-    ? productPrice * (1 - salePercent)
-    : productPrice
+    ? precio * (1 - salePercent)
+    : precio
 
   const totalPrice = finalUnitPrice * amount
 
   return (
     <CartItemWrapper>
       <div className="img-container">
-        <img src={images[0].thumbnail || images[0].url} alt={productName} />
+        <img src={fotos[0].thumbnail || fotos[0].url} alt={nombre} />
       </div>
       <div className="info">
-        <p className="name">{productName}</p>
+        <p className="name">{nombre}</p>
         <p className="price-details">
           <span>{`$${finalUnitPrice.toFixed(2)} x ${amount}`}</span>
           <span className="total-price">{`$${totalPrice.toFixed(2)}`}</span>

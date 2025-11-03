@@ -4,15 +4,15 @@ import { Range } from "react-range";
 
 const ProductFilters = ({
   categories = [],
-  selectedCategory,
-  setCategory,
+  selectedcategoria,
+  setcategoria,
   priceMin,
   setPriceMin,
   priceMax,
   setPriceMax,
 }) => {
   const resetFilters = () => {
-    setCategory("All");
+    setcategoria("All");
     setPriceMin(0);
     setPriceMax(1000);
   };
@@ -26,9 +26,9 @@ const ProductFilters = ({
     typeof priceMin === "number" && !isNaN(priceMin) ? priceMin : 0;
   const currentMax =
     typeof priceMax === "number" && !isNaN(priceMax) ? priceMax : 1000;
-  const currentCategory = selectedCategory || "All";
+  const currentcategoria = selectedcategoria || "All";
   const filtersChanged =
-    currentCategory !== "All" || currentMin !== 0 || currentMax !== 1000;
+    currentcategoria !== "All" || currentMin !== 0 || currentMax !== 1000;
 
   const [open, setOpen] = useState(false);
   const panelRef = useRef(null);
@@ -61,38 +61,38 @@ const ProductFilters = ({
       <Section>
         <Label>Categoría</Label>
         <CategoriesWrapper ref={panelRef}>
-          <CategoryButton
+          <categoriaButton
             onClick={() => setOpen((s) => !s)}
             aria-expanded={open}
             aria-haspopup="menu"
           >
             <span>
-              {selectedCategory === "All"
+              {selectedcategoria === "All"
                 ? "Todas"
-                : selectedCategory || "Categorías"}
+                : selectedcategoria || "Categorías"}
             </span>
             <Chevron>{open ? "▴" : "▾"}</Chevron>
-          </CategoryButton>
+          </categoriaButton>
 
           <DropdownPanel $open={open} role="menu">
-            <CategoryList>
+            <categoriaList>
               {cats.map((cat, i) => (
-                <CategoryItem
+                <categoriaItem
                   key={cat + i}
                   onClick={() => {
-                    setCategory(cat);
+                    setcategoria(cat);
                     setOpen(false);
                   }}
-                  $active={selectedCategory === cat}
+                  $active={selectedcategoria === cat}
                 >
                   {cat === "All" ? "Todas" : cat}
-                </CategoryItem>
+                </categoriaItem>
               ))}
-            </CategoryList>
+            </categoriaList>
           </DropdownPanel>
           <MobileSelect
-            value={selectedCategory}
-            onChange={(e) => setCategory(e.target.value)}
+            value={selectedcategoria}
+            onChange={(e) => setcategoria(e.target.value)}
             aria-label="Seleccionar categoría"
           >
             {cats.map((cat, i) => (
@@ -244,7 +244,7 @@ const CategoriesWrapper = styled.div`
   display: inline-block;
 `;
 
-const CategoryButton = styled.button`
+const categoriaButton = styled.button`
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
@@ -299,7 +299,7 @@ const DropdownPanel = styled.div`
 `;
 
 
-const CategoryList = styled.ul`
+const categoriaList = styled.ul`
   list-style: none;
   margin: 0;
   padding: 0.25rem 0;
@@ -308,7 +308,7 @@ const CategoryList = styled.ul`
   gap: 0.1rem;
 `;
 
-const CategoryItem = styled.li`
+const categoriaItem = styled.li`
   padding: 0.58rem 0.9rem;
   border-radius: 6px;
   cursor: pointer;

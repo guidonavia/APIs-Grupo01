@@ -6,7 +6,7 @@ import "@splidejs/react-splide/css"
 import { useCart } from "../../../features/cart/context/CartContext"
 
 const ImageOverlay = ({
-  images,
+  fotos,
   overlayRef,
   carouselRef,
   imageIndex,
@@ -15,7 +15,7 @@ const ImageOverlay = ({
   const { hideImageOverlay } = useCart()
   const [imageErrors, setImageErrors] = useState({})
 
-  if (!images || !Array.isArray(images) || images.length === 0) {
+  if (!fotos || !Array.isArray(fotos) || fotos.length === 0) {
     return null
   }
 
@@ -25,12 +25,12 @@ const ImageOverlay = ({
     }
   }
 
-  const productImages = images.map((img, idx) => ({ 
+  const productfotos = fotos.map((img, idx) => ({ 
     id: img.id || idx,
     url: img.url, 
     alt: img.alt || "Product image" 
   }))
-  const productThumbnails = images.map((img, idx) => ({ 
+  const productThumbnails = fotos.map((img, idx) => ({ 
     id: img.id || idx,
     url: img.thumbnail || img.url, 
     alt: img.alt || "Product thumbnail" 
@@ -42,7 +42,7 @@ const ImageOverlay = ({
         <button className="close-btn" onClick={hideImageOverlay}>
           <Close />
         </button>
-        {productImages.length > 0 && (
+        {productfotos.length > 0 && (
           <Splide
             options={{ autoWidth: false, pagination: false, type: "loop" }}
             ref={overlayRef}
@@ -53,7 +53,7 @@ const ImageOverlay = ({
               }
             }}
           >
-            {productImages.map((image, idx) => (
+            {productfotos.map((image, idx) => (
               <SplideSlide key={image.id || idx}>
                 {imageErrors[image.id || idx] ? (
                   <ErrorContainer>
