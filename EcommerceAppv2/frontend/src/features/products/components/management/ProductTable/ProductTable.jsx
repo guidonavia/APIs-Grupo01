@@ -12,26 +12,26 @@ const ProductTable = ({
     <ProductList>
       {productos.map((producto) => (
         <ProductItem key={producto.id}>
-          {producto.images && producto.images.length > 0 && (
+          {producto.fotos && producto.fotos.length > 0 && (
             <ProductImage
               src={
-                producto.images[0].thumbnail || producto.images[0].url
+                producto.fotos[0].thumbnail || producto.fotos[0].url
               }
-              alt={producto.productName}
+              alt={producto.nombre}
             />
           )}
           <ProductInfo>
-            <p className="nombre">{producto.productName}</p>
+            <p className="nombre">{producto.nombre}</p>
             <p className="categoria">{producto.companyName}</p>
-            <p className="category">
-              Categoría: {producto.category}
+            <p className="categoria">
+              Categoría: {producto.categoria}
             </p>
             <p className="stock">Stock: {producto.stock}</p>
             <p className="precio">
               Precio: $
-              {producto.productPrice -
+              {producto.precio -
                 (producto.isOnSale
-                  ? producto.productPrice * producto.salePercent
+                  ? producto.precio * producto.salePercent
                   : 0)}
             </p>
             {producto.isOnSale && (
@@ -109,7 +109,7 @@ const ProductInfo = styled.div`
     margin-bottom: 0.3rem;
   }
 
-  .category {
+  .categoria {
     font-size: 0.95rem;
     color: #666;
     margin-bottom: 0.3rem;

@@ -22,8 +22,8 @@ const CheckoutPage = () => {
     return state.cart
       .reduce((total, item) => {
         const price = item.isOnSale
-          ? item.productPrice * (1 - item.salePercent)
-          : item.productPrice
+          ? item.precio * (1 - item.salePercent)
+          : item.precio
         return total + price * item.amount
       }, 0)
       .toFixed(2)
@@ -36,7 +36,7 @@ const CheckoutPage = () => {
         const productInDB = await productService.getProductById(item.id);
 
         if (productInDB.stock < item.amount) {
-          alert(`Lo sentimos, solo quedan ${productInDB.stock} unidades de "${item.productName}".`)
+          alert(`Lo sentimos, solo quedan ${productInDB.stock} unidades de "${item.nombre}".`)
           return
         }
       }
@@ -72,9 +72,9 @@ const CheckoutPage = () => {
           <h3>Resumen del Pedido</h3>
           {state.cart.map((item) => (
             <div key={item.id} className="cart-item">
-              <img src={item.images[0].thumbnail || item.images[0].url} alt={item.productName} />
+              <img src={item.fotos[0].thumbnail || item.fotos[0].url} alt={item.nombre} />
               <div className="item-details">
-                <p>{item.productName}</p>
+                <p>{item.nombre}</p>
                 {/* --- CONTROLES DE CANTIDAD --- */}
                 <div className="quantity-controls">
                   <button onClick={() => decreaseCartItem(item.id)}><Minus /></button>
@@ -84,8 +84,8 @@ const CheckoutPage = () => {
                 <p className="unit-price">
                   Precio Unitario: $
                   {(item.isOnSale
-                    ? item.productPrice * (1 - item.salePercent)
-                    : item.productPrice
+                    ? item.precio * (1 - item.salePercent)
+                    : item.precio
                   ).toFixed(2)}
                 </p>
               </div>

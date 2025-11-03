@@ -3,13 +3,13 @@ import styled from "styled-components";
 import Carousel from "../../../assets/Carousel";
 import ProductList from "../components/catalog/ProductList/ProductList";
 
-const HomePage = ({ search, selectedCategory, filters, setResultsCount }) => {
+const HomePage = ({ search, selectedcategoria, filters, setResultsCount }) => {
   return (
     <PageWrapper>
       <Carousel />
       <ProductList
         search={search}
-        selectedCategory={selectedCategory}
+        selectedcategoria={selectedcategoria}
         filters={filters}
         setResultsCount={setResultsCount}
       />

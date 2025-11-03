@@ -1,281 +1,157 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { productService } from "../services/productService";
-import ProductForm from "../components/management/ProductForm/ProductForm";
-import ProductTable from "../components/management/ProductTable/ProductTable";
+import productService from "../../products/services/productService";
 
 const SellPage = () => {
-  const [productos, setProductos] = useState([]);
-  const [productoAEliminar, setProductoAEliminar] = useState(null);
-  const [mostrarPopup, setMostrarPopup] = useState(false);
-  const [actualizando, setActualizando] = useState(false);
-  const [productoEditandoId, setProductoEditandoId] = useState(null);
-  const [usuario, setUsuario] = useState();
-
+  
   const [producto, setProducto] = useState({
-    id: "",
-    companyName: "",
-    productName: "",
-    productDescription: "",
-    productPrice: "",
-    category: "",
-    isOnSale: false,
-    salePercent: 0,
-    stock: 0,
-    images: [],
+    nombre: "",
+    precio: "",
+    descripcion: "",
+    stock: "",
+    fotos: [],
+    categoriaId: "",
   });
-
   const [imagenes, setImagenes] = useState([]);
+  const [categorias, setCategorias] = useState([]);
 
   useEffect(() => {
-    const userFromStorage = JSON.parse(localStorage.getItem("user"));
-    setUsuario(userFromStorage);
-    setProducto((prev) => ({
-      ...prev,
-      usuarioId: userFromStorage?.id || "",
-    }));
-  }, []);
-
-  useEffect(() => {
-    const fetchData = async () => {
+    const fetchCategories = async () => {
       try {
-        const result = await productService.getAllProducts();
-        const productosFiltrados = (result || []).filter(
-          (prod) => prod.usuarioId === usuario?.id
-        );
-        setProductos(productosFiltrados);
+        const data = await productService.getAllCategories();
+        setCategorias(data);
       } catch (error) {
-        console.error("Error al cargar los productos:", error);
+        console.error("Error fetching categories:", error);
       }
     };
-    if (usuario) {
-      fetchData();
-    }
-  }, [usuario]);
+    fetchCategories();
+  }, []);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setProducto({
+      ...producto,
+      [name]: value,
+    });
+  };
+
+  const handleImagenesChange = (e) => {
+    const files = Array.from(e.target.files).slice(0, 5);
+    setImagenes(files);
+    setProducto({
+      ...producto,
+      fotos: files.map((file) => URL.createObjectURL(file)),
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (
-      !usuario ||
-      !producto.companyName ||
-      !producto.productName ||
-      !producto.productDescription ||
-      !producto.productPrice ||
-      !producto.category ||
-      !producto.stock
-    ) {
-      alert("Por favor, completa todos los campos obligatorios.");
-      return;
-    }
-
-    let imagesArr = [];
-    if (imagenes.length > 0) {
-      imagesArr = imagenes.slice(0, 5).map((img, idx) => ({
-        id: idx + 1,
-        url: URL.createObjectURL(img),
-        thumbnail: URL.createObjectURL(img),
-      }));
-    } else {
-      imagesArr = producto.images || [];
-    }
-
-    const productoFinal = {
-      ...producto,
-      productPrice: Number(producto.productPrice),
-      salePercent: Number(producto.salePercent),
-      stock: Number(producto.stock),
-      images: imagesArr,
-      usuarioId: usuario.id,
-    };
-
-    if (actualizando) {
-      try {
-        const data = await productService.updateProduct(producto.id, productoFinal);
-        const productosActualizados = productos.map((prod) =>
-          prod.id === data.id ? data : prod
-        );
-        setProductos(productosActualizados);
-        resetForm();
-      } catch (error) {
-        console.error("Error al actualizar el producto:", error);
-      }
-      setActualizando(false);
-    } else {
-      try {
-        // let backend assign id if it does so; otherwise keep current logic
-        const productoConId = {
-          ...productoFinal,
-          id:
-            productos.length === 0
-              ? "1"
-              : (parseInt(productos[productos.length - 1].id) + 1).toString(),
-        };
-
-        const data = await productService.createProduct(productoConId);
-        setProductos([...productos, data]);
-        resetForm();
-      } catch (error) {
-        console.error("Error al agregar el producto:", error);
-      }
-    }
-  };
-
-  const resetForm = () => {
-    setProducto({
-      id: "",
-      companyName: "",
-      productName: "",
-      productDescription: "",
-      productPrice: "",
-      category: "",
-      isOnSale: false,
-      salePercent: 0,
-      stock: 0,
-      images: [],
-    });
-    setImagenes([]);
-  };
-
-  const handleEliminarClick = (producto) => {
-    setProductoAEliminar(producto);
-    setMostrarPopup(true);
-  };
-
-  const confirmarEliminar = async () => {
     try {
-      await productService.deleteProduct(productoAEliminar.id);
-      setProductos(productos.filter((p) => p.id !== productoAEliminar.id));
-      setProductoAEliminar(null);
-      setTimeout(() => {
-        setMostrarPopup(false);
-      }, 1000);
+      if (!producto.categoriaId) {
+        alert("Por favor selecciona una categoría válida.");
+        return;
+      }
+
+      // Transformar las fotos a URLs absolutas (simulación de subida)
+      const uploadedFotos = producto.fotos.map((foto, index) => {
+        return `https://example.com/uploads/producto-${Date.now()}-${index}.jpg`;
+      });
+
+      const formattedProducto = {
+        nombre: producto.nombre,
+        precio: parseFloat(producto.precio), // Asegurar que sea decimal
+        descripcion: producto.descripcion,
+        stock: parseInt(producto.stock, 10),
+        fotos: producto.fotos, // Usar URLs absolutas
+        categoria: {
+          id: parseInt(producto.categoriaId, 10),
+        }
+      };
+
+      await productService.createProduct(formattedProducto);
+      alert("Producto creado exitosamente");
     } catch (error) {
-      console.error("Error al eliminar el producto:", error);
+      console.error("Error creando el producto:", error);
     }
-  };
-
-  const cancelarEliminar = () => {
-    setProductoAEliminar(null);
-    setMostrarPopup(false);
-  };
-
-  const actualizarProd = (producto) => {
-    setActualizando(true);
-    setProducto(producto);
-    setProductoEditandoId(producto.id);
-  };
-
-  const cancelarEdicion = () => {
-    setActualizando(false);
-    resetForm();
-    setProductoEditandoId(null);
-  };
+  }
 
   return (
-    <SellPageWrapper>
-      <h1>
-        {actualizando ? "Actualizar producto" : "Publicar nuevo producto"}
-      </h1>
-      <Content>
-        <LeftColumn>
-          <ProductForm
-            producto={producto}
-            setProducto={setProducto}
-            imagenes={imagenes}
-            setImagenes={setImagenes}
-            actualizando={actualizando}
-            onSubmit={handleSubmit}
-            onCancel={cancelarEdicion}
+    <FormWrapper>
+      <h2>Crear nuevo producto</h2>
+      <Form onSubmit={handleSubmit}>
+        <Label>
+          Nombre del producto
+          <Input
+            type="text"
+            name="nombre"
+            value={producto.nombre}
+            onChange={handleInputChange}
+            placeholder="Ej: Fall Limited Edition"
           />
-        </LeftColumn>
-
-        <RightColumn>
-          <Section>
-            <h2>Mis productos publicados</h2>
-            <ProductTable
-              productos={productos}
-              onEdit={actualizarProd}
-              onDelete={handleEliminarClick}
-              onCancel={cancelarEdicion}
-              actualizando={actualizando}
-              productoEditandoId={productoEditandoId}
-            />
-          </Section>
-        </RightColumn>
-      </Content>
-
-      {mostrarPopup && (
-        <PopupOverlay>
-          <Popup>
-            <p>¿Estás seguro de que deseas eliminar este producto?</p>
-            <PopupActions>
-              <Button onClick={confirmarEliminar}>Sí</Button>
-              <Button onClick={cancelarEliminar}>No</Button>
-            </PopupActions>
-          </Popup>
-        </PopupOverlay>
-      )}
-    </SellPageWrapper>
+        </Label>
+        <Label>
+          Descripción
+          <TextArea
+            name="descripcion"
+            value={producto.descripcion}
+            onChange={handleInputChange}
+            rows={3}
+          />
+        </Label>
+        <Label>
+          Precio
+          <Input
+            type="number"
+            name="precio"
+            value={producto.precio}
+            onChange={handleInputChange}
+            min="1"
+            placeholder="Precio"
+          />
+        </Label>
+        <Label>
+          Categoría
+          <Select
+            name="categoriaId"
+            value={producto.categoriaId}
+            onChange={handleInputChange}
+            required
+          >
+            <option value="">Selecciona una categoría</option>
+            {categorias.map((cat) => (
+              <option key={cat.id} value={cat.id}>
+                {cat.nombre}
+              </option>
+            ))}
+          </Select>
+        </Label>
+        <Label>
+          Stock disponible
+          <Input
+            type="number"
+            name="stock"
+            value={producto.stock}
+            onChange={handleInputChange}
+            min="0"
+            placeholder="Cantidad"
+          />
+        </Label>
+        <Label>
+          Fotos del producto (máx. 5)
+          <Input
+            type="file"
+            multiple
+            accept="image/*"
+            onChange={handleImagenesChange}
+          />
+        </Label>
+        <Button type="submit">Crear producto</Button>
+      </Form>
+    </FormWrapper>
   );
 };
 
-const PopupOverlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-`;
-
-const Popup = styled.div`
-  background: #fff;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
-  text-align: center;
-`;
-
-const PopupActions = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin-top: 1rem;
-`;
-
-const SellPageWrapper = styled.div`
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem;
-  font-family: "Inter", sans-serif;
-  color: #222;
-
-  h1 {
-    font-size: 2rem;
-    font-weight: 700;
-    margin-bottom: 2rem;
-    color: #ff6600;
-  }
-`;
-
-const Content = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: 2rem;
-
-  @media (max-width: 900px) {
-    grid-template-columns: 1fr;
-  }
-`;
-
-const LeftColumn = styled.div``;
-const RightColumn = styled.div``;
-
-const Section = styled.section`
+const FormWrapper = styled.div`
   background: #fafafa;
   border-radius: 12px;
   padding: 1.5rem;
@@ -286,6 +162,59 @@ const Section = styled.section`
     margin-bottom: 1rem;
     font-weight: 600;
     color: #333;
+  }
+`;
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+const Label = styled.label`
+  display: flex;
+  flex-direction: column;
+  font-weight: 500;
+  gap: 0.4rem;
+  color: #444;
+`;
+
+const Input = styled.input`
+  padding: 0.7rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+
+  &:focus {
+    border-color: #ff6600;
+    outline: none;
+  }
+`;
+
+const TextArea = styled.textarea`
+  padding: 0.7rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+
+  &:focus {
+    border-color: #ff6600;
+    outline: none;
+  }
+`;
+
+const Select = styled.select`
+  padding: 0.7rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+
+  &:focus {
+    border-color: #ff6600;
+    outline: none;
   }
 `;
 

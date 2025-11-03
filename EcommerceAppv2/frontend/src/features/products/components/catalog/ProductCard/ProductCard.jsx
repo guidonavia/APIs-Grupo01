@@ -11,7 +11,7 @@ const ProductCard = ({ productData }) => {
         to={`/products/${productData.id}`}
         style={{ textDecoration: "none", color: "inherit" }}
       >
-        <ImageCarousel images={productData.images} />
+        <ImageCarousel fotos={productData.fotos} />
         <ProductInfo product={productData} showCounter={false} />
         <CategoryTag>{productData.categoryName}</CategoryTag>
       </Link>
