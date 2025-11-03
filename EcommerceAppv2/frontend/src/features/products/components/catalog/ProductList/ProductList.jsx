@@ -2,18 +2,16 @@ import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import productService from "../../../services/productService";
-import { useCart } from "../../../../cart/context/CartContext";
 import CartDrawer from "../../../../cart/components/CartDrawer/CartDrawer";
-import ProductCard from "../ProductCard/ProductCard";
+import ProductInfo from "../ProductInfo/ProductInfo";
 
 const ProductList = ({ search = "", selectedCategory = undefined, selectedcategoria = undefined, filters = {}, setResultsCount }) => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [showPopup, setShowPopup] = useState(false);
+  const [showPopup] = useState(false);
   const navigate = useNavigate();
-  const { addToCart, state } = useCart();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -58,13 +56,6 @@ const ProductList = ({ search = "", selectedCategory = undefined, selectedcatego
     fetchCategories();
   }, []);
 
-  // NOTE: categories are fetched in the effect above together with products.
-
-  const handleAddToCart = (product) => {
-    addToCart(product);
-    setShowPopup(true);
-    setTimeout(() => setShowPopup(false), 2000); // Oculta el pop-up después de 2 segundos
-  };
 
   // Helper to get category name from id
   const getCategoryName = (id) => {
@@ -124,11 +115,6 @@ const ProductList = ({ search = "", selectedCategory = undefined, selectedcatego
         {filteredProducts.map((product) => {
           const categoria = categories.find((cat) => cat.id === product.categoriaId || cat._id === product.categoriaId);
 
-          // Prefer normalized fields (productName, productDescription, productPrice, images)
-          const name = product.productName || product.nombre || product.title || "Sin nombre";
-          const description = product.productDescription || product.descripcion || product.description || "";
-          const price = product.productPrice ?? product.precio ?? product.price ?? 0;
-
           // Robust image selection: try normalized images (objects with url), then fotos (strings or objects), then fallback
           const firstImage = (product.images && product.images[0]) || (product.fotos && product.fotos[0]);
           const imgSrc = firstImage
@@ -144,19 +130,10 @@ const ProductList = ({ search = "", selectedCategory = undefined, selectedcatego
               <ImageWrapper>
                 <img src={imgSrc} alt={name} />
               </ImageWrapper>
-              <h3>{name}</h3>
-              <strong>Descripcion:</strong>
-              <p>{description}</p>
-              <p>
-                <strong>Precio:</strong> ${price}
-              </p>
-              <p>
-                <strong>Stock:</strong> {product.stock ?? product.cantidad ?? "-"}
-              </p>
+              <ProductInfo product={product} showCounter={false} />
               <p>
                 <strong>Categoría:</strong> {categoria ? categoria.nombre || categoria.name : "Sin categoría"}
               </p>
-              <Button onClick={(e) => { e.stopPropagation(); handleAddToCart(product); }}>Agregar</Button>
             </CardContainer>
           );
         })}

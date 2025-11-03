@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { productService } from "../services/productService";
+import ProductInfo from "../components/catalog/ProductInfo/ProductInfo";
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -9,7 +10,6 @@ const ProductDetail = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -50,15 +50,7 @@ const ProductDetail = () => {
       <ImageWrapper>
         <img src={product.fotos?.[0] || "placeholder.jpg"} alt={product.nombre} />
       </ImageWrapper>
-      <h3>{product.nombre}</h3>
-      <strong>Descripcion:</strong>
-      <p>{product.descripcion}</p>
-      <p>
-        <strong>Precio:</strong> ${product.precio}
-      </p>
-      <p>
-        <strong>Stock:</strong> {product.stock}
-      </p>
+      <ProductInfo product={product} showCounter={true} />
       <p>
         <strong>Categoría:</strong> {categoria ? categoria.nombre : "Sin categoría"}
       </p>

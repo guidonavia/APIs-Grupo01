@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import ImageCarousel from "../../ImageCarousel";
 import ProductInfo from "../ProductInfo/ProductInfo";
-import ProductControls from "../ProductControls/ProductControls";
 import { Link } from "react-router-dom";
 
 const ProductCard = ({ productData }) => {
